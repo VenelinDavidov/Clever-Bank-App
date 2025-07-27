@@ -1,0 +1,306 @@
+
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: auto;
+  padding: 10px 0;
+  background: rgb(255 255 255 / 64%);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+}
+
+.side-bar-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  max-width: 2000px;
+  margin: 0 auto;
+  height: auto;
+  border-radius: 12px;
+  padding: 15px 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+  font-family: 'Poppins', sans-serif;
+}
+
+.side-bar-container nav {
+  width: 100%;
+}
+
+.side_navbar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+
+.clever-bank-nav-bar {
+  display: flex;
+  padding: 10px 0;
+  flex-shrink: 0;
+  background: radial-gradient(ellipse at top, #9eefd8 0%, #17e398 10%,
+  #faf9f9 20%, #c3eadd 30%, #3fd19e 40%, #3fd8a2 50%,
+  rgba(55, 136, 106, 0.89) 60%, rgba(51, 117, 91, 0.93) 70%, #275a47 80%,
+  rgba(28, 74, 59, 0.6) 90%, #184032 100%);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.clever-bank-nav-bar div {
+  padding: 5px 15px;
+}
+
+.clever-bank-nav-bar-name {
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 400;
+  display: inline-block;
+  background: transparent;
+  white-space: nowrap;
+}
+
+.clever-bank-nav-bar-version {
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 300;
+  display: inline-block;
+  background: transparent;
+  border: 1px solid rgba(39, 90, 222, 0.1);
+  margin-left: 10px;
+}
+
+
+.func-block {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  margin-right: 20px;
+  gap: 10px;
+}
+
+.func-block:last-child {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.func-block span {
+  font-size: 14px;
+  font-weight: 300;
+  margin-bottom: 0;
+  margin-right: 15px;
+  display: block;
+  background: #17a673;
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 6px 10px;
+  white-space: nowrap;
+  border-right: 1px solid rgba(23, 166, 115, 0.2);
+  padding-right: 15px;
+}
+
+.func-block a {
+  display: flex;
+  text-decoration: none;
+  font-weight: 300;
+  font-size: 14px;
+  color: #333333;
+  padding: 8px 15px;
+  border-radius: 8px;
+  margin-bottom: 0;
+  margin-right: 8px;
+  background: transparent;
+  white-space: nowrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.func-block p {
+  margin: 0;
+  align-self: center;
+  display: inline-block;
+}
+
+.func-block svg {
+  margin-left: 0;
+  margin-right: 0;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.func-block a:hover {
+  background: radial-gradient(circle at 90% top, #17a673 0%,
+  #15855b 10%,
+  #17a673 20%,
+  #279c6b 30%,
+  #29bc87 40%,
+  #4eb590 50%,
+  #17a673 60%,
+  #197756 70%,
+  #297859 80%,
+  #3e9a7a 90%,
+  #3d9e7b 100%);
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+  transition: background 0.9s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.func-block a.active {
+  background: #17a673;
+  color: white;
+  font-weight: 300;
+}
+
+.func-block a.active-special-gold {
+  background: linear-gradient(145deg, #f1c40f, #f39c12, #e67e22, #d35400);
+  color: white;
+  font-weight: 300;
+  border: 1px solid #f1c40f;
+  transition: all 0.5s ease-in-out;
+}
+
+.func-block a.special-gold:hover {
+  background: linear-gradient(145deg, #f7dc6f, #f4b942, #e67e22, #d35400);
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(243, 156, 18, 0.5);
+}
+
+.func-block .logout {
+  background: linear-gradient(145deg, #ff6767, #ff6767);
+  color: white;
+}
+
+.func-block a.logout:hover {
+  background: linear-gradient(145deg, #ff6767, #ff6767);
+  color: white;
+}
+
+
+main {
+  margin-top: 100px;
+  padding-top: 20px;
+}
+
+
+@media (max-width: 1024px) {
+  .side-bar-container {
+    padding: 15px 20px;
+  }
+
+  .side_navbar {
+    gap: 15px;
+  }
+
+  .func-block {
+    margin-right: 15px;
+  }
+
+  .func-block span {
+    font-size: 12px;
+    padding: 4px 8px;
+    margin-right: 10px;
+  }
+
+  .func-block a {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-bar {
+    position: relative;
+  }
+
+  .side_navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .clever-bank-nav-bar {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .func-block {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .func-block:last-child {
+    margin-left: 0;
+  }
+
+  .func-block span {
+    margin-bottom: 8px;
+    border-right: none;
+    border-bottom: 1px solid rgba(23, 166, 115, 0.2);
+    padding-bottom: 8px;
+    width: 100%;
+  }
+
+  main {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .side-bar-container {
+    padding: 10px 15px;
+  }
+
+  .func-block a {
+    padding: 6px 10px;
+    font-size: 12px;
+    margin-right: 5px;
+  }
+
+  .func-block svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .clever-bank-nav-bar-name {
+    font-size: 16px;
+  }
+}
+
+
+.func-block a {
+  position: relative;
+  overflow: hidden;
+}
+
+.func-block a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.func-block a:hover::before {
+  left: 100%;
+}
+
+
+html {
+  scroll-padding-top: 120px;
+}

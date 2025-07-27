@@ -1,0 +1,29 @@
+*{
+    padding: 0.3em;
+    margin: -4px;
+    font-family: Lato, sans-serif;
+}
+
+.socials {
+    display: block;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+.socials li {
+     display: inline-block;
+     margin-right: 3.5em;
+ }
+
+.socials li a {
+    display: contents;
+    width: 3em;
+    font-size: 2.5em;
+    line-height: 1em;
+    aspect-ratio: 1 / 1;
+    text-align: center;
+    align-content: center;
+    background: #5486c8;
+    border-radius: 50%;
+    color: #000;
+}
