@@ -36,6 +36,7 @@ public class Customer {
 
     private String address;
 
+    private String profilePicture;
 
     private String email;
 

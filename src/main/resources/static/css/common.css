@@ -18,11 +18,12 @@ body {
 }
 
 .header {
-  padding: 2% 6%;
+  padding: 1em 1em;
 }
 
 .header-inner {
   display: flex;
+  padding: 4em;
 }
 
 .nav {
@@ -192,8 +193,8 @@ p.alert-warning {
 .cta-buttons {
   display: flex;
   gap: 1rem;
-  margin-top: -13rem;
-  margin-left: -54em;
+  margin-top: -17rem;
+  margin-left: -70em;
 }
 
 .cta-button {
@@ -254,3 +255,4 @@ p.alert-warning {
     flex-direction: column;
   }
 }
+

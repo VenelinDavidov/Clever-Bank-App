@@ -37,10 +37,17 @@ public class CustomerController {
     }
 
 
+    //Edit profile customer
     @PutMapping("/{id}/profile")
-    public ModelAndView updateProfileCustomer() {
+    public ModelAndView updateProfileCustomer(@PathVariable UUID id) {
 
-        return null;
+        customerService.getById(id);
+
+        ModelAndView modelAndView = new ModelAndView();
+
+
+
+        return modelAndView;
     }
 }
 
