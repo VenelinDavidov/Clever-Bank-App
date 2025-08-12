@@ -1,7 +1,10 @@
 .home-section {
   display: flex;
   justify-content: center;
+  margin-top: 11em;
+  padding: 3em;
 }
+
 
 .single-section-box.subscriptions-container {
   position: relative;

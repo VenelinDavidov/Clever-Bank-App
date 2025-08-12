@@ -95,12 +95,22 @@ public class CustomerService implements UserDetailsService {
 
 
 
-    public Customer getById(UUID id) {
+    // Retrieve customer by id
+    public Customer getById(UUID uuid) {
 
-    return  customerRepository.findById (id)
+    return  customerRepository.findById (uuid)
                 .orElseThrow (()-> new DomainException ("Customer with id %s not found"
-                .formatted (id), HttpStatus.BAD_REQUEST));
+                .formatted (uuid), HttpStatus.BAD_REQUEST));
     }
+
+
+
+
+    // Retrieve all customers
+    public List <Customer> getALLCustomers() {
+        return customerRepository.findAll ();
+    }
+
 
 
 
@@ -121,4 +131,7 @@ public class CustomerService implements UserDetailsService {
                 customer.isActive ()
         );
     }
+
 }
+
+

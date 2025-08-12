@@ -15,7 +15,7 @@ body {
 }
 
 body main {
-  margin: 3em 3em 0;
+  margin: 3em 3em 3em 3em;
   display: flex;
   align-items: center;
   gap: 2em;
