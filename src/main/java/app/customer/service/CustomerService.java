@@ -11,6 +11,7 @@ import app.subscription.model.Subscription;
 import app.subscription.service.SubscriptionService;
 import app.wallet.model.Wallet;
 import app.wallet.service.WalletService;
+import app.web.dto.CustomerEditRequest;
 import app.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -132,6 +133,24 @@ public class CustomerService implements UserDetailsService {
         );
     }
 
+
+
+
+    public void editCustomerDetails(UUID id, CustomerEditRequest customerEditRequest) {
+
+
+        Customer customer = getById (id);
+
+        customer.setFirstName (customerEditRequest.getFirstName ());
+        customer.setLastName (customerEditRequest.getLastName ());
+        customer.setProfilePicture (customerEditRequest.getProfilePicture ());
+        customer.setPhoneNumber (customerEditRequest.getPhoneNumber ());
+        customer.setEmail (customerEditRequest.getEmail ());
+        customer.setAddress (customerEditRequest.getAddress ());
+
+        customerRepository.save (customer);
+
+    }
 }
 
 

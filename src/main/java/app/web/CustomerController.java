@@ -3,10 +3,13 @@ package app.web;
 import app.customer.model.Customer;
 import app.customer.service.CustomerService;
 import app.security.AuthenticationMetadataDetails;
+import app.web.dto.CustomerEditRequest;
 import app.web.mapper.DTOMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +24,7 @@ import java.util.UUID;
 public class CustomerController {
 
     private final CustomerService customerService;
+
 
     @Autowired
     public CustomerController(CustomerService customerService) {
@@ -66,16 +70,23 @@ public class CustomerController {
 
     //Update profile for customer
     @PutMapping("/{id}/profile")
-    public ModelAndView updateProfileCustomer(@PathVariable UUID id) {
+    public ModelAndView updateProfileCustomer(@PathVariable UUID id, @Valid CustomerEditRequest customerEditRequest, BindingResult bindingResult) {
+        {
 
-        Customer customer = customerService.getById (id);
+            if (bindingResult.hasErrors ()) {
 
-        ModelAndView modelAndView = new ModelAndView();
+                Customer customer = customerService.getById (id);
+                ModelAndView modelAndView = new ModelAndView ();
+                modelAndView.setViewName ("profile-customer");
+                modelAndView.addObject ("customer", customer);
+                modelAndView.addObject ("customerEditRequest", customerEditRequest);
+                return modelAndView;
+            }
 
-        modelAndView.setViewName("profile-customer");
-        modelAndView.addObject ("customer", customer);
+            customerService.editCustomerDetails (id, customerEditRequest);
 
-        return modelAndView;
+            return new ModelAndView ("redirect:/home");
+        }
     }
 }
 

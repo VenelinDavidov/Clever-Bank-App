@@ -123,32 +123,35 @@
         </div>
         <div class="details-section-container">
           <strong>Last profile update: </strong>
-          <p th:text="${customer.updatedOn}"></p>
+          <p th:text="${#temporals.format(customer.updatedOn, 'dd MMM YYYY HH:mm')}"></p>
         </div>
       </div>
 
-      <form class="form"
-            th:action="@{'/customers/' + ${customer.id} + '/profile'}"
-            th:method="PUT"
-            th:object="${customerEditRequest}">
+      <form class="form" th:action="@{'/customers/' + ${customer.id} + '/profile'}" th:method="PUT" th:object="${customerEditRequest}">
 
         <label for="firstName">First Name</label>
-        <input  type="text" id="firstName" placeholder="First Name">
+        <input  type="text" id="firstName" placeholder="First Name" th:field="*{firstName}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('firstName')}"   th:errors="*{firstName}"></p>
 
         <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" placeholder="Last Name">
+        <input type="text" id="lastName" placeholder="Last Name" th:field="*{lastName}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('lastName')}"   th:errors="*{lastName}"></p>
 
         <label for="phoneNumber">PhoneNumber</label>
-        <input type="text" id="phoneNumber" placeholder="Phone Number">
+        <input type="text" id="phoneNumber" placeholder="Phone Number" th:field="*{phoneNumber}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('phoneNumber')}"   th:errors="*{phoneNumber}"></p>
 
         <label for="email">Email</label>
-        <input type="text" id="email" placeholder="Email Address">
+        <input type="text" id="email" placeholder="Email Address" th:field="*{email}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('email')}"   th:errors="*{email}"></p>
 
         <label for="profilePicture">Profile Picture URL</label>
-        <input type="text" id="profilePicture" placeholder="Image Link">
+        <input type="text" id="profilePicture" placeholder="Image Link" th:field="*{profilePicture}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('profilePicture')}"   th:errors="*{profilePicture}"></p>
 
         <label for="address">Address</label>
-        <input type="text" id="address" placeholder="Address">
+        <input type="text" id="address" placeholder="Address" th:field="*{address}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('address')}"   th:errors="*{address}"></p>
 
         <button class="profile-actions-button">
           <p>Save</p>

@@ -5,6 +5,12 @@ import app.subscription.model.Subscription;
 import app.wallet.model.Wallet;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,6 +23,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "customers")
 public class Customer {
 
@@ -57,11 +64,23 @@ public class Customer {
 
     private boolean isActive;
 
-    @Column(nullable = false)
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdOn;
 
-    @Column(nullable = false)
+    @CreatedBy
+    @Column(updatable = false)
+    private String createdBy;
+
+
+    @LastModifiedDate
+    @Column(nullable = false, insertable = false)
     private LocalDateTime updatedOn;
+
+    @LastModifiedBy
+    @Column( insertable = false)
+    private String updatedBy;
+
 
 
 
