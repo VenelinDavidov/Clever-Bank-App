@@ -33,10 +33,10 @@ public class WalletService {
 
     public Wallet createWallet(Customer customer) {
 
-        List <Wallet> allByCustomerUsername =
+        List <Wallet> allByCustomerWallets =
                 walletRepository.findAllByCustomerUsername (customer.getUsername ());
 
-        if (!allByCustomerUsername.isEmpty ()) {
+        if (!allByCustomerWallets.isEmpty ()) {
             throw new DomainException ("Wallet with this username %s with id %s already has wallet!"
                     .formatted (customer.getUsername (), customer.getId ()), HttpStatus.BAD_REQUEST);
         }
@@ -48,6 +48,8 @@ public class WalletService {
 
         return wallet;
     }
+
+
 
     private Wallet  createNewWallet(Customer customer) {
 

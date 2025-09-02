@@ -50,8 +50,6 @@ public class CustomerService implements UserDetailsService {
     }
 
 
-
-
     //Method register
     @Transactional
     public Customer register(RegisterRequest registerRequest) {
@@ -63,7 +61,7 @@ public class CustomerService implements UserDetailsService {
                     .formatted (registerRequest.getUsername ()));
         }
 
-        Customer customer = customerRepository.save(createNewCustomerAccount (registerRequest));
+        Customer customer = customerRepository.save (createNewCustomerAccount (registerRequest));
 
 
         Subscription defaultSubscription = subscriptionService.createDefaultSubscription (customer);
@@ -73,11 +71,11 @@ public class CustomerService implements UserDetailsService {
         customer.setWallets (List.of (wallet));
 
 
-
         log.info ("Successfully created customer %s with id %s".formatted (customer.getUsername (), customer.getId ()));
 
         return customer;
     }
+
 
     private Customer createNewCustomerAccount(RegisterRequest registerDto) {
 
@@ -95,25 +93,19 @@ public class CustomerService implements UserDetailsService {
     }
 
 
-
     // Retrieve customer by id
     public Customer getById(UUID uuid) {
 
-    return  customerRepository.findById (uuid)
-                .orElseThrow (()-> new DomainException ("Customer with id %s not found"
-                .formatted (uuid), HttpStatus.BAD_REQUEST));
+        return customerRepository.findById (uuid)
+                .orElseThrow (() -> new DomainException ("Customer with id %s not found"
+                        .formatted (uuid), HttpStatus.BAD_REQUEST));
     }
-
-
 
 
     // Retrieve all customers
     public List <Customer> getALLCustomers() {
         return customerRepository.findAll ();
     }
-
-
-
 
 
     //  everytime after login from user, spring security will call this method
@@ -134,10 +126,8 @@ public class CustomerService implements UserDetailsService {
     }
 
 
-
-
+    // edit customer details by all information
     public void editCustomerDetails(UUID id, CustomerEditRequest customerEditRequest) {
-
 
         Customer customer = getById (id);
 
@@ -150,6 +140,35 @@ public class CustomerService implements UserDetailsService {
 
         customerRepository.save (customer);
 
+    }
+
+
+    public void switchCustomerStatus(UUID customerId) {
+
+        Customer customer = getById (customerId);
+
+        if (customer.isActive ()) {
+            customer.setActive (false);
+        } else {
+            customer.setActive (true);
+        }
+        customerRepository.save (customer);
+    }
+
+
+
+
+    public void switchCustomerRole(UUID customerId) {
+
+        Customer customer = getById (customerId);
+
+        if (customer.getRole () == UserRole.USER){
+            customer.setRole (UserRole.ADMIN);
+        } else {
+            customer.setRole (UserRole.USER);
+        }
+
+        customerRepository.save (customer);
     }
 }
 

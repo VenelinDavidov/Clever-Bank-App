@@ -114,7 +114,7 @@
       <table class="styled-table">
         <thead>
         <tr>
-          <th>Id</th>
+          <th>Customer Id</th>
           <th>Username</th>
           <th>Email</th>
           <th>Role</th>
@@ -122,45 +122,35 @@
           <th>Status</th>
           <th>Created on</th>
           <th>Switch status</th>
+          <th>Change role</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="currentCustomer : ${customers}">
-          <td>4531a4c8-87d0-4e47-a42a-532ec4e85451</td>
-          <td>manarin0</td>
-          <td>no email</td>
-          <td>User</td>
-          <td>Bulgaria</td>
+          <td th:text="${currentCustomer.id}"></td>
+          <td th:text="${currentCustomer.username}"></td>
+          <td th:text="${#strings.isEmpty(currentCustomer.email) ? 'no email' : currentCustomer.email}"></td>
+          <td th:text="${#strings.capitalize(#strings.toLowerCase(currentCustomer.role.name()))}"></td>
+          <td th:text="${#strings.capitalize(#strings.toLowerCase(currentCustomer.country))}"></td>
           <td>
-            <p class="status active">Active</p>
+            <p th:if="${currentCustomer.active}" class="status active">Active</p>
+            <p th:if="${!currentCustomer.active}" class="status terminated">Inactive</p>
           </td>
-          <td>11 Dec 2024 21:09</td>
+          <td th:text="${#temporals.format(currentCustomer.createdOn, 'dd MMM YYYY HH:mm')}"></td>
           <td>
             <form th:action="@{'/customers/' + ${currentCustomer.id} + '/status'}" th:method="PUT">
               <button class="profile-actions-button">
-                <p>Switch</p>
+                <p>Status</p>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                      class="bi bi-toggle-on" viewBox="0 0 16 16">
                   <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"></path>
                 </svg>
               </button>
             </form>
-          </td>
-        </tr>
-        <tr>
-          <td>717b88ba-a153-4801-b037-9a81119bbf86</td>
-          <td>Ivan654</td>
-          <td>no email</td>
-          <td>User</td>
-          <td>Bulgaria</td>
           <td>
-            <p class="status terminated">Inactive</p>
-          </td>
-          <td>22 Dec 2024 14:41</td>
-          <td>
-            <form action="/users/717b88ba-a153-4801-b037-9a81119bbf86/status">
+            <form th:action="@{'/customers/' + ${currentCustomer.id} + '/role'}" th:method="PUT">
               <button class="profile-actions-button">
-                <p>Switch</p>
+                <p>Role</p>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                      class="bi bi-toggle-on" viewBox="0 0 16 16">
                   <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"></path>
@@ -174,7 +164,6 @@
     </div>
   </div>
 </main>
-<div class="footer"><p>© 2025 Smart Wallet. All rights reserved.</p></div>
-
+<th:block th:insert="fragments/footer :: footer"></th:block>
 </body>
 </html>

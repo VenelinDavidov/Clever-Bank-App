@@ -23,9 +23,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "customers")
-public class Customer {
+public class Customer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -64,22 +63,12 @@ public class Customer {
 
     private boolean isActive;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
+
+    @Column(nullable = false)
     private LocalDateTime createdOn;
 
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
-
-
-    @LastModifiedDate
-    @Column(nullable = false, insertable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedOn;
-
-    @LastModifiedBy
-    @Column( insertable = false)
-    private String updatedBy;
 
 
 

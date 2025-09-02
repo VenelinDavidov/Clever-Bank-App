@@ -70,8 +70,10 @@ public class CustomerController {
 
     //Update profile for customer
     @PutMapping("/{id}/profile")
-    public ModelAndView updateProfileCustomer(@PathVariable UUID id, @Valid CustomerEditRequest customerEditRequest, BindingResult bindingResult) {
-        {
+    public ModelAndView updateProfileCustomer(@PathVariable UUID id,
+                                              @Valid CustomerEditRequest customerEditRequest,
+                                              BindingResult bindingResult) {
+
 
             if (bindingResult.hasErrors ()) {
 
@@ -87,6 +89,26 @@ public class CustomerController {
 
             return new ModelAndView ("redirect:/home");
         }
-    }
+
+
+     @PutMapping("/{id}/status")
+     public String switchCustomerStatus (@PathVariable UUID id){
+
+            customerService.switchCustomerStatus (id);
+
+            return "redirect:/customers";
+     }
+
+
+     @PutMapping("/{id}/role")
+     public String switchCustomerRole(@PathVariable UUID id){
+
+        customerService.switchCustomerRole (id);
+
+        return "redirect:/customers";
+     }
+
 }
+
+
 

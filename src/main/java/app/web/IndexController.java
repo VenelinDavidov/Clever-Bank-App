@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ public class IndexController {
 
     private final MessageService messageService;
     private final CustomerService customerService;
+
 
     @Autowired
     public IndexController(MessageService messageService,
@@ -75,7 +77,7 @@ public class IndexController {
     public  ModelAndView registerCustomer (@Valid RegisterRequest registerRequest, BindingResult bindingResult){
 
         if (bindingResult.hasErrors ()){
-            return  new  ModelAndView ("register");
+            return  new ModelAndView ("register");
         }
 
          customerService.register (registerRequest);
