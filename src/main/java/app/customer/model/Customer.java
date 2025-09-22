@@ -1,6 +1,7 @@
 package app.customer.model;
 
 import app.bill.model.Bill;
+import app.cards.model.Cards;
 import app.subscription.model.Subscription;
 import app.wallet.model.Wallet;
 import jakarta.persistence.*;
@@ -76,7 +77,7 @@ public class Customer extends BaseEntity {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     @OrderBy("createdOn DESC")
-    private List <Bill> bills = new ArrayList <> ();
+    private List <Cards> cards = new ArrayList <> ();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     @OrderBy("createdOn DESC")

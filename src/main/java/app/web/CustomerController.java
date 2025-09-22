@@ -91,6 +91,8 @@ public class CustomerController {
         }
 
 
+
+
      @PutMapping("/{id}/status")
      public String switchCustomerStatus (@PathVariable UUID id){
 
@@ -98,6 +100,8 @@ public class CustomerController {
 
             return "redirect:/customers";
      }
+
+
 
 
      @PutMapping("/{id}/role")

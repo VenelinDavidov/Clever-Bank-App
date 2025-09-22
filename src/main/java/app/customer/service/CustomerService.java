@@ -1,5 +1,7 @@
 package app.customer.service;
 
+import app.cards.model.Cards;
+import app.cards.service.CardService;
 import app.customer.model.Customer;
 import app.customer.model.Gender;
 import app.customer.model.UserRole;
@@ -32,21 +34,29 @@ import java.util.UUID;
 @Slf4j
 public class CustomerService implements UserDetailsService {
 
+
+    private final static String CREATE_CUSTOMER_MESSAGE = "Successfully created customer %s with id %s";
+
     private final CustomerRepository customerRepository;
     private final WalletService walletService;
     private final SubscriptionService subscriptionService;
+    private final CardService cardService;
     private final PasswordEncoder passwordEncoder;
+
+
 
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository,
                            WalletService walletService,
                            SubscriptionService subscriptionService,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           CardService cardService) {
         this.customerRepository = customerRepository;
         this.walletService = walletService;
         this.subscriptionService = subscriptionService;
         this.passwordEncoder = passwordEncoder;
+        this.cardService = cardService;
     }
 
 
@@ -70,8 +80,10 @@ public class CustomerService implements UserDetailsService {
         Wallet wallet = walletService.createWallet (customer);
         customer.setWallets (List.of (wallet));
 
+        Cards cards = cardService.createDefaultCard (customer);
+        customer.setCards (List.of (cards));
 
-        log.info ("Successfully created customer %s with id %s".formatted (customer.getUsername (), customer.getId ()));
+        log.info (CREATE_CUSTOMER_MESSAGE.formatted (customer.getUsername (), customer.getId ()));
 
         return customer;
     }
@@ -93,6 +105,8 @@ public class CustomerService implements UserDetailsService {
     }
 
 
+
+
     // Retrieve customer by id
     public Customer getById(UUID uuid) {
 
@@ -102,10 +116,14 @@ public class CustomerService implements UserDetailsService {
     }
 
 
+
+
     // Retrieve all customers
     public List <Customer> getALLCustomers() {
         return customerRepository.findAll ();
     }
+
+
 
 
     //  everytime after login from user, spring security will call this method
@@ -124,6 +142,9 @@ public class CustomerService implements UserDetailsService {
                 customer.isActive ()
         );
     }
+
+
+
 
 
     // edit customer details by all information
