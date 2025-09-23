@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "wallets")
+@Table(name = "pockets")
 public class Pocket {
 
     @Id
