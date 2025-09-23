@@ -1,3 +1,5 @@
+<img width="968" height="123" alt="CLEVER BANK TEXT HORIZONTAL" src="https://github.com/user-attachments/assets/f7695eb5-502f-4b61-a09b-207d99e8351e" />
+
 # 💳 Clever Bank  
 
 [![Java](https://img.shields.io/badge/Java-17-orange)](https://www.oracle.com/java/)  
