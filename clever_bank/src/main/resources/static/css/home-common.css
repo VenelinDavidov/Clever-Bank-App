@@ -1,0 +1,96 @@
+body {
+  font: 12px/1.5 Lato, sans-serif;
+  margin: 0;
+  background-size: cover;
+  background-image: url("https://images.unsplash.com/photo-1500316124030-4cffa46f10f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  width: 100%;) no-repeat fixed;
+  font-style: normal;
+  font-family: 'Poppins', sans-serif;
+  color: #13100b;
+  letter-spacing: 0.9px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+}
+
+body main {
+  margin: 3em 3em 3em 3em;
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
+
+.footer {
+  color: #e5e5e5;
+}
+
+.home-section {
+  height: 80%;
+  width: 100%;
+  display: grid;
+  grid-column-gap: 26px;
+  grid-row-gap: 1.5em;
+  grid-template-columns: repeat(2, 50%);
+  color: #333333;
+  margin-right: 2%;
+}
+
+div.single-section-box {
+  background: rgba(255, 255, 255, 0.8);;
+  padding: 20px;
+  border-radius: 38px;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 3);
+  border: 1px solid transparent;
+  color: #333333;
+  text-align: center;
+  min-width: 300px;
+}
+
+.profile-status-role-container {
+  display: flex;
+  padding: 5px 10px;
+  justify-content: center;
+  gap: 20px;
+  text-transform: uppercase;
+}
+
+.profile-status-role-container .active-profile {
+  backdrop-filter: blur(8px);
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background-color: #09833a;
+  color: #ffffff;
+  border: 1px solid rgba(25, 53, 19, 0.6);
+  box-shadow: 0 4px 8px rgba(0, 153, 51, 0.15);
+}
+
+
+.profile-status-role-container .inactive-profile {
+  background-color: #fd0505;
+  color: #ffffff;  letter-spacing: 0.03em;
+  border: 1px solid rgba(104, 21, 21, 0.6);
+  box-shadow: 0 4px 8px rgba(255, 103, 103, 0.2);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.hover-colorful-button:hover {
+  background: #17a673;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  font-weight: 300;
+  transition: background 0.9s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/nav-side-bar.css">
+
+    <title>Cards</title>
+    <link rel="stylesheet" href="/css/card.css">
+</head>
+<body>
+<h1>Cards</h1>
+<a href="/cards/create">Create New Card</a>
+<div class="nav-bar">
+    <div class="side-bar-container">
+        <nav>
+            <div class="side_navbar">
+                <div class="clever-bank-nav-bar">
+                    <div class="clever-bank-nav-bar-name">Clever Bank</div>
+                </div>
+                <div class="func-block">
+                    <a href="/home" class="active">
+                        <p>Dashboard</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                  d="M5 7h14M5 12h14M5 17h14"></path>
+                        </svg>
+                    </a>
+                    <a class="special-gold" href="/subscriptions">
+                        <p>Upgrade</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                  d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="func-block">
+                    <span>Quick Link</span>
+                    <a href="/transfers">
+                        <p>Transfers</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"></path>
+                        </svg>
+                    </a>
+                    <a href="/pockets">
+                        <p>Pocket</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                  d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z"
+                                  clip-rule="evenodd"></path>
+                            <path fill-rule="evenodd"
+                                  d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <a href="/bills">
+                        <p>Bills</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                  d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.221ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-5Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.625v1.75a.626.626 0 0 1-.626.625H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <a href="/transactions">
+                        <p>Transactions</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M8 20V7m0 13-4-4m4 4 4-4m4-12v13m0-13 4 4m-4-4-4 4"></path>
+                        </svg>
+                    </a>
+                    <a href="/cards">
+                        <p>Cards</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                  d="M4 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4Zm16 7H4v7h16v-7ZM6 14a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1Zm5 0a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1Z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <a href="/notices">
+                        <p>Notices</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             viewBox="0 0 24 24">
+                            <path d="M17.133 12.632v-1.8a5.406 5.406 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.955.955 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="func-block">
+                    <span>Utility</span>
+                    <a href="/subscriptions/history">
+                        <p> History</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                  d="M12 6h.01M12 12h.01M12 18h.01"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="func-block admin-func-block">
+                    <span>Admin</span>
+                    <a href="/customers">
+                        <p>Users</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                  d="M12 6h.01M12 12h.01M12 18h.01"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="func-block">
+                    <a class="logout" href="/logout">
+                        <p>Logout</p>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Main content -->
+<main class="main-content">
+
+    <!-- Profile & Actions -->
+    <div class="profile-and-actions">
+
+        <!-- Profile -->
+        <section class="profile-section">
+            <div class="profile-card">
+                <img th:src="${#strings.isEmpty(customer.profilePicture)
+                ? 'https://www.shutterstock.com/image-vector/businessman-icon-600nw-564112600.jpg'
+                : customer.profilePicture}"
+
+                     alt="Профилна снимка"
+                     class="profile-avatar"/>
+
+                <h2 th:text="${customer.username}" class="profile-name"></h2>
+                <p th:text="${customer.email}"></p>
+                <p th:text="${customer.phoneNumber}"></p>
+
+                <span th:if="${customer.active}" class="status active">Active</span>
+                <span th:if="${!customer.active}" class="status inactive">Inactive</span>
+            </div>
+
+            <section class="card-actions-section">
+                <h3>Card Actions</h3>
+
+                <!-- Block card -->
+                <form th:action="@{/cards/block}"
+                      method="POST"
+                      th:object="${card}"
+
+                      class="card-action-form">
+                    <label for="blockCardId">Select Card to Block:</label>
+                    <select name="cardId" id="blockCardId" required>
+                        <option value="" disabled selected>Select a card</option>
+                        <option th:each="card : ${cards}"
+                                th:value="${card.id}"
+                                th:text="${card.cardNumber} + ' (' + card.cardBrand + ')'"></option>
+                    </select>
+                    <button type="submit" class="btn btn-warning">Block Card</button>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                </form>
+            </section>
+
+            <section class="cards-section">
+
+                <!-- Header -->
+                <div class="section-header">
+                    <h3>Your Bank Cards</h3>
+                    <form th:action="@{/cards/create}"
+                          method="POST"
+                          th:object="${card}" style="display:inline;">
+
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <button type="submit" class="btn btn-secondary">Create New Card</button>
+                    </form>
+                </div>
+
+                <!-- Card display -->
+                <div class="cards-container">
+                    <div class="card"
+                         th:each="card : ${cards}"
+                         th:classappend="${card.cardBrand}">
+
+                        <div class="card-chip"></div>
+                        <div class="card-number" th:text="${card.cardNumber}"></div>
+
+                        <div class="card-footer">
+                            <div class="card-holder">
+                                <label>Limit</label>
+                                <span th:text="${card.totalLimit + ' USD'}"></span>
+                            </div>
+                            <div class="card-expiry">
+                                <label>Expires</label>
+                                <span th:text="${#temporals.format(card.completedOn, 'MM/yy')}">12/29</span>
+                            </div>
+                        </div>
+
+                        <div class="card-brand" th:text="${card.cardBrand}">VISA</div>
+                    </div>
+                </div>
+
+                <!-- Delete card -->
+                <form th:action="@{/cards/delete}"
+                      method="POST"
+                      th:object="${card}"
+
+                      onsubmit="return confirm('Are you sure?');">
+
+                    <label for="cardId">Select Card to Delete:</label>
+                    <select name="cardId" id="cardId" required>
+                        <option value="" disabled selected>Select a card</option>
+                        <option th:each="card : ${cards}"
+                                th:value="${card.id}"
+                                th:text="${card.cardNumber} + ' (' + card.cardBrand + ')'"></option>
+                    </select>
+
+                    <button type="submit" class="btn btn-danger">Delete Card</button>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                </form>
+
+                <!-- Error message -->
+                <div id="messageBox"
+                     th:if="${errorMessage}"
+                     th:text="${errorMessage}"
+                     class="alert alert-danger">
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<th:block th:insert="fragments/footer :: footer"></th:block>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const messageBox = document.getElementById('messageBox');
+        if (messageBox) {
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 5000);
+        }
+    });
+</script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+
+        const messageBox = document.getElementById('messageBox');
+        if (messageBox) {
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 5000);
+        }
+
+        const cards = document.querySelectorAll('.cards-container .card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'scale(1.05)';
+                card.style.boxShadow = '0 10px 20px rgba(0,0,0,0.2)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+                card.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            });
+
+
+            card.addEventListener('click', () => {
+                card.classList.toggle('card-active');
+            });
+        });
+
+        const blockForm = document.querySelector('.card-action-form');
+        if (blockForm) {
+            blockForm.addEventListener('submit', (e) => {
+                const confirmed = confirm('Are you sure you want to block this card?');
+                if (!confirmed) e.preventDefault();
+            });
+        }
+    });
+</script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const statuses = document.querySelectorAll('.status');
+        statuses.forEach(status => {
+            if (status.classList.contains('active')) {
+                status.style.color = 'white';
+                status.style.fontWeight = 'bold';
+            } else {
+                status.style.color = 'red';
+                status.style.fontWeight = 'bold';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

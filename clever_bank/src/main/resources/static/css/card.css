@@ -1,0 +1,464 @@
+/* Базови настройки */
+* {
+    box-sizing: content-box;
+    margin: 0;
+    padding: 0;
+    gap: 1em;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+/* Хедър */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 3em;
+    background: #4e54c8;
+    color: white;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.nav-bar {
+    display: flex;
+    gap: 1.5em;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.4em 1em;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-link.active {
+    background-color: #3b40b1;
+}
+
+.nav-link.special {
+    background-color: gold;
+    color: #333;
+    font-weight: 700;
+}
+
+.nav-link.logout {
+    background-color: #e74c3c;
+}
+
+/* Основно съдържание */
+.main-content {
+    display: inline-flex;
+    gap: 0em;
+    padding: 2em;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Профилна секция */
+.profile-section {
+    flex: 1;
+}
+
+.profile-card {
+    background: white;
+    padding: 1em;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #4e54c8;
+    margin-bottom: 1em;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+.profile-card p {
+    margin-bottom: 0.5em;
+    color: #666;
+}
+
+.status {
+    display: inline-block;
+    padding: 0.3em 1em;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin: 1em 0;
+}
+
+.status.active {
+    background-color: #4caf50;
+    color: white;
+}
+
+.status.inactive {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Бутони */
+.btn {
+    display: inline-block;
+    padding: 0.6em 1.5em;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #4e54c8;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #3b40b1;
+}
+
+.btn-secondary {
+    background-color: #ddd;
+    color: #333;
+    margin-left: auto;
+    font-weight: 600;
+    border: 1px solid #ccc;
+}
+
+.btn-secondary:hover {
+    background-color: #ccc;
+}
+
+/* Секция Карти */
+.cards-section {
+    margin: 1em;
+    padding: 0.8em;
+    background-color: rgba(255, 255, 255, 0.69);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    /*max-width: 1000px;*/
+    /*margin: 2rem auto;*/
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: linear-gradient(135deg, #b85127, #1691c2);
+    color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.card-header .brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #FFD700;
+}
+
+.card-header .level {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+
+.card-header .status {
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    background-color: #4caf50;
+    color: white;
+}
+
+.card-header .status.inactive {
+    background-color: #f44336;
+}
+
+.card-number {
+    font-family: monospace;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.balance {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.balance p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.balance .amount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00E676;
+    margin-top: 0.3rem;
+}
+
+/* Button styles */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-secondary {
+    background-color: #2196F3;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #1976D2;
+}
+
+.btn-danger {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #d32f2f;
+}
+
+select, option {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    min-width: 300px;
+}
+
+/* Error message box */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+.amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.btn-warning {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #54af7d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-warning:hover {
+    background-color: #ec971f;
+    text-decoration: none;
+}
+
+
+
+
+.card {
+    position: relative;
+    height: 200px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #1e3c72, #c14b4b);
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.card-chip {
+    width: 50px;
+    height: 35px;
+    background: linear-gradient(45deg, #dcdcdc, #a8a8a8);
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.card-number {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.card-holder, .card-expiry {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+}
+
+.card-holder label,
+.card-expiry label {
+    text-transform: uppercase;
+    font-size: 0.6rem;
+    opacity: 0.8;
+    margin-bottom: 0.2rem;
+}
+
+.card-brand {
+    position: absolute;
+    bottom: 10rem;
+    right: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.profile-and-actions {
+    display: flex;
+    gap: 1em;
+    align-items: flex-start;
+    margin-bottom: 0rem;
+}
+
+
+.profile-section, .card-actions-section {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+
+.profile-section {
+    max-width: 600px;
+    flex: 0 0 300px;
+}
+
+
+
+
+.card-actions-section {
+    background-color: #fff;
+    padding: 0em;
+    margin: 0em;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+
+}
+
+.card-actions-section h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.card-action-form {
+    margin-bottom: 0em;
+}
+
+.card-action-form label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: -1.5rem;
+}
+
+.card-limits, .account-details {
+    margin-top: 2rem;
+}
+
+.card-limits h4,
+.account-details h4 {
+    color: #4e54c8;
+    margin-bottom: 0.5rem;
+}
+
+.card-limits ul,
+.account-details ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.card-limits li,
+.account-details li {
+    padding: 0.3rem 0;
+    font-size: 1rem;
+}
+
+
