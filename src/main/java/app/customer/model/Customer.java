@@ -1,16 +1,10 @@
 package app.customer.model;
 
-import app.bill.model.Bill;
 import app.cards.model.Cards;
 import app.subscription.model.Subscription;
-import app.wallet.model.Wallet;
+import app.pocket.model.Pocket;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 import java.time.LocalDateTime;
@@ -85,5 +79,5 @@ public class Customer extends BaseEntity {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     @OrderBy("createdOn ASC")
-    private List<Wallet> wallets = new ArrayList <> ();
+    private List<Pocket> wallets = new ArrayList <> ();
 }

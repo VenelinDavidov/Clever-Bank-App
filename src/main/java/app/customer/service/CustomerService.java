@@ -11,8 +11,8 @@ import app.exception.DomainException;
 import app.security.AuthenticationMetadataDetails;
 import app.subscription.model.Subscription;
 import app.subscription.service.SubscriptionService;
-import app.wallet.model.Wallet;
-import app.wallet.service.WalletService;
+import app.pocket.model.Pocket;
+import app.pocket.service.PocketService;
 import app.web.dto.CustomerEditRequest;
 import app.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
@@ -38,7 +38,7 @@ public class CustomerService implements UserDetailsService {
     private final static String CREATE_CUSTOMER_MESSAGE = "Successfully created customer %s with id %s";
 
     private final CustomerRepository customerRepository;
-    private final WalletService walletService;
+    private final PocketService pocketService;
     private final SubscriptionService subscriptionService;
     private final CardService cardService;
     private final PasswordEncoder passwordEncoder;
@@ -48,12 +48,12 @@ public class CustomerService implements UserDetailsService {
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository,
-                           WalletService walletService,
+                           PocketService pocketService,
                            SubscriptionService subscriptionService,
                            PasswordEncoder passwordEncoder,
                            CardService cardService) {
         this.customerRepository = customerRepository;
-        this.walletService = walletService;
+        this.pocketService = pocketService;
         this.subscriptionService = subscriptionService;
         this.passwordEncoder = passwordEncoder;
         this.cardService = cardService;
@@ -73,12 +73,11 @@ public class CustomerService implements UserDetailsService {
 
         Customer customer = customerRepository.save (createNewCustomerAccount (registerRequest));
 
-
         Subscription defaultSubscription = subscriptionService.createDefaultSubscription (customer);
         customer.setSubscriptions (List.of (defaultSubscription));
 
-        Wallet wallet = walletService.createWallet (customer);
-        customer.setWallets (List.of (wallet));
+        Pocket pocket = pocketService.createWallet (customer);
+        customer.setWallets (List.of (pocket));
 
         Cards cards = cardService.createDefaultCard (customer);
         customer.setCards (List.of (cards));

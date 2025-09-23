@@ -1,11 +1,11 @@
-package app.wallet.service;
+package app.pocket.service;
 
 import app.customer.model.Customer;
 import app.exception.DomainException;
-import app.wallet.model.Wallet;
-import app.wallet.model.WalletStatus;
-import app.wallet.model.WalletType;
-import app.wallet.repository.WalletRepository;
+import app.pocket.model.Pocket;
+import app.pocket.model.PocketStatus;
+import app.pocket.model.PocketType;
+import app.pocket.repository.PocketRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,13 +17,13 @@ import java.util.Currency;
 import java.util.List;
 @Slf4j
 @Service
-public class WalletService {
+public class PocketService {
 
-    private final WalletRepository walletRepository;
+    private final PocketRepository walletRepository;
 
 
     @Autowired
-    public WalletService(WalletRepository walletRepository) {
+    public PocketService(PocketRepository walletRepository) {
         this.walletRepository = walletRepository;
     }
 
@@ -31,9 +31,9 @@ public class WalletService {
 
 
 
-    public Wallet createWallet(Customer customer) {
+    public Pocket createWallet(Customer customer) {
 
-        List <Wallet> allByCustomerWallets =
+        List <Pocket> allByCustomerWallets =
                 walletRepository.findAllByCustomerUsername (customer.getUsername ());
 
         if (!allByCustomerWallets.isEmpty ()) {
@@ -41,7 +41,7 @@ public class WalletService {
                     .formatted (customer.getUsername (), customer.getId ()), HttpStatus.BAD_REQUEST);
         }
 
-        Wallet wallet = walletRepository.save (createNewWallet (customer));
+        Pocket wallet = walletRepository.save (createNewWallet (customer));
 
         log.info ("Wallet with username %s with id %s has been successfully created and hava balance %.2f"
                 .formatted (wallet.getCustomer ().getUsername (),wallet.getId (), wallet.getBalance ()));
@@ -51,12 +51,12 @@ public class WalletService {
 
 
 
-    private Wallet  createNewWallet(Customer customer) {
+    private Pocket createNewWallet(Customer customer) {
 
-      return  Wallet.builder ()
+      return  Pocket.builder ()
               .customer (customer)
-              .status (WalletStatus.ACTIVE)
-              .type (WalletType.BUSINESS)
+              .status (PocketStatus.ACTIVE)
+              .type (PocketType.BUSINESS)
               .balance (new BigDecimal ("40.00"))
               .currency (Currency.getInstance ("USD"))
               .createdOn (LocalDateTime.now ())

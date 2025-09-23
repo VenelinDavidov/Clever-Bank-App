@@ -1,6 +1,6 @@
 /* Базови настройки */
 * {
-    box-sizing: border-box;
+    box-sizing: content-box;
     margin: 0;
     padding: 0;
     gap: 1em;
@@ -58,8 +58,8 @@
 /* Основно съдържание */
 .main-content {
     display: inline-flex;
-    gap: 3em;
-    padding: 5em;
+    gap: 0em;
+    padding: 2em;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -71,7 +71,7 @@
 
 .profile-card {
     background: white;
-    padding: 2em;
+    padding: 1em;
     border-radius: 16px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -149,8 +149,8 @@
 
 /* Секция Карти */
 .cards-section {
-    margin: 2rem;
-    padding: 1rem;
+    margin: 1em;
+    padding: 0.8em;
     background-color: rgba(255, 255, 255, 0.69);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -387,6 +387,78 @@ select, option {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+.profile-and-actions {
+    display: flex;
+    gap: 1em;
+    align-items: flex-start;
+    margin-bottom: 0rem;
+}
+
+
+.profile-section, .card-actions-section {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+
+.profile-section {
+    max-width: 600px;
+    flex: 0 0 300px;
+}
+
+
+
+
+.card-actions-section {
+    background-color: #fff;
+    padding: 0em;
+    margin: 0em;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+
+}
+
+.card-actions-section h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.card-action-form {
+    margin-bottom: 0em;
+}
+
+.card-action-form label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: -1.5rem;
+}
+
+.card-limits, .account-details {
+    margin-top: 2rem;
+}
+
+.card-limits h4,
+.account-details h4 {
+    color: #4e54c8;
+    margin-bottom: 0.5rem;
+}
+
+.card-limits ul,
+.account-details ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.card-limits li,
+.account-details li {
+    padding: 0.3rem 0;
+    font-size: 1rem;
 }
 
 

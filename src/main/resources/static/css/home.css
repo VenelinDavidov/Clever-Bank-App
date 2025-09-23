@@ -477,6 +477,12 @@
   border: 1px solid rgba(10, 37, 20, 0.5);
 }
 
+.card-status.inactive {
+  background: rgb(255, 103, 103);
+  border: 1px solid rgba(10, 37, 20, 0.5);
+  color: #c5ddcf;
+}
+
 .card-number {
   margin-bottom: 15px;
 }
@@ -513,7 +519,7 @@
 }
 
 .home-cards .profile-actions-button {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgb(82, 131, 194);;
   color: white;
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 12px 20px;
@@ -528,7 +534,7 @@
 }
 
 .home-cards .profile-actions-button:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgb(15, 131, 68);
   transform: translateY(-2px);
 }
 

@@ -84,4 +84,5 @@ public class CardService {
         return cardsRepository.findById (cardId)
                 .orElseThrow (() -> new DomainException ("Card with id %s not found".formatted (cardId), HttpStatus.BAD_REQUEST));
     }
+
 }

@@ -23,9 +23,10 @@ public class Cards {
     @ManyToOne
     private Customer customer;
 
-
     @Column
     private String cardNumber;
+
+
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

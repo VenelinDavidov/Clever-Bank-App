@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404 - Page Not Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Embedded CSS -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f6f8;
+            background-image: url("https://plus.unsplash.com/premium_photo-1674941668322-5705baf56926?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .error-box {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .error-icon {
+            background-color: #ffc107;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .error-icon svg {
+            width: 36px;
+            height: 36px;
+            color: white;
+        }
+
+        h2 {
+            font-size: 26px;
+            margin-bottom: 10px;
+            color: #e67e22;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .error-code {
+            margin-top: 20px;
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-button svg {
+            margin-left: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <div class="error-box">
+        <div class="error-icon">
+            <!-- Warning Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M12 20h.01M12 16c0-3 4-3 4-6s-2-5-4-5-4 2-4 3"
+                      stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h2>Oops! We couldn't find that page.</h2>
+        <p>If you’re looking for something specific or need help, our support team is always here for you.</p>
+
+        <div class="error-code">
+            Error code: 404 Not Found
+        </div>
+
+        <a th:href="@{/home}" class="back-button">
+            Go back
+            <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 7H14C17.3 7 20 9.7 20 13C20 16.3 17.3 19 14 19H4M4 7L8 3M4 7L8 11"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+</main>
+
+
+    <th:block th:insert="fragments/footer :: footer"></th:block>
+
+
+</body>
+</html>

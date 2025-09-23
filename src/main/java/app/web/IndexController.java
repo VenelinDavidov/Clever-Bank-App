@@ -1,5 +1,7 @@
 package app.web;
 
+import app.cards.model.Cards;
+import app.cards.service.CardService;
 import app.customer.model.Customer;
 import app.customer.service.CustomerService;
 import app.message.service.MessageService;
@@ -18,18 +20,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class IndexController {
 
     private final MessageService messageService;
     private final CustomerService customerService;
+    private final CardService cardService;
 
 
     @Autowired
     public IndexController(MessageService messageService,
-                           CustomerService customerService) {
+                           CustomerService customerService,
+                           CardService cardService) {
         this.messageService = messageService;
         this.customerService = customerService;
+        this.cardService = cardService;
     }
 
 
@@ -94,9 +101,11 @@ public class IndexController {
     public ModelAndView getHomePage (@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr) {
 
         Customer customer = customerService.getById (authenticationMetadataPr.getCustomerId ());
+        List <Cards> cards = cardService.getAllCardsByCustomerId (customer.getId ());
 
         ModelAndView modelAndView = new ModelAndView ();
         modelAndView.addObject ("customer", customer);
+        modelAndView.addObject ("cards", cards);
         modelAndView.setViewName ("home");
 
         return modelAndView;

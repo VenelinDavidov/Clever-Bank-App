@@ -1,4 +1,4 @@
-package app.wallet.model;
+package app.pocket.model;
 
 import app.customer.model.Customer;
 import jakarta.persistence.*;
@@ -15,8 +15,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "wallets")
-public class Wallet {
+@Table(name = "pockets")
+public class Pocket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -27,10 +27,10 @@ public class Wallet {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private WalletStatus status;
+    private PocketStatus status;
 
     @Enumerated(EnumType.STRING)
-    private WalletType type;
+    private PocketType type;
 
     @Column(nullable = false)
     private BigDecimal balance;
