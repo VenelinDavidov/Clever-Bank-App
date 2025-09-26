@@ -6,6 +6,7 @@ import app.cards.model.CardPeriod;
 import app.cards.model.Cards;
 import app.cards.repository.CardsRepository;
 import app.customer.model.Customer;
+import app.exception.CardLimitExceededException;
 import app.exception.DomainException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,11 +66,21 @@ public class CardService {
     }
 
 
+
+
+    // Check if the customer has reached the maximum card limit
+    public boolean hasReachedMaxCardLimit(Customer customer) {
+        return countCardsByCustomer(customer) >= 2;
+    }
+
+
     // Create secondary card
     public void createSecondaryCard(Customer customer) {
 
+        if (hasReachedMaxCardLimit(customer)) {
+            throw new CardLimitExceededException();
+        }
         cardsRepository.save (createNewSecondaryCard (customer));
-
     }
 
     private Cards createNewSecondaryCard(Customer customer) {

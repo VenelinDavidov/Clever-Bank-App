@@ -4,6 +4,7 @@ import app.cards.model.Cards;
 import app.cards.service.CardService;
 import app.customer.model.Customer;
 import app.customer.service.CustomerService;
+import app.exception.CardLimitExceededException;
 import app.exception.DomainException;
 import app.security.AuthenticationMetadataDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,23 +54,27 @@ public class CardController {
     }
 
 
+
+
     // Create card
     @PostMapping("/create")
-    public ModelAndView createCard(@AuthenticationPrincipal AuthenticationMetadataDetails auth,
-                                   RedirectAttributes redirectAttributes) {
+    public ModelAndView createCard(@AuthenticationPrincipal
+                                       AuthenticationMetadataDetails auth,
+                                       RedirectAttributes redirectAttributes) {
 
         Customer customer = customerService.getById (auth.getCustomerId ());
-        int countCardsByCustomer = cardService.countCardsByCustomer (customer);
 
-        if (countCardsByCustomer >= 2) {
-            redirectAttributes.addFlashAttribute ("errorMessage", MESSAGE_FOR_COUNT_CARDS);
-            return new ModelAndView ("redirect:/cards");
+        try {
+            cardService.createSecondaryCard(customer);
+        } catch (CardLimitExceededException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", MESSAGE_FOR_COUNT_CARDS);
         }
 
-        cardService.createSecondaryCard (customer);
-
-            return new ModelAndView ("redirect:/cards");
+        return new ModelAndView("redirect:/cards");
     }
+
+
+
 
 
     @PostMapping("/delete")
