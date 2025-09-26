@@ -12,10 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -62,7 +59,6 @@ public class CardController {
                                    RedirectAttributes redirectAttributes) {
 
         Customer customer = customerService.getById (auth.getCustomerId ());
-
         int countCardsByCustomer = cardService.countCardsByCustomer (customer);
 
         if (countCardsByCustomer >= 2) {
@@ -70,9 +66,9 @@ public class CardController {
             return new ModelAndView ("redirect:/cards");
         }
 
-        cardService.createDefaultCard (customer);
-        redirectAttributes.addFlashAttribute ("successMessage", "Card successfully created!");
-        return new ModelAndView ("redirect:/cards");
+        cardService.createSecondaryCard (customer);
+
+            return new ModelAndView ("redirect:/cards");
     }
 
 
@@ -82,6 +78,17 @@ public class CardController {
 
         cardService.deleteCard(cardId);
         return new ModelAndView("redirect:/cards");
+    }
+
+
+
+
+    @PutMapping("/block")
+    public String switchStatusCard(@RequestParam UUID cardId) {
+
+        cardService.switchStatusCard(cardId);
+
+        return "redirect:/cards";
     }
 
 }

@@ -145,7 +145,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 300;
   align-items: start;
   margin-left: 5%;
@@ -394,8 +394,8 @@
 .cards-container {
   display: flex;
   grid-template-columns: 1fr 1fr;
-  padding-left: 15em;
-  gap: 2em;
+  padding-left: 6em;
+  gap: 4.5em;
   margin-bottom: 2em;
 }
 
@@ -417,8 +417,13 @@
 }
 
 .primary-card {
-  background: linear-gradient(135deg, rgba(30, 60, 114, 0.73) 0%, rgba(42, 82, 152, 0.35) 100%);
-  padding: 2em;
+  background: linear-gradient(135deg,
+  rgba(30, 60, 114, 0.73) 0%,
+  rgba(42, 82, 152, 0.07) 100%),
+  linear-gradient(135deg, #1e3c72, #c14b4b);
+
+  padding: 3em;
+  margin: 1em;
 }
 
 .secondary-card {
@@ -519,10 +524,10 @@
 }
 
 .home-cards .profile-actions-button {
-  background: rgb(82, 131, 194);;
+  background: rgba(15, 131, 68, 0.85);;
   color: white;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 12px 20px;
+  padding: 1px 1px;
   border-radius: 8px;
   text-decoration: none;
   display: inline-flex;
@@ -567,7 +572,7 @@ div.single-section-box {
   border-radius: 38px;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 3);
   border: 1px solid transparent;
-  color: #13100b;
+  color: #9E9E9E;
   text-align: center;
   align-items: normal;
 }

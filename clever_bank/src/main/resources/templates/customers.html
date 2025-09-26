@@ -176,7 +176,7 @@
 
 
 <script>
-  // Търсене по съдържание в таблицата
+
   document.getElementById("customerSearch").addEventListener("keyup", function () {
     let input = this.value.toLowerCase();
     let rows = document.querySelectorAll(".styled-table tbody tr");
@@ -192,13 +192,13 @@
     document.getElementById("customerCount").textContent = visibleCount;
   });
 
-  // Брояч на потребители
+
   document.addEventListener("DOMContentLoaded", function () {
     const rows = document.querySelectorAll(".styled-table tbody tr");
     document.getElementById("customerCount").textContent = rows.length;
   });
 
-  // Потвърждение при смяна на статус или роля
+
   document.querySelectorAll("form").forEach(form => {
     form.addEventListener("submit", function (e) {
       const isStatusChange = this.action.includes('/status');
@@ -212,7 +212,7 @@
     });
   });
 
-  // Сортиране на таблицата по колона
+
   document.querySelectorAll(".styled-table th").forEach((header, columnIndex) => {
     header.style.cursor = "pointer"; // показва, че колоната е кликаема
     header.addEventListener("click", () => {
@@ -221,10 +221,10 @@
       const rows = Array.from(tbody.querySelectorAll("tr"));
       const isAsc = !header.classList.contains("asc");
 
-      // Премахваме класовете от всички хедъри
+
       table.querySelectorAll("th").forEach(th => th.classList.remove("asc", "desc"));
 
-      // Добавяме новия клас към текущия хедър
+
       header.classList.add(isAsc ? "asc" : "desc");
 
       rows.sort((a, b) => {

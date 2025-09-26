@@ -24,6 +24,7 @@ public class CardService {
 
 
     public static final int  NEW_CARD_LIMIT = 1_000;
+    public static final int  NEW_SECONDARY_CARD_LIMIT = 6_000;
     private static final String CREATE_CARD_MESSAGE = "Successfully created card %s with id %s";
     private final CardsRepository cardsRepository;
 
@@ -63,7 +64,37 @@ public class CardService {
 
     }
 
- // Get all cards by customer id
+
+    // Create secondary card
+    public void createSecondaryCard(Customer customer) {
+
+        cardsRepository.save (createNewSecondaryCard (customer));
+
+    }
+
+    private Cards createNewSecondaryCard(Customer customer) {
+
+         LocalDateTime now = LocalDateTime.now();
+         long randomCardNumber = 100000000000L + new Random ().nextInt(900000000);
+
+          return  Cards.builder ()
+                .customer (customer)
+                .cardNumber (String.valueOf (randomCardNumber))
+                .cardBrand (CardBrand.MasterCard)
+                .cardLevel (CardLevel.Gold)
+                .isActive (true)
+                .period (CardPeriod.YEARLY)
+                .totalLimit (NEW_SECONDARY_CARD_LIMIT)
+                .updateAllowed (true)
+                .completedOn (LocalDateTime.now ().plusMonths (12))
+                .createdOn (now)
+                .build ();
+    }
+
+
+
+
+    // Get all cards by customer id
     public List <Cards> getAllCardsByCustomerId(UUID customerId) {
         return cardsRepository.findAllByCustomerId (customerId);
     }
@@ -85,4 +116,23 @@ public class CardService {
                 .orElseThrow (() -> new DomainException ("Card with id %s not found".formatted (cardId), HttpStatus.BAD_REQUEST));
     }
 
+
+
+    // Switch status card
+    public void switchStatusCard(UUID id) {
+
+        Cards cards = cardsRepository
+                .findById (id)
+                .orElseThrow (() -> new DomainException ("Card with id %s not found".formatted (id), HttpStatus.BAD_REQUEST));
+
+        if (cards.isActive ()) {
+            cards.setActive (false);
+        }else {
+            cards.setActive (true);
+        }
+        cardsRepository.save (cards);
+    }
+
+
 }
+
