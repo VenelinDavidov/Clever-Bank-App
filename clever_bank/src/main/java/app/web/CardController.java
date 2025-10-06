@@ -3,14 +3,18 @@ package app.web;
 import app.cards.model.Cards;
 import app.cards.service.CardService;
 import app.customer.model.Customer;
+import app.customer.model.UserRole;
+import app.customer.repository.CustomerRepository;
 import app.customer.service.CustomerService;
 import app.exception.CardLimitExceededException;
+
 import app.exception.DomainException;
 import app.security.AuthenticationMetadataDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -28,18 +33,25 @@ public class CardController {
 
     private final CardService cardService;
     private final CustomerService customerService;
+    private final CustomerRepository customerRepository;
 
 
     @Autowired
     public CardController(CardService cardService,
-                          CustomerService customerService) {
+                          CustomerService customerService,
+                          CustomerRepository customerRepository) {
         this.cardService = cardService;
         this.customerService = customerService;
+        this.customerRepository = customerRepository;
     }
 
 
-    // Get cards page
+
+
+
+    // Get cards page - User can only see their own cards
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView fetchCardsPage(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr) {
 
         Customer customer = customerService.getById (authenticationMetadataPr.getCustomerId ());
@@ -56,8 +68,9 @@ public class CardController {
 
 
 
-    // Create card
+    // Create card - can create cards for themselves
     @PostMapping("/create")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView createCard(@AuthenticationPrincipal
                                        AuthenticationMetadataDetails auth,
                                        RedirectAttributes redirectAttributes) {
@@ -67,7 +80,7 @@ public class CardController {
         try {
             cardService.createSecondaryCard(customer);
         } catch (CardLimitExceededException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", MESSAGE_FOR_COUNT_CARDS);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
 
         return new ModelAndView("redirect:/cards");
@@ -78,8 +91,20 @@ public class CardController {
 
 
     @PostMapping("/delete")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView deleteCard(@RequestParam UUID cardId) {
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ModelAndView deleteCard(@RequestParam UUID cardId,@AuthenticationPrincipal
+            AuthenticationMetadataDetails auth ) {
+
+
+        Customer customer = customerRepository.findById (auth.getCustomerId ())
+                .orElseThrow(() -> new DomainException("Customer with id %s not found"
+                        .formatted (auth.getCustomerId ()), HttpStatus.BAD_REQUEST
+                ));
+
+        if (customer.getRole () == UserRole.USER){
+            return new ModelAndView("redirect:/messages");
+        }
+
 
         cardService.deleteCard(cardId);
         return new ModelAndView("redirect:/cards");
@@ -89,6 +114,7 @@ public class CardController {
 
 
     @PutMapping("/block")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public String switchStatusCard(@RequestParam UUID cardId) {
 
         cardService.switchStatusCard(cardId);

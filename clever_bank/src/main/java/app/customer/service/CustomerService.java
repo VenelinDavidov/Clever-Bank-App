@@ -67,8 +67,7 @@ public class CustomerService implements UserDetailsService {
         Optional <Customer> optionalCustomer = customerRepository.findByUsername (registerRequest.getUsername ());
 
         if (optionalCustomer.isPresent ()) {
-            throw new CustomerAlreadyExistException ("Customer with username [%s] already exist!"
-                    .formatted (registerRequest.getUsername ()));
+            throw new CustomerAlreadyExistException ("Customer with username [%s] already exist!".formatted (registerRequest.getUsername ()));
         }
 
         Customer customer = customerRepository.save (createNewCustomerAccount (registerRequest));

@@ -7,6 +7,7 @@ import app.web.dto.CustomerEditRequest;
 import app.web.mapper.DTOMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,7 @@ public class CustomerController {
 
     //Get all customers
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView getAllCustomers(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr) {
 
         List <Customer> customers = customerService.getALLCustomers ();
@@ -52,6 +54,7 @@ public class CustomerController {
 
     // Get profile for customer
     @GetMapping("/{id}/profile")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView getProfileMenuCustomer(@PathVariable UUID id){
 
         Customer customer = customerService.getById (id);
@@ -70,6 +73,7 @@ public class CustomerController {
 
     //Update profile for customer
     @PutMapping("/{id}/profile")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView updateProfileCustomer(@PathVariable UUID id,
                                               @Valid CustomerEditRequest customerEditRequest,
                                               BindingResult bindingResult) {
@@ -94,6 +98,7 @@ public class CustomerController {
 
 
      @PutMapping("/{id}/status")
+     @PreAuthorize("hasRole('ADMIN')")
      public String switchCustomerStatus (@PathVariable UUID id){
 
             customerService.switchCustomerStatus (id);
@@ -105,6 +110,7 @@ public class CustomerController {
 
 
      @PutMapping("/{id}/role")
+     @PreAuthorize("hasRole('ADMIN')")
      public String switchCustomerRole(@PathVariable UUID id){
 
         customerService.switchCustomerRole (id);

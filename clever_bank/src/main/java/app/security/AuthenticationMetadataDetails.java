@@ -24,8 +24,9 @@ public class AuthenticationMetadataDetails implements UserDetails {
     private boolean isActive;
 
 
-
-
+    /**
+     * @return
+     */
     @Override
     public Collection <? extends GrantedAuthority> getAuthorities() {
 

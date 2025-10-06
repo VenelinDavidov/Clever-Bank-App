@@ -27,6 +27,8 @@ public class CardService {
     public static final int  NEW_CARD_LIMIT = 1_000;
     public static final int  NEW_SECONDARY_CARD_LIMIT = 6_000;
     private static final String CREATE_CARD_MESSAGE = "Successfully created card %s with id %s";
+    private static final String CARD_LIMIT_REACHED ="Card limit has been reached for this customer.";
+
     private final CardsRepository cardsRepository;
 
 
@@ -78,7 +80,7 @@ public class CardService {
     public void createSecondaryCard(Customer customer) {
 
         if (hasReachedMaxCardLimit(customer)) {
-            throw new CardLimitExceededException();
+            throw new CardLimitExceededException(CARD_LIMIT_REACHED);
         }
         cardsRepository.save (createNewSecondaryCard (customer));
     }
@@ -97,7 +99,7 @@ public class CardService {
                 .period (CardPeriod.YEARLY)
                 .totalLimit (NEW_SECONDARY_CARD_LIMIT)
                 .updateAllowed (true)
-                .completedOn (LocalDateTime.now ().plusMonths (12))
+                .completedOn (now.plusMonths (12))
                 .createdOn (now)
                 .build ();
     }
@@ -120,6 +122,7 @@ public class CardService {
     public void deleteCard(UUID cardId) {
         cardsRepository.deleteById (cardId);
     }
+
 
     // Get card by id
     public Cards getCardById(UUID cardId) {
