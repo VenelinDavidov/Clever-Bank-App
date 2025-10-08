@@ -49,5 +49,5 @@ It leverages **Spring Security** for safe authentication, **Kafka** for event-dr
 ## 🚀 Getting Started  
 1. Clone the repository  
    ```bash
-   git clone https://github.com/your-username/clever-bank.git
+   git clone https://github.com/VenelinDavidov/clever-bank.git
 
