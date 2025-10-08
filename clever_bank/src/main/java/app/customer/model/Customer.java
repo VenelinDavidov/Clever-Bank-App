@@ -78,6 +78,6 @@ public class Customer extends BaseEntity {
     private List<Subscription> subscriptions = new ArrayList <> ();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
-    @OrderBy("createdOn ASC")
+    @OrderBy("createdOn DESC")
     private List<Pocket> wallets = new ArrayList <> ();
 }

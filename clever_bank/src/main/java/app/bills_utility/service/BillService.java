@@ -67,6 +67,8 @@ public class BillService {
 
         billRepository.deleteById (billId);
         log.info (DELETE_BILL_MESSAGE.formatted (billId));
+
+
     }
 
 

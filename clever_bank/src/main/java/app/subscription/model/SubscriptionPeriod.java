@@ -2,5 +2,6 @@ package app.subscription.model;
 
 public enum SubscriptionPeriod {
     MONTHLY,
-    YEARLY;
+    SIX_MONTHLY,
+    YEARLY
 }

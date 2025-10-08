@@ -16,4 +16,5 @@ public interface BillRepository extends JpaRepository <Bill, UUID> {
     List<Bill> findAllByCustomerOrderByCreatedOnDesc(Customer customer);
 
 
+
 }

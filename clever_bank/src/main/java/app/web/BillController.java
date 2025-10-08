@@ -1,6 +1,7 @@
 package app.web;
 
 import app.bills_utility.model.Bill;
+import app.bills_utility.repository.BillRepository;
 import app.bills_utility.service.BillService;
 import app.customer.model.Customer;
 import app.customer.service.CustomerService;
@@ -29,16 +30,20 @@ public class BillController {
     private final BillService billService;
     private final CustomerService customerService;
     private final TransactionService transactionService;
+    private final BillRepository billRepository;
 
 
     @Autowired
     public BillController(BillService billService,
                           CustomerService customerService,
-                          TransactionService transactionService) {
+                          TransactionService transactionService, BillRepository billRepository) {
         this.billService = billService;
         this.customerService = customerService;
         this.transactionService = transactionService;
+        this.billRepository = billRepository;
     }
+
+
 
 
     // Get bills page
@@ -57,6 +62,8 @@ public class BillController {
 
         return modelAndView;
     }
+
+
 
 
     //Create bill
@@ -88,6 +95,8 @@ public class BillController {
 
 
 
+
+//TODO: Implement this method
     // Pay bill
     @PostMapping("/pay/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")

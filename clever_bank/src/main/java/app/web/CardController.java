@@ -1,6 +1,7 @@
 package app.web;
 
 import app.cards.model.Cards;
+import app.cards.repository.CardsRepository;
 import app.cards.service.CardService;
 import app.customer.model.Customer;
 import app.customer.model.UserRole;
@@ -22,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -34,15 +34,18 @@ public class CardController {
     private final CardService cardService;
     private final CustomerService customerService;
     private final CustomerRepository customerRepository;
+    private final CardsRepository cardsRepository;
 
 
     @Autowired
     public CardController(CardService cardService,
                           CustomerService customerService,
-                          CustomerRepository customerRepository) {
+                          CustomerRepository customerRepository,
+                          CardsRepository cardsRepository) {
         this.cardService = cardService;
         this.customerService = customerService;
         this.customerRepository = customerRepository;
+        this.cardsRepository = cardsRepository;
     }
 
 
@@ -107,8 +110,11 @@ public class CardController {
 
 
         cardService.deleteCard(cardId);
+
         return new ModelAndView("redirect:/cards");
     }
+
+
 
 
 

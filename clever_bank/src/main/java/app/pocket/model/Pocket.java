@@ -29,6 +29,7 @@ public class Pocket {
     @Enumerated(EnumType.STRING)
     private PocketStatus status;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private PocketType type;
 
