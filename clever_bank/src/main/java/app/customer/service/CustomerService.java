@@ -18,6 +18,8 @@ import app.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -62,6 +64,7 @@ public class CustomerService implements UserDetailsService {
 
     //Method register
     @Transactional
+    @CacheEvict(value = "customer", allEntries = true)
     public Customer register(RegisterRequest registerRequest) {
 
         Optional <Customer> optionalCustomer = customerRepository.findByUsername (registerRequest.getUsername ());
@@ -117,6 +120,7 @@ public class CustomerService implements UserDetailsService {
 
 
     // Retrieve all customers
+    @Cacheable("customer")
     public List <Customer> getALLCustomers() {
         return customerRepository.findAll ();
     }
@@ -146,6 +150,7 @@ public class CustomerService implements UserDetailsService {
 
 
     // edit customer details by all information
+    @CacheEvict(value = "customer", allEntries = true)
     public void editCustomerDetails(UUID id, CustomerEditRequest customerEditRequest) {
 
         Customer customer = getById (id);
@@ -161,7 +166,7 @@ public class CustomerService implements UserDetailsService {
 
     }
 
-
+    @CacheEvict(value = "customer", allEntries = true)
     public void switchCustomerStatus(UUID customerId) {
 
         Customer customer = getById (customerId);
@@ -176,7 +181,7 @@ public class CustomerService implements UserDetailsService {
 
 
 
-
+    @CacheEvict(value = "customer", allEntries = true)
     public void switchCustomerRole(UUID customerId) {
 
         Customer customer = getById (customerId);
@@ -189,6 +194,8 @@ public class CustomerService implements UserDetailsService {
 
         customerRepository.save (customer);
     }
+
+
 }
 
 

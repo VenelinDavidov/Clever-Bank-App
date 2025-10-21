@@ -30,8 +30,8 @@
                 <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"></path>
               </svg>
             </a>
-            <a class="special-gold" href="/subscriptions">
-              <p>Upgrade</p>
+            <a class="special-gold" href="/loans">
+              <p>Loans</p>
               <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                 <path fill-rule="evenodd" d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z" clip-rule="evenodd"></path>
               </svg>
@@ -86,10 +86,10 @@
               </svg>
             </a>
           </div>
-          <div class="func-block admin-func-block">
+          <div class="func-block admin-func-block" th:if="${customer.getRole().name() == 'ADMIN'}">
             <span>Admin</span>
             <a href="/customers">
-              <p>Users</p>
+              <p>Customer</p>
               <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
               </svg>
@@ -121,34 +121,34 @@
         </div>
         <div class="details-section">
           <div class="details-section-container">
-            <strong>Customer Id : </strong>
+            <strong>🆔 Customer ID: </strong>
             <p th:text="${customer.id}"></p>
           </div>
         </div>
       </div>
       <div class="profile-info">
         <div class="details-section-container">
-          <strong>Username: </strong>
+          <strong>🙍 Username: </strong>
           <p th:text="${customer.username}"></p>
         </div>
         <div class="details-section-container">
-          <strong>Email: </strong>
+          <strong>📧 Email: </strong>
           <p th:text="${#strings.isEmpty(customer.email) ? 'Edit profile, add your email' : customer.email}"></p>
         </div>
         <div class="details-section-container">
-          <strong>Phone</strong>
+          <strong>📱 Phone:</strong>
           <p th:text="${#strings.isEmpty(customer.phoneNumber) ? 'Edit profile, add your mobile number' : customer.phoneNumber}"></p>
         </div>
         <div class="details-section-container">
-          <strong>Subscribed: </strong>
-          <p th:text="${#temporals.format(customer.createdOn, 'dd MMM YYYY HH:mm')}"></p>
+          <strong>🔔 Subscribed: </strong>
+          <td th:text="${#temporals.format(customer.createdOn, 'dd MMM yyyy HH:mm', T(java.util.Locale).ENGLISH)}"></td>
         </div>
         <div class="details-section-container">
-          <strong>Gender: </strong>
+          <strong>⚧ Gender:</strong>
           <p th:text="${#strings.capitalize(#strings.toLowerCase(customer.gender))}"></p>
         </div>
         <div class="details-section-container">
-          <strong>Country: </strong>
+          <strong>🌍 Country:</strong>
           <p th:text="${#strings.capitalize(#strings.toLowerCase(customer.country))}"></p>
         </div>
       </div>
@@ -162,15 +162,15 @@
 
     <div class="single-section-box home-standard-wallet">
       <div class="default-label-box">
-        <p>Standard Wallet</p>
-        <p class="active-wallet-status">ACTIVE</p>
+        <p >Standard Pocket</p>
+        <p th:text="${customer.wallets[0].status}" th:classappend="${customer.wallets[0].status == 'ACTIVE' ? 'inactive-wallet-status' : 'active-wallet-status'}"  class="active-wallet-status"></p>
       </div>
       <div class="wallet-balance">
-        <p class="balance">18.07 EUR</p>
-        <p class="available-balance-text">Available Balance</p>
+        <p th:text="${customer.wallets[0].balance + ' USD'} " class="balance">18.07 EUR</p>
+        <p class="available-balance-text">💳 Available Balance</p>
       </div>
-      <a class="profile-actions-button" href="/wallets">
-        <p>Open Wallets</p>
+      <a class="profile-actions-button" th:href="@{/pockets}">
+        <p>Open Pocket</p>
         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
           <path fill-rule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clip-rule="evenodd"></path>
           <path fill-rule="evenodd" d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z" clip-rule="evenodd"></path>
@@ -178,12 +178,12 @@
       </a>
       <div class="details-section">
         <div class="details-section-container">
-          <strong>Wallet id: </strong>
-          <p>dccacda6-12d3-422c-8ad0-23992ef55a1b</p>
+          <strong>💵 Pocket ID: </strong>
+          <p th:text="${customer.wallets[0].id}"></p>
         </div>
         <div class="details-section-container">
-          <strong>Last transaction on: </strong>
-          <p>11 Dec 2024 21:32</p>
+          <strong>🕒 Last transaction on </strong>
+          <p th:text="${#temporals.format(customer.wallets[0].createdOn, 'dd MMM YYYY HH:mm',T(java.util.Locale).ENGLISH) }"></p>
         </div>
       </div>
     </div>
@@ -235,7 +235,7 @@
     </div>
   </div>
 </main>
-<th:block th:insert="fragments/footer :: footer"></th:block>
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
 </body>
 
 

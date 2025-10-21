@@ -96,31 +96,18 @@ public class BillController {
 
 
 
-//TODO: Implement this method
+
     // Pay bill
     @PostMapping("/pay/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView payBill(@PathVariable("id") UUID billId,
                                 @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
-                                BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
 
-        Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
-        List <Bill> bills = billService.getAllBillsByCustomer (customer);
+        customerService.getById (authenticationMetadataDetails.getCustomerId ());
 
+        Bill bill = billService.payBill (billId);
 
-        if (bindingResult.hasErrors ()) {
-
-            ModelAndView modelAndView = new ModelAndView ();
-            modelAndView.addObject ("customer", customer);
-            modelAndView.addObject ("bills", bills);
-            modelAndView.setViewName ("bills");
-            return modelAndView;
-        }
-
-
-
-        redirectAttributes.addFlashAttribute ("success", "Bill paid successfully");
+        redirectAttributes.addFlashAttribute ("Success", "Bill paid successfully" + bill.getBillNumber ());
 
         return new ModelAndView ("redirect:/transactions");
     }

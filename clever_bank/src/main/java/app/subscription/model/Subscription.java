@@ -34,6 +34,8 @@ public class Subscription {
     @Column(nullable = false)
     private SubscriptionStatus status;
 
+
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SubscriptionPeriod period;
@@ -48,6 +50,9 @@ public class Subscription {
 
 
     private boolean updateAllowed;
+
+
+
 
     @Column(nullable = false)
     private LocalDateTime completedOn;

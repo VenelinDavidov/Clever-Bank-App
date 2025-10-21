@@ -23,8 +23,12 @@ public class Transactions {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne
+    @ManyToOne
     private Customer customer;
+
+
+    @Column
+    private String iban;
 
     @Column(nullable = false)
     private String sender;
@@ -35,8 +39,10 @@ public class Transactions {
     @Column(nullable = false)
     private BigDecimal remainingBalance;
 
+
     @Column(nullable = false)
     private BigDecimal amount;
+
 
     private String description;
 

@@ -14,4 +14,6 @@ public interface CustomerRepository extends JpaRepository <Customer, UUID> {
 
     @Fetch(FetchMode.JOIN)
     Optional <Customer> findByUsername(String username);
+
+
 }

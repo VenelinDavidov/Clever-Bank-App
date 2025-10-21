@@ -97,8 +97,8 @@ body {
 .logo-big img {
   display: flex;
   width: 100%;
-  height: 80vh;
-  padding-bottom: 8em;
+  height: 78vh;
+  padding-bottom: 0em;
 
 }
 
@@ -139,7 +139,7 @@ p.alert-warning {
 
 
 .main-content {
-  display: flex;
+  display: inline;
   flex-direction: column;
   align-items: center;
   justify-content: center;

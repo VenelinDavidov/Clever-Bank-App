@@ -5,6 +5,7 @@ import app.customer.service.CustomerService;
 
 import app.pocket.service.PocketService;
 import app.security.AuthenticationMetadataDetails;
+import app.transaction.model.TransactionStatus;
 import app.transaction.model.Transactions;
 import app.web.dto.DepositRequest;
 import jakarta.validation.Valid;
@@ -29,11 +30,13 @@ public class PocketController {
     private final CustomerService customerService;
 
 
+
     @Autowired
     public PocketController(PocketService pocketService,
                             CustomerService customerService) {
         this.pocketService = pocketService;
         this.customerService = customerService;
+
     }
 
 
@@ -48,9 +51,9 @@ public class PocketController {
         Map <UUID, List<Transactions>> LastSevenTransactions = pocketService.getLastSevenTransactions(customer.getWallets ());
 
         ModelAndView modelAndView = new ModelAndView ();
+        modelAndView.setViewName ("pockets");
         modelAndView.addObject ("customer", customer);
         modelAndView.addObject ("LastSevenTransactions", LastSevenTransactions);
-        modelAndView.setViewName ("pockets");
 
         return modelAndView;
     }
@@ -59,7 +62,7 @@ public class PocketController {
 
   // Switch pocket status
     @PutMapping("/{id}/status")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public String switchPocket(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails) {
 
         pocketService.switchStatusWallet (id, authenticationMetadataDetails.getCustomerId ());
@@ -88,8 +91,11 @@ public class PocketController {
 
 
 
+
+
     // Deposit money implementation this method
     @PostMapping("/{pocketId}/deposit-form")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView deposit(@PathVariable UUID pocketId,
                                 @Valid DepositRequest depositRequest,
                                 @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
@@ -98,16 +104,22 @@ public class PocketController {
         if (bindingResult.hasErrors ()){
 
             ModelAndView modelAndView = new ModelAndView ();
-
             modelAndView.addObject ("pocketId", pocketId);
             modelAndView.addObject ("depositRequest", depositRequest);
             modelAndView.setViewName ("deposit-form");
-
             return modelAndView;
         }
 
-        pocketService.deposit(pocketId, depositRequest, authenticationMetadataDetails.getCustomerId ());
+        Transactions result = pocketService.deposit (pocketId, depositRequest, authenticationMetadataDetails.getCustomerId ());
 
-        return new ModelAndView ("redirect:/pockets");
+       if (result.getStatus() == TransactionStatus.SUCCEEDED) {
+           return new ModelAndView("redirect:/pockets");
+       }
+
+        return new ModelAndView("redirect:/transactions");
     }
+
+
+
+
 }

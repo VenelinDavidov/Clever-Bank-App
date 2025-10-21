@@ -44,6 +44,9 @@ public class Bill {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
+    @Column
+    private LocalDateTime updatedOn;
+
 
 
     @ManyToOne

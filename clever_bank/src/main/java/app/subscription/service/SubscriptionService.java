@@ -31,12 +31,14 @@ public class SubscriptionService {
     public Subscription createDefaultSubscription(Customer customer) {
 
         Subscription subscription = subscriptionRepository.save (createNewSubscription (customer));
-
         log.info ("Successfully created default subscription for customer %s with id %s and type %s"
                 .formatted (  customer.getUsername (), subscription.getId (), subscription.getType ()));
 
         return subscription;
     }
+
+
+
 
     private Subscription createNewSubscription(Customer customer) {
 
@@ -49,7 +51,7 @@ public class SubscriptionService {
                 .status (SubscriptionStatus.ACTIVE)
                 .period (SubscriptionPeriod.MONTHLY)
                 .type (SubscriptionType.DEFAULT)
-                .charge (new BigDecimal ("0.00"))
+                .charge (BigDecimal.ZERO)
                 .updateAllowed (true)
                 .createdOn (now)
                 .completedOn (now.plusMonths (1))

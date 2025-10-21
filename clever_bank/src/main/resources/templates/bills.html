@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/css/nav-side-bar.css">
 
-    <title>Cards</title>
-    <link rel="stylesheet" href="/css/card.css">
+    <link rel="stylesheet" type="text/css" href="/css/bills.css">
+    <link rel="stylesheet" type="text/css" href="/css/nav-side-bar.css">
+    <title>Bills Management - Clever Bank</title>
+    <link rel="icon" href="/images/building-columns-solid.svg" type="images/png">
 </head>
 <body>
-<h1>Cards</h1>
-<a href="/cards/create">Create New Card</a>
 <div class="nav-bar">
     <div class="side-bar-container">
         <nav>
@@ -138,190 +139,149 @@
         </nav>
     </div>
 </div>
+<main>
+    <section class="section full-height">
 
+<!--        <div class="container">-->
+<!--            <a href="/home" class="logo-big">-->
+<!--                <img src="/images/CLEVER%20BANK%20TEXT%20HORIZONTAL.png" alt="Clever Bank Logo">-->
+<!--            </a>-->
+<!--        </div>-->
 
-<main class="main-content">
+        <!-- Add New Bill Form -->
+        <form class="form"
+              th:action="@{/bills/add}"
+              th:method="POST"
+              th:object="${billsRequest}">
 
-    <div class="profile-and-actions">
+            <h3>✨🧾 Add New Bill</h3>
 
-        <section class="profile-section">
-            <div class="profile-card">
-                <img th:src="${#strings.isEmpty(customer.profilePicture)
-                ? 'https://www.shutterstock.com/image-vector/businessman-icon-600nw-564112600.jpg'
-                : customer.profilePicture}" alt="profile picture" class="profile-avatar"/>
+            <label for="billNumber">Bill Number</label>
+            <input type="text"
+                   placeholder="Enter bill number"
+                   id="billNumber"
+                   th:field="*{billNumber}" required>
 
-                <h2 th:text="${customer.username}" class="profile-name"></h2>
-                <p th:text="${customer.email}"></p>
-                <p th:text="${customer.phoneNumber}"></p>
+            <p class="alert-warning" th:if="${#fields.hasErrors('billNumber')}" th:errors="*{billNumber}"></p>
 
-                <span th:if="${customer.active}" class="status active">Active</span>
-                <span th:if="${!customer.active}" class="status inactive">Inactive</span>
+            <label for="billCategory">Category</label>
+            <select id="billCategory" th:field="*{billCategory}" required>
+                <option value="">Select a category</option>
+                <option value="INTERNET">Internet</option>
+                <option value="TELEPHONE">Telephone</option>
+                <option value="ELECTRICITY">Electricity</option>
+                <option value="WATER">Water</option>
+                <option value="HOUSEMAN">Houseman</option>
+            </select>
+            <p class="alert-warning" th:if="${#fields.hasErrors('billCategory')}" th:errors="*{billCategory}"></p>
+
+            <label for="amount">Amount</label>
+            <input type="number"
+                   placeholder="0.00"
+                   id="amount"
+                   th:field="*{amount}"
+                   step="0.01"
+                   required>
+            <p class="alert-warning" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></p>
+
+            <label for="description">Description (Optional)</label>
+            <input type="text"
+                   placeholder="Enter description"
+                   id="description"
+                   th:field="*{description}">
+            <p class="alert-warning" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+
+<!--            <p class="alert-success" th:if="${successMessage}" th:text="${successMessage}"></p>-->
+<!--            <p class="alert-warning" th:if="${errorMessage}" th:text="${errorMessage}"></p>-->
+
+            <button type="submit">Add Bill</button>
+
+            <p class="form-already">View all your bills below or <a href="/home">return to dashboard</a></p>
+
+        </form>
+
+        <!-- Bills List Section -->
+        <div class="bills-list-container" >
+            <div class="bills-header">
+                <h2> 💳💸 Your Bills – Pay Fast and Easy ✅</h2>
+                <p class="bills-count">Total: <span th:text="${bills.size()}">0</span> bills</p>
             </div>
 
-            <section class="card-actions-section" >
-                <h3>💳🛠️ Card Actions</h3>
+            <div class="bills-grid">
+                <div class="bill-card" th:each="bill : ${bills}">
+                    <div class="bill-card-header">
+                        <span class="bill-number" th:text="${bill.billNumber}">BILL-001</span>
+                        <span class="category-badge"
+                              th:classappend="${#strings.toLowerCase(bill.category)}"
+                              th:text="${#strings.capitalize(#strings.toLowerCase(bill.category))}">
+                            Internet
+                        </span>
+                    </div>
 
-                     <form th:action="@{/cards/block}" method="post" class="card-action-form">
-                         <input type="hidden" name="_method" value="PUT" />
-
-                         <label for="blockCardId">Select Card to Block:</label>
-                         <select name="cardId" id="blockCardId" required>
-                             <option value="" disabled selected>Select a card</option>
-                            <option th:each="card : ${cards}"
-                                     th:value="${card.id}"
-                                     th:text="${card.cardNumber} + ' (' + card.cardBrand + ')'">
-                           </option>
-                         </select>
-
-                         <button type="submit" class="btn btn-warning">Block</button>
-                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
-                     </form>
-            </section>
-
-            <section class="cards-section">
-
-                <div class="section-header">
-                    <h3>Your Bank Cards</h3>
-                    <form th:action="@{/cards/create}"
-                          method="POST"
-                          th:object="${card}" style="display:inline;">
-
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                        <button type="submit" class="btn btn-secondary">Create New Card</button>
-                    </form>
-                </div>
-
-
-                <div class="cards-container">
-                    <div class="card"
-                         th:each="card : ${cards}"
-                         th:classappend="${card.cardBrand}">
-
-                        <div class="card-chip"></div>
-                        <div class="card-number" th:text="${card.cardNumber}"></div>
-
-
-                        <div class="card-footer">
-                            <div class="card-holder">
-                                <label>Limit</label>
-                                <span th:text="${card.totalLimit + ' USD'}"></span>
-                            </div>
-                            <div class="card-expiry">
-                                <label>Expires</label>
-                                <span th:text="${#temporals.format(card.completedOn, 'MM/yy')}"></span>
-                            </div>
+                    <div class="bill-card-body">
+                        <div class="bill-amount">
+                            <span class="currency">$</span>
+                            <span class="amount-value" th:text="${#numbers.formatDecimal(bill.amount, 1, 2)}">0.00</span>
                         </div>
 
-                        <div class="card-brand" th:text="${card.cardBrand}">VISA</div>
-                        <div class="card-status-action">
-                            <form th:action="@{/cards/block}" method="post">
-                                <input type="hidden" name="_method" value="put" />
-                                <input type="hidden" name="cardId" th:value="${card.id}" />
-                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <p class="bill-description" th:text="${bill.description }">
+                            Description
+                        </p>
 
+                        <div class="bill-meta">
+                            <span class="bill-date">
+                                <i class="far fa-calendar-alt"></i>
+                                <span th:text="${#temporals.format(bill.createdOn, 'dd MMM YYYY HH:mm',T(java.util.Locale).ENGLISH)}">01 Jan 2025</span>
+                            </span>
+                            <span class="bill-status"
+                                  th:classappend="${bill.status.name() == 'CANCELED' ? 'cancelled' : #strings.toLowerCase(bill.status)}"
+                                  th:text="${#strings.capitalize(#strings.toLowerCase(bill.status.name()))}">
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="bill-card-footer">
+                        <div class="bill-actions">
+                            <form  th:if="${bill.status.name() != 'PAID'}"
+                                    th:action="@{/bills/pay/{id}(id=${bill.id})}" method="post" class="pay-form">
                                 <button type="submit"
-                                        th:text="${card.active ? 'Unblock' : 'Block'}"
-                                        th:classappend="${card.active ? ' btn-warning' : ' btn-success'}"
-                                        class="btn btn-sm">
+                                        class="btn-pay"
+                                        onclick="return confirm('Are you sure you want to pay this bill?')">
+                                    <i class="fas fa-check-circle"></i> Pay
+                                </button>
+                            </form>
+
+
+
+                            <form th:action="@{'/bills/delete/' + ${bill.id}}" method="POST"  class="delete-form">
+
+                                <input type="hidden" name="_method" value="delete" />
+                                <button type="submit"
+                                        class="btn-delete"
+                                        onclick="return confirm('Are you sure you want to delete this bill?')">
+                                    <i class="fas fa-trash-alt"></i> Delete
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
+        <!-- Empty State -->
+        <div class="empty-state" th:if="${bills == null or bills.isEmpty()}">
+            <div class="empty-state-icon">
+                <i class="fas fa-file-invoice"></i>
+            </div>
+            <h3>No Bills Yet</h3>
+            <p>Add your first bill using the form above to get started.</p>
+        </div>
 
-                <form th:action="@{/cards/delete}"
-                      method="POST"
-                      th:object="${card}"
-
-                      onsubmit="return confirm('Are you sure?');">
-
-                    <label for="cardId">Select Card to Delete:</label>
-                    <select name="cardId" id="cardId" required>
-                        <option value="" disabled selected>Select a card</option>
-                        <option th:each="card : ${cards}"
-                                th:value="${card.id}"
-                                th:text="${card.cardNumber} + ' (' + card.cardBrand + ')'"></option>
-                    </select>
-
-                    <button type="submit" class="btn btn-danger">Delete Card</button>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                </form>
-
-                <!-- Error message -->
-                <div id="messageBox"
-                     th:if="${errorMessage}"
-                     th:text="${errorMessage}"
-                     class="alert alert-danger">
-                </div>
-            </section>
-        </section>
-    </div>
+    </section>
 </main>
 
 <th:block th:insert="~{fragments/footer :: footer}"></th:block>
-
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        const messageBox = document.getElementById('messageBox');
-        if (messageBox) {
-            setTimeout(() => {
-                messageBox.style.display = 'none';
-            }, 5000);
-        }
-    });
-</script>
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-
-        const messageBox = document.getElementById('messageBox');
-        if (messageBox) {
-            setTimeout(() => {
-                messageBox.style.display = 'none';
-            }, 5000);
-        }
-
-        const cards = document.querySelectorAll('.cards-container .card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'scale(1.05)';
-                card.style.boxShadow = '0 10px 20px rgba(0,0,0,0.2)';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'scale(1)';
-                card.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-            });
-
-
-            card.addEventListener('click', () => {
-                card.classList.toggle('card-active');
-            });
-        });
-
-        const blockForm = document.querySelector('.card-action-form');
-        if (blockForm) {
-            blockForm.addEventListener('submit', (e) => {
-                const confirmed = confirm('Are you sure you want to block this card?');
-                if (!confirmed) e.preventDefault();
-            });
-        }
-    });
-</script>
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        const statuses = document.querySelectorAll('.status');
-        statuses.forEach(status => {
-            if (status.classList.contains('active')) {
-                status.style.color = 'white';
-                status.style.fontWeight = 'bold';
-            } else {
-                status.style.color = 'red';
-                status.style.fontWeight = 'bold';
-            }
-        });
-    });
-</script>
 
 </body>
 </html>
