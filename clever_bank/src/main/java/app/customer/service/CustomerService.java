@@ -102,6 +102,8 @@ public class CustomerService implements UserDetailsService {
                 .gender (Gender.MALE)
                 .createdOn (LocalDateTime.now ())
                 .updatedOn (LocalDateTime.now ())
+                .accountExpireAt (LocalDateTime.now ().plusYears (1))
+                .credentialsExpireAt (LocalDateTime.now ().plusYears (1))
                 .build ();
     }
 
@@ -141,7 +143,9 @@ public class CustomerService implements UserDetailsService {
                 customer.getUsername (),
                 customer.getPassword (),
                 customer.getRole (),
-                customer.isActive ()
+                customer.isActive (),
+                customer.getAccountExpireAt (),
+                customer.getCredentialsExpireAt ()
         );
     }
 

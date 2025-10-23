@@ -33,10 +33,12 @@
 
       <label for="username">Username</label>
       <input type="text" placeholder="Username" id="username" th:field="*{username}" required>
+      <p th:if="${param.error}" th:text="${session.error}">Invalid login</p>
 
       <label for="password">Password</label>
       <input type="password" placeholder="Password" id="password" th:field="*{password}" required>
       <p class="alert-warning" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+      <p th:if="${param.error}" th:text="${session.error}">Invalid login</p>
 
       <button type="submit">Log In</button>
 

@@ -39,6 +39,7 @@
       <input type="password" placeholder="Password" id="password" th:field="*{password}">
       <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
+
       <label for="phoneNumber">PhoneNumber</label>
       <input type="text" placeholder="phoneNumber" id="phoneNumber" th:field="*{phoneNumber}">
 
@@ -49,7 +50,7 @@
 
       <label for="gander">Gender</label>
       <select id="gander" th:field="*{gender}">
-        <option th:each="gander : ${T(app.customer.model.Gender).values()}" th:value="${gander}" th:text="${#strings.capitalize(#strings.toLowerCase(gander))}"></option>
+        <option th:each="gender : ${T(app.customer.model.Gender).values()}" th:value="${gender}" th:text="${#strings.capitalize(#strings.toLowerCase(gender))}">></option>
       </select>
 
       <button>Register</button>

@@ -65,7 +65,9 @@ public class Customer extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime updatedOn;
 
+    private LocalDateTime credentialsExpireAt;
 
+    private LocalDateTime accountExpireAt;
 
 
 

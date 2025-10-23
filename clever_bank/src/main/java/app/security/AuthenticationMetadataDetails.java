@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +23,9 @@ public class AuthenticationMetadataDetails implements UserDetails {
     private String password;
     private UserRole role;
     private boolean isActive;
+    private LocalDateTime accountExpireAt;
+    private LocalDateTime isCredentialsExpired;
+
 
 
     /**
@@ -51,7 +55,7 @@ public class AuthenticationMetadataDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return isActive;
+        return accountExpireAt == null || accountExpireAt.isAfter (LocalDateTime.now ());
     }
 
     @Override
@@ -61,7 +65,7 @@ public class AuthenticationMetadataDetails implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isActive;
+        return isCredentialsExpired == null || isCredentialsExpired.isAfter (LocalDateTime.now ());
     }
 
     @Override
