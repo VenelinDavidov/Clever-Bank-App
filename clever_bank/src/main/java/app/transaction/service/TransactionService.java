@@ -43,13 +43,15 @@ public class TransactionService {
     // Get last 7 transactions by pocket id
     public List <Transactions> getLastSevenTransactionsByPocketId(Pocket pocket) {
 
-        return transactionRepository
+        List <Transactions> lastSevenTransaction = transactionRepository
                 .findAllBySenderOrReceiverOrderByCreatedOnDesc (pocket.getId ().toString (), pocket.getId ().toString ())
                 .stream ()
                 .filter (tr -> tr.getCustomer ().getId () == (pocket.getCustomer ().getId ()))
                 .filter (t -> t.getStatus () == TransactionStatus.SUCCEEDED)
                 .limit (7)
                 .collect (Collectors.toList ());
+
+        return lastSevenTransaction;
     }
 
 

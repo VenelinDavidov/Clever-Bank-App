@@ -48,12 +48,12 @@ public class PocketController {
     public ModelAndView getPocketPage(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails) {
 
         Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
-        Map <UUID, List<Transactions>> LastSevenTransactions = pocketService.getLastSevenTransactions(customer.getWallets ());
+        Map <UUID, List<Transactions>> lastSevenTransactions = pocketService.getLastSevenTransactions(customer.getWallets ());
 
         ModelAndView modelAndView = new ModelAndView ();
         modelAndView.setViewName ("pockets");
         modelAndView.addObject ("customer", customer);
-        modelAndView.addObject ("LastSevenTransactions", LastSevenTransactions);
+        modelAndView.addObject ("lastSevenTransactions", lastSevenTransactions);
 
         return modelAndView;
     }

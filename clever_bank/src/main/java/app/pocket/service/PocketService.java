@@ -104,8 +104,8 @@ public class PocketService {
 
           for (Pocket pocket : pockets) {
 
-              List<Transactions> transactions = transactionService.getLastSevenTransactionsByPocketId (pocket);
-              pocketTransactions.put (pocket.getId (), transactions);
+              List<Transactions> lastSevenTransactionsByPocketId = transactionService.getLastSevenTransactionsByPocketId (pocket);
+              pocketTransactions.put (pocket.getId (), lastSevenTransactionsByPocketId);
           }
           return pocketTransactions;
     }
@@ -235,20 +235,37 @@ public class PocketService {
 
 
 
-        Transactions newTransaction = transactionService.createNewTransaction (
-                 customer,
-                 pocketSender.getId ().toString (),
-                 transferResultRequest.getUsername (),
-                 transferResultRequest.getAmount (),
-                 pocketSender.getBalance (),
-                 pocketSender.getCurrency (),
-                 TransactionType.WITHDRAWAL,
-                 TransactionStatus.SUCCEEDED,
-                 descriptionInformation,
-                 "Success transfer!"
+//        Transactions senderTransaction = transactionService.createNewTransaction (
+//                 customer,
+//                 customer.getUsername (),
+//                 transferResultRequest.getUsername (),
+//                 transferResultRequest.getAmount (),
+//                 pocketSender.getBalance (),
+//                 pocketSender.getCurrency (),
+//                 TransactionType.WITHDRAWAL,
+//                 TransactionStatus.SUCCEEDED,
+//                 descriptionInformation,
+//                 "Success transfer!"
+//        );
+
+
+        Customer receiverCustomer = receiverPocket.getCustomer ();
+        String descriptionReceiver = "Received from " + customer.getUsername () + " with amount " + transferResultRequest.getAmount ();
+
+        transactionService.createNewTransaction (
+                receiverCustomer,
+                pocketSender.getId().toString(),
+                receiverCustomer.getId ().toString (),
+                transferResultRequest.getAmount (),
+                receiverPocket.getBalance (),
+                receiverPocket.getCurrency (),
+                TransactionType.DEPOSIT,
+                TransactionStatus.SUCCEEDED,
+                descriptionReceiver,
+                "Incoming transfer!"
         );
 
-        return newTransaction;
+        return  retract;
     }
 
 
