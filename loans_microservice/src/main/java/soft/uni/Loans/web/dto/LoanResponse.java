@@ -1,0 +1,31 @@
+package soft.uni.Loans.web.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import soft.uni.Loans.model.LoanStatus;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoanResponse {
+
+    private UUID loanId;
+    private UUID customerId;
+    private String firstName;
+    private String lastName;
+    private String loanType;
+    private LoanStatus loanStatus;
+    private BigDecimal amount;
+    private BigDecimal interestRate;
+    private BigDecimal monthlyPayment;
+    private Integer termMonths;
+    private LocalDateTime createdOn;
+    private LocalDateTime updatedOn;
+}
