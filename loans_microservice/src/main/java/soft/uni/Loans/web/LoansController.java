@@ -50,7 +50,37 @@ public class LoansController {
        return ResponseEntity
                .status (HttpStatus.CREATED)
                .body (response);
-
     }
+
+
+    @GetMapping("/{loanId}")
+    public ResponseEntity <LoanResponse> getLoan (@PathVariable UUID loanId){
+        log.info ("Receive request to get loan: {}", loanId);
+        LoanResponse response = loansService.getLoanById (loanId);
+        return ResponseEntity
+                .ok(response);
+    }
+
+   @PutMapping("/{loanId}")
+   public ResponseEntity <LoanResponse> updateLoan(@PathVariable UUID loanId, @RequestBody LoanRequest loanRequest){
+
+    log.info ("Receive request to update loan: {}", loanId);
+
+    LoanResponse response = loansService.updateLoan (loanId,loanRequest);
+    return ResponseEntity
+            .ok(response);
+   }
+
+
+   @DeleteMapping("/{loanId}")
+   public  ResponseEntity <Void> deleteLoan (@PathVariable UUID loanId){
+
+       log.info ("Receive request to delete loan: {}", loanId);
+       loansService.deleteLoan(loanId);
+       return ResponseEntity
+               .noContent()
+               .build();
+   }
+
 }
 

@@ -16,6 +16,7 @@ import soft.uni.Loans.web.dto.LoanRequest;
 import soft.uni.Loans.web.dto.LoanResponse;
 import soft.uni.Loans.web.mapper.LoansDtoMapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -64,6 +65,48 @@ public class LoansService {
                 .stream ()
                 .map (LoansDtoMapper::mapToResponse)
                 .collect (Collectors.toList ());
+    }
+
+
+    @Transactional
+    public LoanResponse getLoanById(UUID loanId) {
+
+        log.info ("Fetching loan by ID: {}", loanId);
+        Loans loans = loansRepository.findById (loanId)
+                                     .orElseThrow (() -> new RuntimeException ("Loan not fount with ID: " + loanId));
+         return LoansDtoMapper.mapToResponse (loans);
+    }
+
+
+
+    @Transactional
+    public LoanResponse updateLoan(UUID loanId, LoanRequest loanRequest) {
+
+        log.info ("Updating loan with ID: {}", loanId);
+        Loans loans = loansRepository
+                                     .findById (loanId)
+                                     .orElseThrow (() -> new RuntimeException ("Loan not found with ID: " + loanId));
+        loans.setFirstName (loanRequest.getFirstName ());
+        loans.setLastName (loanRequest.getLastName ());
+        loans.setLoanType (loanRequest.getLoanType ());
+        loans.setAmount (loanRequest.getAmount ());
+        loans.setUpdatedOn (LocalDateTime.now ());
+
+        Loans updateLoan = loansRepository.save (loans);
+        log.info ("Loan update successfully with ID: {}", updateLoan.getLoanId());
+
+        return LoansDtoMapper.mapToResponse (updateLoan);
+    }
+
+
+
+    public void deleteLoan(UUID loanId) {
+        log.info ("Deleting loan with ID: {}", loanId);
+        Loans loans = loansRepository
+                                        .findById (loanId)
+                                       .orElseThrow (() -> new RuntimeException ("Loan nod fount with ID: " + loanId));
+        loansRepository.delete (loans);
+        log.info ("Loan deleted successfully with ID: {}", loanId);
     }
 }
 
