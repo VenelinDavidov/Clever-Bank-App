@@ -35,6 +35,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    align-items: center;
 }
 
 .page-title {
@@ -79,7 +80,7 @@ body {
 
 /* Loan Form Card */
 .loan-form-card {
-    background: white;
+    background: #ffffffcc;
     border-radius: 16px;
     padding: 2rem;
     margin-bottom: 2rem;
@@ -194,7 +195,7 @@ body {
 
 /* Loans List Section */
 .loans-list-section {
-    background: white;
+    background: #ffffffcc;
     border-radius: 16px;
     padding: 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);

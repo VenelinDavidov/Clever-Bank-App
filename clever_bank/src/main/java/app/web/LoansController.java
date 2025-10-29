@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -84,4 +85,68 @@ public class LoansController {
 
 
 
+
+   @GetMapping("/edit/{loanId}")
+   public ModelAndView showEditForm(@PathVariable UUID loanId,
+                                    @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails){
+
+        Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
+        LoanResponse loan = loansService.getLoan (loanId);
+        LoanRequest loanRequest = loansService.builderLoan (loan);
+
+        ModelAndView modelAndView = new ModelAndView ("loans-edit");
+        modelAndView.addObject ("customer", customer);
+        modelAndView.addObject ("loan", loan);
+        modelAndView.addObject ("loanRequest",loanRequest);
+
+        return modelAndView;
+   }
+
+
+
+
+   @PostMapping("/update/{loanId}")
+   public ModelAndView updateLoan (@PathVariable UUID loanId,
+                                   @ModelAttribute LoanRequest loanRequest,
+                                   @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
+                                                            RedirectAttributes redirectAttributes){
+
+
+
+       try {
+           ModelAndView modelAndView = new ModelAndView ("loans-edit");
+           Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
+           loanRequest.setCustomerId (customer.getId ());
+           LoanResponse loanResponse = loansService.updateLoan (loanId, loanRequest);
+           redirectAttributes.addFlashAttribute ("successMessage", "Loan update successfully!");
+           return new ModelAndView("redirect:/loans");
+
+       }catch (Exception e){
+           log.error ("Error updating loan: ", e);
+           redirectAttributes.addFlashAttribute ("errorMessage", "Failed to update loan: " + e.getMessage ());
+
+           return new ModelAndView("redirect:/loans");
+       }
+   }
+
+
+
+
+
+
+   @PostMapping("/delete/{loanId}")
+   public String deleteLoan (@PathVariable UUID loanId,
+                             @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
+                             RedirectAttributes redirectAttributes){
+
+        try {
+            loansService.deleteLoan (loanId);
+            redirectAttributes.addFlashAttribute ("successMessage", "Loan deleted successFully!");
+        }catch (Exception e){
+            log.error ("Error deleting loan: ", e);
+           redirectAttributes.addFlashAttribute ("errorMessage", "Failed to delete loan: " + e.getMessage ());
+        }
+
+       return "redirect:/loans";
+   }
 }

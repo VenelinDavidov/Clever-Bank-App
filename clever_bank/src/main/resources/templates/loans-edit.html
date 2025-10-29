@@ -164,7 +164,7 @@
                 </div>
                 <div class="info-row">
                     <span class="info-label">Applied On:</span>
-                    <span class="info-value" th:text="${#temporals.format(loan.createdOn, 'MMMM dd, yyyy HH:mm')}"></span>
+                    <span class="info-value" th:text="${#temporals.format(loan.createdOn, 'MMMM dd, yyyy HH:mm', T(java.util.Locale).ENGLISH)}"></span>
                 </div>
             </div>
         </div>
@@ -183,6 +183,22 @@
 
                 <div class="form-grid">
                     <div class="form-group">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" th:field="*{firstName}" id="firstName"
+                               class="form-input" placeholder="John"
+                               required minlength="2" maxlength="50"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" th:field="*{lastName}" id="lastName"
+                               class="form-input" placeholder="Doe"
+                               required minlength="2" maxlength="50"/>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
                         <label for="loanType" class="form-label">Loan Type</label>
                         <select th:field="*{loanType}" id="loanType" class="form-select" required>
                             <option value="">Select loan type</option>
@@ -190,8 +206,7 @@
                             <option value="MORTGAGE">Mortgage (3.5% APR, 30 years)</option>
                             <option value="BUSINESS">Business Loan (6.5% APR, 5 years)</option>
                             <option value="STUDENT">Student Loan (4.5% APR, 10 years)</option>
-                            <option value="CREDIT-CARD">Credit Card (18.5% APR, 1 year)</option>
-                            <option value="AUTO">Auto Loan (5.5% APR, 5 years)</option>
+
                         </select>
                     </div>
 
@@ -215,7 +230,7 @@
             </form>
         </div>
 
-        <!-- Current Loan Details -->
+
         <div class="loan-form-card">
             <div class="card-header">
                 <h2 class="card-title">Current Loan Calculation</h2>
