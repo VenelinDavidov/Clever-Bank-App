@@ -97,7 +97,7 @@ public class LoansController {
         ModelAndView modelAndView = new ModelAndView ("loans-edit");
         modelAndView.addObject ("customer", customer);
         modelAndView.addObject ("loan", loan);
-        modelAndView.addObject ("loanRequest",loanRequest);
+        modelAndView.addObject ("loanRequest", loanRequest);
 
         return modelAndView;
    }
@@ -111,13 +111,11 @@ public class LoansController {
                                    @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
                                                             RedirectAttributes redirectAttributes){
 
-
-
        try {
            ModelAndView modelAndView = new ModelAndView ("loans-edit");
            Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
            loanRequest.setCustomerId (customer.getId ());
-           LoanResponse loanResponse = loansService.updateLoan (loanId, loanRequest);
+           loansService.updateLoan (loanId, loanRequest);
            redirectAttributes.addFlashAttribute ("successMessage", "Loan update successfully!");
            return new ModelAndView("redirect:/loans");
 

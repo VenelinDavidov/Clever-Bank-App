@@ -187,7 +187,7 @@ public class PocketService {
                 TransactionType.DEPOSIT,
                 TransactionStatus.SUCCEEDED,
                 descriptionInformation,
-                null);
+                "Success deposit!");
     }
 
 

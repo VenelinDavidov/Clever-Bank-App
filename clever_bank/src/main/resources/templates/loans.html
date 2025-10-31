@@ -171,7 +171,7 @@
             <form th:action="@{/loans}" th:object="${loanRequest}" method="post" class="loan-form">
 
                 <div class="form-grid">
-                    <!-- Added first name and last name input fields -->
+
                     <div class="form-group">
                         <label for="firstName" class="form-label">First Name</label>
                         <input type="text" th:field="*{firstName}" id="firstName"
@@ -266,7 +266,7 @@
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Applied On</span>
-                            <span class="detail-value" th:text="${#temporals.format(loan.createdOn, 'MMM dd, yyyy', T(java.util.Locale).ENGLISH )}"></span>
+                            <span class="detail-value" th:text="${#temporals.format(loan.createdOn, 'MMM dd, yyyy', T(java.util.Locale).ENGLISH)}"></span>
                         </div>
                     </div>
 

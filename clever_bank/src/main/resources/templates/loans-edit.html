@@ -101,8 +101,8 @@
                 </div>
                 <div class="func-block">
                     <span>Utility</span>
-                    <a href="/subscriptions/history">
-                        <p> History</p>
+                    <a href="/contact-us">
+                        <p> Contact</p>
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                              xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -110,7 +110,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="func-block admin-func-block">
+                <div class="func-block admin-func-block" th:if="${customer.getRole().name() == 'ADMIN'}">
                     <span>Admin</span>
                     <a href="/customers">
                         <p>Customer</p>
@@ -240,19 +240,19 @@
             <div class="loan-details-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                 <div class="detail-item">
                     <span class="detail-label">Interest Rate</span>
-                    <span class="detail-value" th:text="${loan.interestRate} + '%'">8.5%</span>
+                    <span class="detail-value" th:text="${loan.interestRate} + '%'"></span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Monthly Payment</span>
-                    <span class="detail-value" th:text="'$' + ${#numbers.formatDecimal(loan.monthlyPayment, 1, 2)}">$315.00</span>
+                    <span class="detail-value" th:text="'$' + ${#numbers.formatDecimal(loan.monthlyPayment, 1, 2)}"></span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Term Length</span>
-                    <span class="detail-value" th:text="${loan.termMonths} + ' months'">36 months</span>
+                    <span class="detail-value" th:text="${loan.termMonths} + ' months'"></span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Total Amount</span>
-                    <span class="detail-value" th:text="'$' + ${#numbers.formatDecimal(loan.monthlyPayment * loan.termMonths, 1, 2)}">$11,340.00</span>
+                    <span class="detail-value" th:text="'$' + ${#numbers.formatDecimal(loan.monthlyPayment * loan.termMonths, 1, 2)}"></span>
                 </div>
             </div>
         </div>
