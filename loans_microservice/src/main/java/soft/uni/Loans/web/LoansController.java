@@ -11,14 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import soft.uni.Loans.model.LoanStatus;
 import soft.uni.Loans.service.LoansService;
 import soft.uni.Loans.web.dto.LoanRequest;
 import soft.uni.Loans.web.dto.LoanResponse;
 
 import java.util.List;
 import java.util.UUID;
-
-import static org.springframework.http.HttpStatus.CREATED;
 
 
 @Slf4j
@@ -61,6 +60,8 @@ public class LoansController {
                 .ok(response);
     }
 
+
+
    @PutMapping("/{loanId}")
    public ResponseEntity <LoanResponse> updateLoan(@PathVariable UUID loanId, @RequestBody LoanRequest loanRequest){
 
@@ -80,6 +81,14 @@ public class LoansController {
        return ResponseEntity
                .noContent()
                .build();
+   }
+
+   @PatchMapping("/{loanId}/status")
+   public ResponseEntity<LoanResponse> updateLoanStatus(@PathVariable UUID loanId, @RequestParam LoanStatus status) {
+
+       log.info("Received request to update loan status: {} to {}", loanId, status);
+       LoanResponse response = loansService.updateLoanStatus(loanId, status);
+       return ResponseEntity.ok(response);
    }
 
 }

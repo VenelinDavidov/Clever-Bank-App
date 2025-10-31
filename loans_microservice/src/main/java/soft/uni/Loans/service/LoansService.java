@@ -1,7 +1,6 @@
 package soft.uni.Loans.service;
 
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -37,8 +36,9 @@ public class LoansService {
     }
 
 
-    @Transactional
+
     public LoanResponse createLoan(@Valid LoanRequest loanRequest) {
+
 
         log.info("Creating loan for customer: {} {}",loanRequest.getFirstName(), loanRequest.getLastName());
 
@@ -57,7 +57,7 @@ public class LoansService {
     }
 
 
-    @Transactional
+
     public List <LoanResponse> getLoansByCustomerId(UUID customerId) {
         log.info("Fetching loans for customer ID: {}", customerId);
         List <Loans> loans = loansRepository.findByCustomerId (customerId);
@@ -68,7 +68,7 @@ public class LoansService {
     }
 
 
-    @Transactional
+
     public LoanResponse getLoanById(UUID loanId) {
 
         log.info ("Fetching loan by ID: {}", loanId);
@@ -79,7 +79,7 @@ public class LoansService {
 
 
 
-    @Transactional
+
     public LoanResponse updateLoan(UUID loanId, LoanRequest loanRequest) {
 
         log.info ("Updating loan with ID: {}", loanId);
@@ -107,6 +107,23 @@ public class LoansService {
                                        .orElseThrow (() -> new RuntimeException ("Loan nod fount with ID: " + loanId));
         loansRepository.delete (loans);
         log.info ("Loan deleted successfully with ID: {}", loanId);
+    }
+
+
+
+
+
+    public LoanResponse updateLoanStatus(UUID loanId,  LoanStatus status) {
+        log.info ("Updating loan status for ID: {} to {}", loanId, status);
+
+        Loans loans = loansRepository.findById (loanId)
+                .orElseThrow (() -> new RuntimeException ("Loan not found with ID: " + loanId));
+        loans.setLoanStatus (status);
+        loans.setUpdatedOn (LocalDateTime.now ());
+
+        loansRepository.save (loans);
+        log.info ("Loan status updated successfully with ID: {}", loanId);
+        return LoansDtoMapper.mapToResponse (loans);
     }
 }
 
