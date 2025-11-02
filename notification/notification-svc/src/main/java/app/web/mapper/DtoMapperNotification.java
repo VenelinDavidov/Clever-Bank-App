@@ -22,6 +22,8 @@ public class DtoMapperNotification {
         };
     }
 
+
+
      // Entity to Dto
     public static NotificationPreferenceResponse fromNotificationPreferenceToNotificationPreferenceResponse(NotificationPreference entity) {
 

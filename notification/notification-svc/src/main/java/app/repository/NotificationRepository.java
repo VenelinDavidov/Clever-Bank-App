@@ -17,4 +17,12 @@ import java.util.UUID;
 public interface NotificationRepository extends JpaRepository<Notification, UUID> {
 
 
+    @Query("""
+            SELECT n FROM Notification n WHERE n.customerId = :customerId AND n.deleted = false
+            """)
+    List<Notification> findAllByCustomerIdAndDeletedIsFalse(UUID customerId);
+
+    List<Notification> findByCustomerIdAndStatus(UUID customerId, NotificationStatus status);
+
 }
+

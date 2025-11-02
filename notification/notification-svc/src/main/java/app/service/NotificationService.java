@@ -15,6 +15,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -116,5 +117,69 @@ public class NotificationService {
         }
 
         return notificationRepository.save (notification);
+    }
+
+
+
+    public List<Notification> getNotificationHistory(UUID customerId) {
+
+        return notificationRepository.findAllByCustomerIdAndDeletedIsFalse (customerId);
+    }
+
+
+
+
+    public NotificationPreference changeNotificationPreference(UUID customerId, boolean enabled) {
+
+        NotificationPreference preferenceByCustomerId = getNotificationPreferenceByUserId(customerId);
+        preferenceByCustomerId.setEnabled(enabled);
+        return preferenceRepository.save(preferenceByCustomerId);
+    }
+
+
+
+
+    public void clearNotifications(UUID customerId) {
+
+        List <Notification> notifications = getNotificationHistory(customerId);
+
+        notifications.forEach(notification -> {
+            notification.setDeleted(true);
+            notificationRepository.save(notification);
+        });
+    }
+
+
+    // Retry failed notifications
+    public void retryNotificationsFailed(UUID customerId) {
+
+        NotificationPreference customerPreference = getNotificationPreferenceByUserId (customerId);
+
+        if (!customerPreference.isEnabled ()){
+            throw new IllegalArgumentException("Notification is disabled for customer: " + customerId);
+        }
+
+        List <Notification> failedNotifications = notificationRepository.findByCustomerIdAndStatus (customerId, NotificationStatus.FAILED);
+
+        failedNotifications = failedNotifications
+                                                .stream ()
+                                                .filter (notification -> !notification.isDeleted ()).toList ();
+
+        for (Notification notification : failedNotifications) {
+            SimpleMailMessage message = new SimpleMailMessage();
+                  message.setTo(customerPreference.getContactInfo());
+                  message.setSubject(notification.getSubject());
+                  message.setText(notification.getBody());
+
+            try {
+                mailSender.send (message);
+                notification.setStatus (NotificationStatus.SUCCEEDED);
+            }catch (Exception e){
+                notification.setStatus (NotificationStatus.FAILED);
+                log.warn ("There was an issue sending an email to %s due to %s.".formatted(customerPreference.getContactInfo(), e.getMessage()));
+            }
+
+            notificationRepository.save (notification);
+        }
     }
 }
