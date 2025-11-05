@@ -14,7 +14,6 @@ public class NotificationPreferenceResponse {
 
     private UUID customerId;
 
-
     private NotificationType type;
 
     private boolean enabled;

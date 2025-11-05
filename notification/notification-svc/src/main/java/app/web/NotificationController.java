@@ -15,12 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/notifications")
+@RequestMapping("/api/v2/notifications")
 @Tag(name = "Notification", description = "Operations related to notifications")
 public class NotificationController {
 
@@ -75,11 +76,11 @@ public class NotificationController {
     @GetMapping
     public ResponseEntity <List <NotificationResponse>> getNotificationHistory (@RequestParam (name = "customerId") UUID customerId){
 
-        List<NotificationResponse> notificationHistory =
-                notificationService.getNotificationHistory(customerId)
-                                     .stream()
-                                     .map(DtoMapperNotification::fromNotificationToNotificationResponse)
-                                     .collect(Collectors.toList());
+        List<NotificationResponse> notificationHistory = notificationService.getNotificationHistory(customerId)
+                                                                             .stream()
+                                                                             .map(DtoMapperNotification::fromNotificationToNotificationResponse)
+                                                                             .sorted(Comparator.comparing(NotificationResponse::getCreatedOn).reversed())
+                                                                             .collect(Collectors.toList());
 
         return ResponseEntity
                 .status (HttpStatus.OK)
@@ -91,8 +92,7 @@ public class NotificationController {
 
 
     @PutMapping("/preferences")
-    public ResponseEntity <NotificationPreferenceResponse> changeNotification(
-                                                                               @RequestParam (name = "customerId") UUID customerId,
+    public ResponseEntity <NotificationPreferenceResponse> changeNotification( @RequestParam (name = "customerId") UUID customerId,
                                                                                @RequestParam(name = "enabled") boolean enabled) {
 
         NotificationPreference preference = notificationService.changeNotificationPreference(customerId, enabled);

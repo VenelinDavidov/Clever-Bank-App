@@ -92,7 +92,6 @@ public class NotificationService {
         }
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("venelin.davidov@gmail.com");
         message.setTo(customerPreference.getContactInfo());
         message.setSubject(notificationRequest.getSubject());
         message.setText(notificationRequest.getBody());
@@ -121,9 +120,11 @@ public class NotificationService {
 
 
 
+
+
     public List<Notification> getNotificationHistory(UUID customerId) {
 
-        return notificationRepository.findAllByCustomerIdAndDeletedIsFalse (customerId);
+        return notificationRepository.findAllByCustomerIdAndDeletedIsFalseOrderByCreatedOnDesc (customerId);
     }
 
 
@@ -139,6 +140,8 @@ public class NotificationService {
 
 
 
+
+
     public void clearNotifications(UUID customerId) {
 
         List <Notification> notifications = getNotificationHistory(customerId);
@@ -148,6 +151,8 @@ public class NotificationService {
             notificationRepository.save(notification);
         });
     }
+
+
 
 
     // Retry failed notifications

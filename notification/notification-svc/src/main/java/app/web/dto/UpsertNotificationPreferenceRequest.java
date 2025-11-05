@@ -16,7 +16,7 @@ public class UpsertNotificationPreferenceRequest {
 
     private boolean notificationEnabled;
 
-    @NotNull
+
     private NotificationTypeRequest type;
 
 
