@@ -8,6 +8,7 @@ import app.customer.model.UserRole;
 import app.customer.repository.CustomerRepository;
 import app.exception.CustomerAlreadyExistException;
 import app.exception.DomainException;
+import app.notification.service.NotificationService;
 import app.security.AuthenticationMetadataDetails;
 import app.subscription.model.Subscription;
 import app.subscription.service.SubscriptionService;
@@ -44,6 +45,7 @@ public class CustomerService implements UserDetailsService {
     private final SubscriptionService subscriptionService;
     private final CardService cardService;
     private final PasswordEncoder passwordEncoder;
+    private final NotificationService notificationService;
 
 
 
@@ -53,12 +55,14 @@ public class CustomerService implements UserDetailsService {
                            PocketService pocketService,
                            SubscriptionService subscriptionService,
                            PasswordEncoder passwordEncoder,
-                           CardService cardService) {
+                           CardService cardService,
+                           NotificationService notificationService) {
         this.customerRepository = customerRepository;
         this.pocketService = pocketService;
         this.subscriptionService = subscriptionService;
         this.passwordEncoder = passwordEncoder;
         this.cardService = cardService;
+        this.notificationService = notificationService;
     }
 
 
@@ -83,6 +87,8 @@ public class CustomerService implements UserDetailsService {
 
         Cards cards = cardService.createDefaultCard (customer);
         customer.setCards (List.of (cards));
+
+        notificationService.saveNotificationPreference (customer.getId (), false, null);
 
         log.info (CREATE_CUSTOMER_MESSAGE.formatted (customer.getUsername (), customer.getId ()));
 
@@ -165,6 +171,12 @@ public class CustomerService implements UserDetailsService {
         customer.setPhoneNumber (customerEditRequest.getPhoneNumber ());
         customer.setEmail (customerEditRequest.getEmail ());
         customer.setAddress (customerEditRequest.getAddress ());
+
+        if (!customerEditRequest.getEmail ().isEmpty ()){
+            notificationService.saveNotificationPreference (customer.getId (), true, customerEditRequest.getEmail ());
+        } else {
+            notificationService.saveNotificationPreference (customer.getId (), false, null);
+        }
 
         customerRepository.save (customer);
 

@@ -3,6 +3,7 @@ package app.transaction.service;
 import app.bills_utility.model.Bill;
 import app.customer.model.Customer;
 import app.exception.DomainException;
+import app.notification.service.NotificationService;
 import app.pocket.model.Pocket;
 import app.transaction.model.TransactionStatus;
 import app.transaction.model.TransactionType;
@@ -32,11 +33,14 @@ import java.util.stream.Collectors;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final NotificationService notificationService;
 
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(TransactionRepository transactionRepository,
+                              NotificationService notificationService) {
         this.transactionRepository = transactionRepository;
+        this.notificationService = notificationService;
     }
 
 
@@ -128,6 +132,9 @@ public class TransactionService {
                 .reasonFailed (s)
                 .createdOn (LocalDateTime.now ())
                 .build ();
+
+        String body = "%s transaction was successful processed for you with amount %.2f USD!".formatted (transactions.getType (), transactions.getAmount ());
+        notificationService.sendNotification (transactions.getCustomer().getId(), "Clever_Bank Transaction", body);
 
         return transactionRepository.save (transactions);
     }
