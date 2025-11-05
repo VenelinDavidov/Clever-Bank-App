@@ -134,7 +134,7 @@ public class TransactionService {
                 .build ();
 
         String body = "%s transaction was successful processed for you with amount %.2f USD!".formatted (transactions.getType (), transactions.getAmount ());
-        notificationService.sendNotification (transactions.getCustomer().getId(), "Clever_Bank Transaction", body);
+        notificationService.sendNotification (transactions.getCustomer().getId(), "$ Clever-Bank Transaction", body);
 
         return transactionRepository.save (transactions);
     }

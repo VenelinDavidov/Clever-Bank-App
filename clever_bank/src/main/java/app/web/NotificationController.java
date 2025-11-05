@@ -9,13 +9,11 @@ import app.security.AuthenticationMetadataDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Controller
@@ -67,8 +65,6 @@ public class NotificationController {
 
 
 
-
-
     @PutMapping("/customer-preference")
     public String updateCustomerPreference(@RequestParam(name="enabled") boolean enabled, @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr){
 
@@ -76,4 +72,28 @@ public class NotificationController {
 
      return "redirect:/notifications";
     }
+
+
+
+    @DeleteMapping
+    public String deleteNotificationHistory(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr){
+
+        UUID customerId = authenticationMetadataPr.getCustomerId ();
+
+        notificationService.clearNotificationHistory (customerId);
+
+        return "redirect:/notifications";
+    }
+
+
+    @PutMapping()
+    public String retryFailedNotifications(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr){
+
+        UUID customerId = authenticationMetadataPr.getCustomerId ();
+
+        notificationService.retryFailedNotifications (customerId);
+
+        return "redirect:/notifications";
+    }
+
 }

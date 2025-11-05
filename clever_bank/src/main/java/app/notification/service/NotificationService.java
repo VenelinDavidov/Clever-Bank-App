@@ -1,6 +1,7 @@
 package app.notification.service;
 
 
+import app.exception.NotificationServiceFeignCallException;
 import app.notification.client.NotificationClient;
 import app.notification.client.dto.NotificationPreferenceResponse;
 import app.notification.client.dto.NotificationRequest;
@@ -109,5 +110,29 @@ public class NotificationService {
         } catch (Exception e){
             log.error ("Can't send notification for user with id = [%s].".formatted(customerId));
         }
+    }
+
+
+
+    public void clearNotificationHistory(UUID customerId) {
+
+        try {
+            notificationClient.clearNotificationHistory (customerId);
+        } catch (Exception e){
+            log.error ("Can't clear notification history for user with id = [%s].".formatted(customerId));
+            throw new NotificationServiceFeignCallException (clearHistoryFailedMessage);
+        }
+    }
+
+
+    public void retryFailedNotifications(UUID customerId) {
+
+        try {
+            notificationClient.retryFailedNotifications (customerId);
+        } catch (Exception e){
+            log.error ("Can't retry failed notifications for user with id = [%s].".formatted(customerId));
+            throw new NotificationServiceFeignCallException (clearHistoryFailedMessage);
+        }
+
     }
 }
