@@ -14,6 +14,7 @@ import app.subscription.model.Subscription;
 import app.subscription.service.SubscriptionService;
 import app.pocket.model.Pocket;
 import app.pocket.service.PocketService;
+import app.transaction.repository.TransactionRepository;
 import app.web.dto.CustomerEditRequest;
 import app.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
@@ -28,6 +29,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +51,6 @@ public class CustomerService implements UserDetailsService {
 
 
 
-
     @Autowired
     public CustomerService(CustomerRepository customerRepository,
                            PocketService pocketService,
@@ -63,6 +64,7 @@ public class CustomerService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
         this.cardService = cardService;
         this.notificationService = notificationService;
+
     }
 
 
@@ -210,7 +212,6 @@ public class CustomerService implements UserDetailsService {
 
         customerRepository.save (customer);
     }
-
 
 }
 

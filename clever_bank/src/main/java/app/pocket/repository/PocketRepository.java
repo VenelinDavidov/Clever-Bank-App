@@ -3,6 +3,7 @@ package app.pocket.repository;
 import app.pocket.model.Pocket;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -18,6 +19,10 @@ public interface PocketRepository extends JpaRepository <Pocket, UUID> {
     Optional <Pocket> findByIdAndCustomerId(UUID pocketId, UUID customerId);
 
 
-
+    @Query("""
+        SELECT p FROM Pocket p 
+        WHERE p.status = app.pocket.model.PocketStatus.ACTIVE
+        """)
+    List<Pocket> findAllActivePockets();
 }
 

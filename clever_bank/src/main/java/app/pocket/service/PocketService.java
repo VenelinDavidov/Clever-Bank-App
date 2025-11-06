@@ -43,6 +43,7 @@ public class PocketService {
                          TransactionService transactionService) {
         this.pocketRepository = walletRepository;
         this.transactionService = transactionService;
+
     }
 
 
@@ -235,19 +236,6 @@ public class PocketService {
 
 
 
-//        Transactions senderTransaction = transactionService.createNewTransaction (
-//                 customer,
-//                 customer.getUsername (),
-//                 transferResultRequest.getUsername (),
-//                 transferResultRequest.getAmount (),
-//                 pocketSender.getBalance (),
-//                 pocketSender.getCurrency (),
-//                 TransactionType.WITHDRAWAL,
-//                 TransactionStatus.SUCCEEDED,
-//                 descriptionInformation,
-//                 "Success transfer!"
-//        );
-
 
         Customer receiverCustomer = receiverPocket.getCustomer ();
         String descriptionReceiver = "Received from " + customer.getUsername () + " with amount " + transferResultRequest.getAmount ();
@@ -344,4 +332,33 @@ public class PocketService {
     }
 
 
+   // monthly fee scheduler
+    private static final BigDecimal MONTHLY_FEE = BigDecimal.valueOf(2.00);
+
+    public void applyMonthlyFees() {
+
+        List <Pocket> pockets = pocketRepository.findAllActivePockets();
+
+
+        for (Pocket pocket : pockets) {
+            pocket.setBalance (pocket.getBalance ().subtract (MONTHLY_FEE));
+            pocket.setUpdatedOn (LocalDateTime.now ());
+
+            pocketRepository.saveAll (pockets);
+
+            transactionService.createNewTransaction (
+                    pocket.getCustomer (),
+                    pocket.getId ().toString (),
+                    CLEVER_BANK_LTD,
+                    MONTHLY_FEE,
+                    pocket.getBalance (),
+                    pocket.getCurrency (),
+                    TransactionType.WITHDRAWAL,
+                    TransactionStatus.SUCCEEDED,
+                    "Monthly fee applied",
+                    "Clever Bank withdraw on your pocket with monthly fee"
+            );
+        }
+
+    }
 }
