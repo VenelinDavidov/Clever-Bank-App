@@ -88,7 +88,7 @@ public class NotificationService {
         NotificationPreference customerPreference = getNotificationPreferenceByUserId (customerId);
 
         if (!customerPreference.isEnabled ()){
-            throw new IllegalArgumentException("Notification is disabled for user: " + customerId);
+            throw new IllegalArgumentException("Notification is disabled for customer: " + customerId);
         }
 
         SimpleMailMessage message = new SimpleMailMessage();

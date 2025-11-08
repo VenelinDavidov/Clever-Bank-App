@@ -24,5 +24,6 @@ public interface NotificationRepository extends JpaRepository<Notification, UUID
 
     List<Notification> findByCustomerIdAndStatus(UUID customerId, NotificationStatus status);
 
+    Optional<Notification> findByCustomerId(UUID customerId);
 }
 
