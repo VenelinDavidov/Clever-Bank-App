@@ -47,6 +47,8 @@ public class IndexController {
         return "index";
     }
 
+
+
     @GetMapping("/contact-us")
     public String getContactUsPage() {
 

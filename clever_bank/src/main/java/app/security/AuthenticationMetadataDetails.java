@@ -28,9 +28,7 @@ public class AuthenticationMetadataDetails implements UserDetails {
 
 
 
-    /**
-     * @return
-     */
+
     @Override
     public Collection <? extends GrantedAuthority> getAuthorities() {
 

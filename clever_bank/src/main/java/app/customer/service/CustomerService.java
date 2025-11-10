@@ -91,7 +91,6 @@ public class CustomerService implements UserDetailsService {
         customer.setCards (List.of (cards));
 
         notificationService.saveNotificationPreference (customer.getId (), false, null);
-
         log.info (CREATE_CUSTOMER_MESSAGE.formatted (customer.getUsername (), customer.getId ()));
 
         return customer;
@@ -120,10 +119,7 @@ public class CustomerService implements UserDetailsService {
 
     // Retrieve customer by id
     public Customer getById(UUID uuid) {
-
-        return customerRepository.findById (uuid)
-                .orElseThrow (() -> new DomainException ("Customer with id %s not found"
-                        .formatted (uuid), HttpStatus.BAD_REQUEST));
+        return customerRepository.findById (uuid).orElseThrow (() -> new DomainException ("Customer with id %s not found".formatted (uuid), HttpStatus.BAD_REQUEST));
     }
 
 
@@ -138,13 +134,13 @@ public class CustomerService implements UserDetailsService {
 
 
 
-    //  everytime after login from user, spring security will call this method
+    // everytime after login from user, spring security will call this method
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Customer customer = customerRepository.findByUsername (username)
-                .orElseThrow (() -> new DomainException ("User with username=[%s] does not exist."
-                        .formatted (username), HttpStatus.BAD_REQUEST));
+                                               .orElseThrow (() -> new DomainException ("User with username=[%s] does not exist."
+                                               .formatted (username), HttpStatus.BAD_REQUEST));
 
         return new AuthenticationMetadataDetails (
                 customer.getId (),
