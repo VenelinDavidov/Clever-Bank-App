@@ -163,10 +163,14 @@
     <div class="single-section-box home-standard-wallet">
       <div class="default-label-box">
         <p >Standard Pocket</p>
-        <p th:text="${customer.wallets[0].status}" th:classappend="${customer.wallets[0].status == 'ACTIVE' ? 'inactive-wallet-status' : 'active-wallet-status'}"  class="active-wallet-status"></p>
+        <span th:class="${
+    customer != null and customer.wallets != null and !customer.wallets.isEmpty() and customer.wallets[0].status == 'ACTIVE'
+        ? 'inactive-wallet-status'
+        : 'active-wallet-status'}">
+      </span>
       </div>
       <div class="wallet-balance">
-        <p th:text="${customer.wallets[0].balance + ' USD'} " class="balance">18.07 EUR</p>
+        <p th:text="${customer.wallets[0].balance + ' USD'} " class="balance"></p>
         <p class="available-balance-text">💳 Available Balance</p>
       </div>
       <a class="profile-actions-button" th:href="@{/pockets}">

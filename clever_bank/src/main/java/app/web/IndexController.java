@@ -104,6 +104,7 @@ public class IndexController {
 
 
 
+
     // Get home page and view all page
     @GetMapping("/home")
     public ModelAndView getHomePage (@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr) {

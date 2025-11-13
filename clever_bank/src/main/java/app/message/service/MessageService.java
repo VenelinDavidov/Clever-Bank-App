@@ -24,12 +24,6 @@ public class MessageService {
 
     public void  saveMessageForService(SendMessageRequest sendMessageRequest){
 
-//        Message message = new Message();
-//        message.setName(sendMessageRequest.getName());
-//        message.setEmail(sendMessageRequest.getEmail());
-//        message.setSubject(sendMessageRequest.getSubject());
-//        message.setMessage(sendMessageRequest.getMessage());
-
         Message message = Message.builder ()
                 .name (sendMessageRequest.getName ())
                 .email (sendMessageRequest.getEmail ())
