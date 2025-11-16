@@ -108,4 +108,56 @@ public class LoansControllerApiTest {
                 .andExpect(redirectedUrl("/loans"))
                 .andExpect(flash().attributeExists("successMessage"));
     }
+
+
+    @Test
+    void givenAuthenticatedRequestToLoansEditFormEndpoint_whenInvokeShowEditForm_thenShowEditForm() throws Exception {
+
+        UUID customerId = UUID.randomUUID();
+        UUID loanId = UUID.randomUUID();
+
+        AuthenticationMetadataDetails principal = new AuthenticationMetadataDetails(
+                customerId,
+                "Venko123", "Venelin7",
+                UserRole.ADMIN, true,
+                LocalDateTime.now(), LocalDateTime.now()
+        );
+
+        Customer customer = new Customer();
+        customer.setId(customerId);
+        customer.setUsername ("Venko123");
+        customer.setFirstName("Venelin");
+        customer.setRole(UserRole.ADMIN);
+
+
+        LoanResponse loan = new LoanResponse();
+        loan.setLoanId(loanId);
+        loan.setCustomerId (customerId);
+        loan.setMonthlyPayment(BigDecimal.valueOf(100));
+        loan.setTermMonths(12);
+        loan.setAmount(BigDecimal.valueOf(1200));
+        loan.setInterestRate(BigDecimal.valueOf(5));
+
+        LoanRequest loanRequest = new LoanRequest ();
+        loanRequest.setCustomerId (loan.getCustomerId());
+        loanRequest.setAmount(BigDecimal.valueOf(1200));
+
+
+        when(customerService.getById(customerId)).thenReturn(customer);
+        when(loansService.getLoan (loanId)).thenReturn(loan);
+        when (loansService.builderLoan (loan)).thenReturn(loanRequest);
+
+        mockMvc.perform(get("/loans/edit/{loanId}",loanId)
+                        .with(authentication(new UsernamePasswordAuthenticationToken(
+                                principal, null, List.of(() -> "ROLE_ADMIN")
+                        )))
+                        .with(csrf()))
+
+                .andExpect(status().isOk())
+                .andExpect(view().name("loans-edit"))
+                .andExpect(model().attributeExists("loanRequest"))
+                .andExpect(model().attribute("customer", customer))
+                .andExpect(model().attribute("loan", loan));
+
+    }
 }
