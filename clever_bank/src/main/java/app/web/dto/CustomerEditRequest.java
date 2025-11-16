@@ -1,19 +1,24 @@
 package app.web.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class CustomerEditRequest {
 
+    @NotBlank
     @Size( max = 30, message = "First name must be 30 character!")
     private String firstName;
 
+    @NotBlank
     @Size( max = 30, message = "Last name must be 30 character!")
     private String lastName;
 
@@ -28,4 +33,10 @@ public class CustomerEditRequest {
 
     @Size( max = 250, message = "Address must be 250 character!")
     private String address;
+
+
+
+    public CustomerEditRequest() {
+
+    }
 }

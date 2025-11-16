@@ -29,6 +29,8 @@ public class LoansController {
     private final LoansServiceImpl loansService;
     private final CustomerService customerService;
 
+
+
     @Autowired
     public LoansController(LoansServiceImpl loansService,
                            CustomerService customerService) {
@@ -46,16 +48,11 @@ public class LoansController {
         Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
 
         ModelAndView modelAndView = new ModelAndView("loans");
+
         modelAndView.addObject("loanRequest", new LoanRequest());
         modelAndView.addObject ("customer", customer);
+        modelAndView.addObject ("loans", loansService.getLoansByCustomerId (customer.getId ()));
 
-        try {
-            List <LoanResponse> loansByCustomerId = loansService.getLoansByCustomerId (customer.getId ());
-            modelAndView.addObject ("loans", loansByCustomerId);
-        } catch (Exception e) {
-            log.error ("Error getting loans for customer: {}", customer.getId (), e);
-            modelAndView.addObject ("loans", List.of ());
-        }
         return modelAndView;
     }
 
@@ -70,18 +67,13 @@ public class LoansController {
 
        Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
        loanRequest.setCustomerId (customer.getId ());
-       LoanResponse response = null;
+       LoanResponse response = loansService.createLoan(loanRequest);
+       redirectAttributes.addFlashAttribute("successMessage", "Loan created successfully! Loan ID: " + response.getLoanId());
 
-        try {
-            response = loansService.createLoan (loanRequest);
-            redirectAttributes.addFlashAttribute ("successMessage", "Loan created successfully! Loan ID: " + response.getLoanId ());
-
-        }catch (Exception e) {
-           log.error ("Error creating loan: ", e);
-           redirectAttributes.addFlashAttribute ("errorMessage", "Failed to create loan: " + e.getMessage ());
-        }
        return new ModelAndView("redirect:/loans");
    }
+
+
 
 
 
@@ -111,19 +103,27 @@ public class LoansController {
                                    @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
                                                             RedirectAttributes redirectAttributes){
 
-       try {
-           ModelAndView modelAndView = new ModelAndView ("loans-edit");
-           Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
-           loanRequest.setCustomerId (customer.getId ());
-           loansService.updateLoan (loanId, loanRequest);
-           redirectAttributes.addFlashAttribute ("successMessage", "Loan update successfully!");
-           return new ModelAndView("redirect:/loans");
+       Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
+       loanRequest.setCustomerId (customer.getId ());
+       loansService.updateLoan (loanId, loanRequest);
+       redirectAttributes.addFlashAttribute ("successMessage", "Loan update successfully!");
 
-       }catch (Exception e){
-           log.error ("Error updating loan: ", e);
-           redirectAttributes.addFlashAttribute ("errorMessage", "Failed to update loan: " + e.getMessage ());
+       return new ModelAndView("redirect:/loans");
 
-           return new ModelAndView("redirect:/loans");
+       }
+
+
+
+
+
+    @PostMapping("/delete/{loanId}")
+    public String deleteLoan(@PathVariable UUID loanId,
+                             @AuthenticationPrincipal AuthenticationMetadataDetails auth,
+                             RedirectAttributes redirectAttributes) {
+
+        loansService.deleteLoan(loanId);
+        redirectAttributes.addFlashAttribute("successMessage", "Loan deleted successfully!");
+        return "redirect:/loans";
        }
    }
 
@@ -132,19 +132,3 @@ public class LoansController {
 
 
 
-   @PostMapping("/delete/{loanId}")
-   public String deleteLoan (@PathVariable UUID loanId,
-                             @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
-                             RedirectAttributes redirectAttributes){
-
-        try {
-            loansService.deleteLoan (loanId);
-            redirectAttributes.addFlashAttribute ("successMessage", "Loan deleted successFully!");
-        }catch (Exception e){
-            log.error ("Error deleting loan: ", e);
-           redirectAttributes.addFlashAttribute ("errorMessage", "Failed to delete loan: " + e.getMessage ());
-        }
-
-       return "redirect:/loans";
-   }
-}

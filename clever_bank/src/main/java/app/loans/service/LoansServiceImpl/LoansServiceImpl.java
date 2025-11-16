@@ -43,7 +43,12 @@ public class LoansServiceImpl {
     public LoanResponse createLoan(@Valid LoanRequest loanRequest) {
       log.info ("Creating loan for customer: {}", loanRequest.getCustomerId ());
 
-        return loansClient.createLoan(loanRequest);
+        try {
+            return loansClient.createLoan(loanRequest);
+        } catch (Exception e) {
+            log.error("Error creating loan for customer: {}", loanRequest.getCustomerId(), e);
+            throw new RuntimeException("Error creating loan: " + e.getMessage());
+        }
     }
 
 

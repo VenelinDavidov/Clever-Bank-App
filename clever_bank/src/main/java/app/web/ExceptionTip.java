@@ -2,6 +2,7 @@ package app.web;
 
 import app.exception.CustomerAlreadyExistException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,12 +21,13 @@ public class ExceptionTip {
     public String handleExceptionCustomerAlreadyExist(RedirectAttributes redirectAttributes,
                                                       CustomerAlreadyExistException exception) {
 
-
         String message = exception.getMessage ();
         redirectAttributes.addFlashAttribute ("errorMessage", message);
 
         return "redirect:/register";
     }
+
+
 
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -34,7 +36,8 @@ public class ExceptionTip {
                     AccessDeniedException.class,
                     NoResourceFoundException.class,
                     MethodArgumentTypeMismatchException.class,
-                    MissingRequestValueException.class
+                    MissingRequestValueException.class,
+                    AuthorizationDeniedException.class
             })
     public ModelAndView handleNotFoundException() {
 
