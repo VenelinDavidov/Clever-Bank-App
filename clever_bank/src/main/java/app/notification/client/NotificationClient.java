@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(name = "notification-service", url = "${notification-service.base-url}")
+@FeignClient(name = "notification-ms", url = "${notification-ms.base-url}")
 public interface NotificationClient {
 
     @PostMapping("/preferences")

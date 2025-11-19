@@ -14,20 +14,22 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collection;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(LoansController.class)
@@ -159,5 +161,68 @@ public class LoansControllerApiTest {
                 .andExpect(model().attribute("customer", customer))
                 .andExpect(model().attribute("loan", loan));
 
+    }
+
+    @Test
+    void givenAuthenticatedCustomerRequestToLoansUpdatedLoan_whenInvokeUpdateLoan_thenUpdateLoan() throws Exception {
+
+        UUID customerId = UUID.randomUUID();
+        UUID loanId = UUID.randomUUID();
+
+        AuthenticationMetadataDetails principal = new AuthenticationMetadataDetails(
+                customerId,
+                "Venko123", "Venelin7",
+                UserRole.ADMIN, true,
+                LocalDateTime.now(), LocalDateTime.now()
+        );
+
+        Customer customer = new Customer();
+        customer.setId(customerId);
+
+        LoanResponse loan = new LoanResponse();
+        loan.setLoanId(loanId);
+
+        LoanRequest loanRequest = new LoanRequest();
+        loanRequest.setCustomerId (customerId);
+
+        when(customerService.getById(customerId)).thenReturn(customer);
+        when(loansService.updateLoan(eq(loanId), any(LoanRequest.class))).thenReturn(loan);
+
+        mockMvc.perform(post("/loans/update/{loanId}", loanId)
+                        .with(authentication(new UsernamePasswordAuthenticationToken(
+                                principal, null, List.of(() -> "ROLE_ADMIN")
+                        )))
+                        .with(csrf())
+                        .param("customerId", customerId.toString()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/loans"))
+                .andExpect(flash().attributeExists("successMessage"));
+
+    }
+
+
+    @Test
+    void givenAuthenticatedRequestToDeleteLoan_whenInvokeDeleteLoan_thenDeleteLoan() throws Exception {
+
+        UUID loanId = UUID.randomUUID();
+        UUID customerId = UUID.randomUUID();
+
+        AuthenticationMetadataDetails principal = new AuthenticationMetadataDetails(
+                customerId,
+                "Venko123", "Venelin7",
+                UserRole.ADMIN, true,
+                LocalDateTime.now(), LocalDateTime.now()
+        );
+
+        mockMvc.perform(post("/loans/delete/{loanId}", loanId)
+                        .with(authentication(new UsernamePasswordAuthenticationToken(
+                                principal, null, List.of(() -> "ROLE_ADMIN")
+                        )))
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/loans"))
+                .andExpect(flash().attribute("successMessage", "Loan deleted successfully!"));
+
+        verify(loansService, times(1)).deleteLoan(loanId);
     }
 }

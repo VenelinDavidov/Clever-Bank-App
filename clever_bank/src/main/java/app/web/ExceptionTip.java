@@ -1,6 +1,7 @@
 package app.web;
 
 import app.exception.CustomerAlreadyExistException;
+import app.exception.NotificationServiceFeignCallException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MissingRequestValueException;
@@ -17,6 +18,7 @@ import java.nio.file.AccessDeniedException;
 @ControllerAdvice
 public class ExceptionTip {
 
+
     @ExceptionHandler(CustomerAlreadyExistException.class)
     public String handleExceptionCustomerAlreadyExist(RedirectAttributes redirectAttributes,
                                                       CustomerAlreadyExistException exception) {
@@ -25,6 +27,18 @@ public class ExceptionTip {
         redirectAttributes.addFlashAttribute ("errorMessage", message);
 
         return "redirect:/register";
+    }
+
+
+    @ExceptionHandler(NotificationServiceFeignCallException.class)
+    public String handleNotificationRetryFailedException(NotificationServiceFeignCallException exception,
+                                                         RedirectAttributes redirectAttributes){
+
+        String message = exception.getMessage ();
+        redirectAttributes.addFlashAttribute ("errorMessage", message);
+
+        return "redirect:/notifications";
+
     }
 
 
@@ -43,6 +57,8 @@ public class ExceptionTip {
 
         return new ModelAndView ("not-found");
     }
+
+
 
 
 

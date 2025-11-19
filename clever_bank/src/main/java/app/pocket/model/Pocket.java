@@ -44,4 +44,17 @@ public class Pocket {
 
     @Column(nullable = false)
     private LocalDateTime updatedOn;
+
+
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        createdOn = now;
+        updatedOn = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedOn = LocalDateTime.now();
+    }
 }

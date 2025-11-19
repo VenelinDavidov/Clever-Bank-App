@@ -82,7 +82,7 @@ public class TransactionService {
 
 
 
-    public Transactions initializeNextPocket(Customer customer,String iban, String cleverBankLtd, String string,
+    public Transactions initializeNextPocket(Customer customer,String iban, String cleverBankLtd, String string,Pocket pocket,
                                      BigDecimal amount, BigDecimal balanceLeft, Currency currency,
                                      TransactionType transactionType, TransactionStatus transactionStatus,
                                      String descriptionInformation, String inactivePocket) {
@@ -94,6 +94,7 @@ public class TransactionService {
                 .iban (null)
                 .sender (cleverBankLtd)
                 .receiver (string)
+                .pocket (pocket)
                 .amount (amount)
                 .remainingBalance (balanceLeft)
                 .currency (currency)

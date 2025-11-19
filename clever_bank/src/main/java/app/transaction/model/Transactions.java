@@ -1,6 +1,7 @@
 package app.transaction.model;
 
 import app.customer.model.Customer;
+import app.pocket.model.Pocket;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,8 @@ public class Transactions {
     @ManyToOne
     private Customer customer;
 
+    @ManyToOne
+    private Pocket pocket;
 
     @Column
     private String iban;

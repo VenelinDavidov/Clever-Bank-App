@@ -139,10 +139,12 @@
 
                     <form th:action="@{/notifications}" th:method="PUT">
                     <button class="btn btn-retry">Retry Failed</button>
+
                     </form>
                 </div>
 
                 <p class="warning" th:text="${clearHistoryFailedMessage}"></p>
+                <p class="warning" th:if="${errorMessage}" th:text="${errorMessage}"></p>
                 <p class="note">Any action you take will affect your notification mechanism!</p>
             </div>
         </section>

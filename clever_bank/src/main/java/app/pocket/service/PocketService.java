@@ -142,7 +142,7 @@ public class PocketService {
     public Transactions deposit(UUID pocketId,  DepositRequest depositRequest, UUID customerId) {
 
         Optional <Pocket> pocketOptional = pocketRepository.findByIdAndCustomerId (pocketId, customerId);
-        String descriptionInformation = "Your deposit up to %.2f USD".formatted (depositRequest.getAmount ());
+        String descriptionInformation = "Your deposit up to %.2f USD. Congratulations!".formatted (depositRequest.getAmount ());
 
         if (pocketOptional.isEmpty ()) {
             throw new DomainException (POCKET_ID_NOT_FOUND_WITH_CUSTOMER_ID , HttpStatus.BAD_REQUEST);
@@ -162,6 +162,7 @@ public class PocketService {
                     depositRequest.getIban (),
                     CLEVER_BANK_LTD,
                     pocketId.toString (),
+                    pocket,
                     depositRequest.getAmount (),
                     pocket.getBalance (),
                     pocket.getCurrency (),
@@ -182,6 +183,7 @@ public class PocketService {
                 depositRequest.getIban (),
                 CLEVER_BANK_LTD,
                 pocketId.toString (),
+                pocket,
                 depositRequest.getAmount (),
                 pocket.getBalance (),
                 pocket.getCurrency (),

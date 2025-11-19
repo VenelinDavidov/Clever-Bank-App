@@ -1,0 +1,78 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: clever-bank-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Root
+      MYSQL_DATABASE: clever_bank
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pRoot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - clever-bank-network
+
+  loans-microservice:
+    image: venelindavidov/loans-ms:latest
+    container_name: loans-microservice-app
+    depends_on:
+      - mysql
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/clever_bank
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Root
+    ports:
+      - "8081:8081"
+    networks:
+      - clever-bank-network
+
+  notification-ms:
+    image: venelindavidov/notification-ms:latest
+    container_name: notification-ms-app
+    depends_on:
+      - mysql
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/clever_bank
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Root
+    ports:
+      - "8082:8082"
+    networks:
+      - clever-bank-network
+
+  clever-bank:
+    image: venelindavidov/clever-bank:latest
+    container_name: clever-bank-app
+    depends_on:
+      - mysql
+      - loans-microservice
+      - notification-ms
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/clever_bank
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Root
+
+      LOANS_SERVICE_HOST: loans-microservice
+      LOANS_SERVICE_PORT: 8081
+
+      NOTIFICATION_SERVICE_HOST: notification-ms
+      NOTIFICATION_SERVICE_PORT: 8082
+    ports:
+      - "8080:8080"
+    networks:
+      - clever-bank-network
+
+volumes:
+  mysql-data:
+
+networks:
+  clever-bank-network:
+    driver: bridge
