@@ -40,8 +40,8 @@ public class NotificationService {
     public NotificationPreference upsertNotificationPreference(UpsertNotificationPreferenceRequest upsertNotificationPreference) {
 
         log.info ("Upserting notification preference for user: {}", upsertNotificationPreference.getCustomerId ());
-        Optional <NotificationPreference> optionalUserNotificationPreference =
-                         preferenceRepository
+
+        Optional <NotificationPreference> optionalUserNotificationPreference = preferenceRepository
                         .findByCustomerId (upsertNotificationPreference.getCustomerId ());
 
         if (optionalUserNotificationPreference.isPresent ()){

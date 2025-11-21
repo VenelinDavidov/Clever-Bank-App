@@ -1,5 +1,6 @@
 package app.web;
 
+import app.exception.CardLimitExceededException;
 import app.exception.CustomerAlreadyExistException;
 import app.exception.NotificationServiceFeignCallException;
 import org.springframework.http.HttpStatus;
@@ -58,6 +59,15 @@ public class ExceptionTip {
         return new ModelAndView ("not-found");
     }
 
+
+
+
+    @ExceptionHandler(CardLimitExceededException.class)
+    public String handleCardLimitExceeded(CardLimitExceededException exception,
+                                          RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
+        return "redirect:/cards";
+    }
 
 
 

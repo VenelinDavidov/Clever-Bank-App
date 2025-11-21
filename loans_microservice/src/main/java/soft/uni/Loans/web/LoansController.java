@@ -1,5 +1,6 @@
 package soft.uni.Loans.web;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -19,7 +20,10 @@ import soft.uni.Loans.web.dto.LoanResponse;
 import java.util.List;
 import java.util.UUID;
 
-
+@Tag(
+        name = "CRUD REST APIs for Loans in Clever Bank",
+        description = "CRUD REST APIs in Clever Bank to CREATE, UPDATE, FETCH AND DELETE loan details"
+)
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/loans")
@@ -36,7 +40,9 @@ public class LoansController {
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List <LoanResponse>> getLoansByCustomer(@PathVariable UUID customerId) {
-        log.info("Received request to get loans for customer: {}", customerId);
+
+
+        logger.info("Received request to get loans for customer: {}", customerId);
         List<LoanResponse> responses = loansService.getLoansByCustomerId(customerId);
         return ResponseEntity.ok(responses);
     }
@@ -44,7 +50,7 @@ public class LoansController {
 
     @PostMapping
     public ResponseEntity <LoanResponse> createLoan (@Valid @RequestBody LoanRequest loanRequest){
-       log.info ("Received request to create loan");
+       logger.info ("Received request to create loan");
        LoanResponse response =  loansService.createLoan (loanRequest);
        return ResponseEntity
                .status (HttpStatus.CREATED)
@@ -54,7 +60,7 @@ public class LoansController {
 
     @GetMapping("/{loanId}")
     public ResponseEntity <LoanResponse> getLoan (@PathVariable UUID loanId){
-        log.info ("Receive request to get loan: {}", loanId);
+        logger.info ("Receive request to get loan: {}", loanId);
         LoanResponse response = loansService.getLoanById (loanId);
         return ResponseEntity
                 .ok(response);
@@ -65,7 +71,7 @@ public class LoansController {
    @PutMapping("/{loanId}")
    public ResponseEntity <LoanResponse> updateLoan(@PathVariable UUID loanId, @RequestBody LoanRequest loanRequest){
 
-    log.info ("Receive request to update loan: {}", loanId);
+    logger.info ("Receive request to update loan: {}", loanId);
 
     LoanResponse response = loansService.updateLoan (loanId,loanRequest);
     return ResponseEntity
@@ -76,7 +82,7 @@ public class LoansController {
    @DeleteMapping("/{loanId}")
    public  ResponseEntity <Void> deleteLoan (@PathVariable UUID loanId){
 
-       log.info ("Receive request to delete loan: {}", loanId);
+       logger.info ("Receive request to delete loan: {}", loanId);
        loansService.deleteLoan(loanId);
        return ResponseEntity
                .noContent()
@@ -86,7 +92,7 @@ public class LoansController {
    @PatchMapping("/{loanId}/status")
    public ResponseEntity<LoanResponse> updateLoanStatus(@PathVariable UUID loanId, @RequestParam LoanStatus status) {
 
-       log.info("Received request to update loan status: {} to {}", loanId, status);
+       logger.info("Received request to update loan status: {} to {}", loanId, status);
        LoanResponse response = loansService.updateLoanStatus(loanId, status);
        return ResponseEntity.ok(response);
    }

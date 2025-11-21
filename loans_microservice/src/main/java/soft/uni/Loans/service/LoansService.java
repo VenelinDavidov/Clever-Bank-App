@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import soft.uni.Loans.exception.ResourceNotFoundException;
 import soft.uni.Loans.model.LoanStatus;
 import soft.uni.Loans.model.Loans;
 import soft.uni.Loans.repository.LoansRepository;
@@ -26,7 +27,6 @@ import java.util.stream.Collectors;
 public class LoansService {
 
     private static final Logger logger = LoggerFactory.getLogger (LoansService.class);
-
     private final LoansRepository loansRepository;
 
 
@@ -39,8 +39,7 @@ public class LoansService {
 
     public LoanResponse createLoan(@Valid LoanRequest loanRequest) {
 
-
-        log.info("Creating loan for customer: {} {}",loanRequest.getFirstName(), loanRequest.getLastName());
+        logger.info("Creating loan for customer: {} {}",loanRequest.getFirstName(), loanRequest.getLastName());
 
         Loans loan = Loans.builder()
                 .customerId (loanRequest.getCustomerId())
@@ -52,14 +51,14 @@ public class LoansService {
                 .build();
 
         Loans savedLoan = loansRepository.save (loan);
-        log.info ("Loan created successfully with ID:  {}",savedLoan.getLoanId());
+        logger.info ("Loan created successfully with ID:  {}",savedLoan.getLoanId());
         return LoansDtoMapper.mapToResponse (savedLoan);
     }
 
 
 
     public List <LoanResponse> getLoansByCustomerId(UUID customerId) {
-        log.info("Fetching loans for customer ID: {}", customerId);
+        logger.info("Fetching loans for customer ID: {}", customerId);
         List <Loans> loans = loansRepository.findByCustomerId (customerId);
           return loans
                 .stream ()
@@ -71,9 +70,9 @@ public class LoansService {
 
     public LoanResponse getLoanById(UUID loanId) {
 
-        log.info ("Fetching loan by ID: {}", loanId);
+        logger.info ("Fetching loan by ID: {}", loanId);
         Loans loans = loansRepository.findById (loanId)
-                                     .orElseThrow (() -> new RuntimeException ("Loan not fount with ID: " + loanId));
+                                     .orElseThrow (() -> new ResourceNotFoundException ("Loan not fount with ID: " + loanId));
          return LoansDtoMapper.mapToResponse (loans);
     }
 
@@ -82,10 +81,10 @@ public class LoansService {
 
     public LoanResponse updateLoan(UUID loanId, LoanRequest loanRequest) {
 
-        log.info ("Updating loan with ID: {}", loanId);
+        logger.info ("Updating loan with ID: {}", loanId);
         Loans loans = loansRepository
                                      .findById (loanId)
-                                     .orElseThrow (() -> new RuntimeException ("Loan not found with ID: " + loanId));
+                                     .orElseThrow (() -> new ResourceNotFoundException ("Loan not found with ID: " + loanId));
         loans.setFirstName (loanRequest.getFirstName ());
         loans.setLastName (loanRequest.getLastName ());
         loans.setLoanType (loanRequest.getLoanType ());
@@ -93,7 +92,7 @@ public class LoansService {
         loans.setUpdatedOn (LocalDateTime.now ());
 
         Loans updateLoan = loansRepository.save (loans);
-        log.info ("Loan update successfully with ID: {}", updateLoan.getLoanId());
+        logger.info ("Loan update successfully with ID: {}", updateLoan.getLoanId());
 
         return LoansDtoMapper.mapToResponse (updateLoan);
     }
@@ -101,10 +100,10 @@ public class LoansService {
 
 
     public void deleteLoan(UUID loanId) {
-        log.info ("Deleting loan with ID: {}", loanId);
+        logger.info ("Deleting loan with ID: {}", loanId);
         Loans loans = loansRepository
                                         .findById (loanId)
-                                       .orElseThrow (() -> new RuntimeException ("Loan nod fount with ID: " + loanId));
+                                       .orElseThrow (() -> new ResourceNotFoundException ("Loan nod fount with ID: " + loanId));
         loansRepository.delete (loans);
         log.info ("Loan deleted successfully with ID: {}", loanId);
     }
@@ -114,15 +113,15 @@ public class LoansService {
 
 
     public LoanResponse updateLoanStatus(UUID loanId,  LoanStatus status) {
-        log.info ("Updating loan status for ID: {} to {}", loanId, status);
+        logger.info ("Updating loan status for ID: {} to {}", loanId, status);
 
         Loans loans = loansRepository.findById (loanId)
-                .orElseThrow (() -> new RuntimeException ("Loan not found with ID: " + loanId));
+                .orElseThrow (() -> new ResourceNotFoundException ("Loan not found with ID: " + loanId));
         loans.setLoanStatus (status);
         loans.setUpdatedOn (LocalDateTime.now ());
 
         loansRepository.save (loans);
-        log.info ("Loan status updated successfully with ID: {}", loanId);
+        logger.info ("Loan status updated successfully with ID: {}", loanId);
         return LoansDtoMapper.mapToResponse (loans);
     }
 }

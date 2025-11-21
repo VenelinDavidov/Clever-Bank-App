@@ -66,9 +66,9 @@ public class Loans   {
         if (loanStatus == null){
             loanStatus = LoanStatus.PENDING;
         }
-
         calculatedLoanDetails();
     }
+
 
 
     // calculate loan details for interest rate based on loan type

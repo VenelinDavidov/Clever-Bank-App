@@ -27,7 +27,6 @@ public class Cards {
     private String cardNumber;
 
 
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private CardBrand cardBrand;

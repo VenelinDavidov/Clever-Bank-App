@@ -214,14 +214,12 @@
                     </select>
 
                     <button type="submit" class="btn btn-danger">Delete Card</button>
+                    <p class="alert-warning" th:if="${errorMessage}" th:text="${errorMessage}"> </p>
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 </form>
 
                 <!-- Error message -->
-                <div id="messageBox"
-                     th:if="${errorMessage}"
-                     th:text="${errorMessage}"
-                     class="alert alert-danger">
+                <div id="messageBox" th:if="${errorMessage}" th:text="${errorMessage}" class="alert alert-danger">
                 </div>
             </section>
         </section>

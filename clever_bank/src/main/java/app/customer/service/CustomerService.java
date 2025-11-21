@@ -97,6 +97,7 @@ public class CustomerService implements UserDetailsService {
     }
 
 
+
     private Customer createNewCustomerAccount(RegisterRequest registerDto) {
 
         return Customer.builder ()
@@ -117,7 +118,7 @@ public class CustomerService implements UserDetailsService {
 
 
 
-    // Retrieve customer by id
+
     public Customer getById(UUID uuid) {
         return customerRepository.findById (uuid).orElseThrow (() -> new DomainException ("Customer with id %s not found".formatted (uuid), HttpStatus.BAD_REQUEST));
     }
@@ -125,7 +126,7 @@ public class CustomerService implements UserDetailsService {
 
 
 
-    // Retrieve all customers
+
     @Cacheable("customer")
     public List <Customer> getALLCustomers() {
         return customerRepository.findAll ();
@@ -134,7 +135,6 @@ public class CustomerService implements UserDetailsService {
 
 
 
-    // everytime after login from user, spring security will call this method
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -157,7 +157,6 @@ public class CustomerService implements UserDetailsService {
 
 
 
-    // edit customer details by all information
     @CacheEvict(value = "customer", allEntries = true)
     public void editCustomerDetails(UUID id, CustomerEditRequest customerEditRequest) {
 

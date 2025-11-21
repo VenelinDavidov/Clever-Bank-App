@@ -10,9 +10,11 @@
     </parent>
     <groupId>clever-bank</groupId>
     <artifactId>clever-bank</artifactId>
+    <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>Clever Bank Application</name>
     <description>Clever Bank Application</description>
+
     <url/>
     <licenses>
         <license/>
@@ -122,6 +124,7 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -136,6 +139,21 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <to>
+                        <image>clever-bank:latest</image>
+                    </to>
+                    <container>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                    </container>
                 </configuration>
             </plugin>
         </plugins>

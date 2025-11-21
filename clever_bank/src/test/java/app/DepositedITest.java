@@ -5,6 +5,7 @@ import app.customer.model.Country;
 import app.customer.model.Customer;
 import app.customer.model.Gender;
 import app.customer.service.CustomerService;
+import app.exception.DomainException;
 import app.pocket.model.Pocket;
 import app.pocket.model.PocketStatus;
 import app.pocket.repository.PocketRepository;
@@ -15,7 +16,6 @@ import app.subscription.service.SubscriptionService;
 import app.transaction.model.TransactionStatus;
 import app.transaction.model.Transactions;
 import app.transaction.repository.TransactionRepository;
-import app.transaction.service.TransactionService;
 import app.web.dto.DepositRequest;
 import app.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -110,6 +111,100 @@ public class DepositedITest {
         assertEquals(BigDecimal.valueOf(100.00), savedTransaction.getAmount());
         assertEquals(TransactionStatus.SUCCEEDED, savedTransaction.getStatus());
 
+
+    }
+
+
+
+    @Test
+    void givenNotValidDepositRequest_whenInvokeDeposit_thenNotFoundPocketIdAndCustomerInDatabase() {
+
+        UUID pocketId = UUID.randomUUID();
+        UUID customerId = UUID.randomUUID();
+
+       DepositRequest depositRequest = new DepositRequest ();
+       depositRequest.setAmount ( BigDecimal.valueOf (100.00));
+       depositRequest.setIban ("BG1234567890");
+
+       DomainException exception =
+               assertThrows(DomainException.class, () -> pocketService.deposit(pocketId, depositRequest, customerId));
+
+       assertEquals ("Pocket with id %s not found and customer id %s not found", exception.getMessage());
+    }
+
+
+
+    @Test
+    void givenNotValidDepositRequest_whenInvokeDeposit_thenAmountIsNotValidOrLessThanZero() {
+
+        Customer customer = customerService.register(RegisterRequest.builder()
+                .username("User" + System.currentTimeMillis())
+                .password("Password1")
+                .phoneNumber("0897" + System.nanoTime() % 100000)
+                .country(Country.BULGARIA)
+                .gender(Gender.MALE)
+                .build());
+
+        // 2) Create pocket
+        Pocket pocket = new Pocket ();
+        pocket.setCustomer(customer);
+        pocket.setStatus(PocketStatus.ACTIVE);
+        pocket.setBalance(new BigDecimal("50.00"));
+        pocket.setCurrency(Currency.getInstance("USD"));
+        pocket.setCreatedOn(LocalDateTime.now());
+
+        pocketRepository.save (pocket);
+
+
+
+        // 3) Create DepositRequest
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAmount ( BigDecimal.valueOf (-100.00));
+        depositRequest.setIban ("BG1234567890");
+
+        DomainException exception =
+                assertThrows(DomainException.class, () -> pocketService.deposit (pocket.getId (), depositRequest, customer.getId()));
+
+        assertEquals ("Amount must be greater than zero", exception.getMessage());
+    }
+
+
+    @Test
+    void givenNotValidDepositRequest_thenInvokeDeposit_thenReturnPocketStatusInactive(){
+
+        Customer customer = customerService.register(RegisterRequest.builder()
+                .username("User" + System.currentTimeMillis())
+                .password("Password1")
+                .phoneNumber("0897" + System.nanoTime() % 100000)
+                .country(Country.BULGARIA)
+                .gender(Gender.MALE)
+                .build());
+
+
+        Pocket pocket = new Pocket ();
+        pocket.setCustomer(customer);
+        pocket.setStatus(PocketStatus.INACTIVE);
+        pocket.setBalance(new BigDecimal("50.00"));
+        pocket.setCurrency(Currency.getInstance("USD"));
+        pocket.setCreatedOn(LocalDateTime.now());
+
+        pocketRepository.save (pocket);
+        pocketRepository.flush();
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAmount ( BigDecimal.valueOf (100.00));
+        depositRequest.setIban ("BG1234567890");
+
+        Transactions tx = pocketService.deposit (pocket.getId (), depositRequest, customer.getId ());
+
+        assertEquals (TransactionStatus.FAILED, tx.getStatus());
+        assertEquals ("Inactive pocket", tx.getReasonFailed ());
+        assertEquals (pocket.getId (), tx.getPocket().getId());
+        assertEquals (customer.getId (), tx.getCustomer().getId());
+
+        List<Transactions> all = transactionsRepository.findAll();
+        assertEquals(1, all.size());
+        assertEquals(TransactionStatus.FAILED, all.get(0).getStatus());
 
     }
 }

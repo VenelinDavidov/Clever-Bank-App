@@ -33,26 +33,20 @@ public class CardController {
 
     private final CardService cardService;
     private final CustomerService customerService;
-    private final CustomerRepository customerRepository;
-    private final CardsRepository cardsRepository;
+
 
 
     @Autowired
     public CardController(CardService cardService,
-                          CustomerService customerService,
-                          CustomerRepository customerRepository,
-                          CardsRepository cardsRepository) {
+                          CustomerService customerService) {
         this.cardService = cardService;
         this.customerService = customerService;
-        this.customerRepository = customerRepository;
-        this.cardsRepository = cardsRepository;
     }
 
 
 
 
 
-    // Get cards page - User can only see their own cards
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView fetchCardsPage(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr) {
@@ -71,50 +65,15 @@ public class CardController {
 
 
 
-    // Create card - can create cards for themselves
     @PostMapping("/create")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ModelAndView createCard(@AuthenticationPrincipal
-                                       AuthenticationMetadataDetails auth,
-                                       RedirectAttributes redirectAttributes) {
+    public ModelAndView createCard(@AuthenticationPrincipal AuthenticationMetadataDetails auth) {
 
-        Customer customer = customerService.getById (auth.getCustomerId ());
-
-        try {
-            cardService.createSecondaryCard(customer);
-        } catch (CardLimitExceededException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-        }
+        Customer customer = customerService.getById(auth.getCustomerId());
+        cardService.createSecondaryCard(customer);
 
         return new ModelAndView("redirect:/cards");
     }
-
-
-
-
-
-    @PostMapping("/delete")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ModelAndView deleteCard(@RequestParam UUID cardId,@AuthenticationPrincipal
-            AuthenticationMetadataDetails auth ) {
-
-
-        Customer customer = customerRepository.findById (auth.getCustomerId ())
-                .orElseThrow(() -> new DomainException("Customer with id %s not found"
-                        .formatted (auth.getCustomerId ()), HttpStatus.BAD_REQUEST
-                ));
-
-        if (customer.getRole () == UserRole.USER){
-            return new ModelAndView("redirect:/messages");
-        }
-
-
-        cardService.deleteCard(cardId);
-
-        return new ModelAndView("redirect:/cards");
-    }
-
-
 
 
 
@@ -127,6 +86,31 @@ public class CardController {
 
         return "redirect:/cards";
     }
+
+
+
+
+
+        @PostMapping("/delete")
+        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+        public ModelAndView deleteCard(@RequestParam UUID cardId,@AuthenticationPrincipal AuthenticationMetadataDetails auth,
+                                       RedirectAttributes redirectAttributes) {
+
+            Customer customer = customerService.getById (auth.getCustomerId ());
+
+            if (customer.getRole () == UserRole.USER){
+                redirectAttributes.addFlashAttribute("errorMessage", "You are not allowed to delete a card");
+                return new ModelAndView("redirect:/messages");
+            }
+        cardService.deleteCard(cardId);
+        return new ModelAndView("redirect:/cards");
+    }
+
+
+
+
+
+
 
 }
 

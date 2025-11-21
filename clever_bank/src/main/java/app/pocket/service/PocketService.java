@@ -9,6 +9,7 @@ import app.pocket.repository.PocketRepository;
 import app.transaction.model.TransactionStatus;
 import app.transaction.model.TransactionType;
 import app.transaction.model.Transactions;
+import app.transaction.repository.TransactionRepository;
 import app.transaction.service.TransactionService;
 import app.web.dto.DepositRequest;
 import app.web.dto.TransferResultRequest;
@@ -35,15 +36,18 @@ public class PocketService {
 
     private final PocketRepository pocketRepository;
     private final TransactionService transactionService;
+    private final TransactionRepository transactionRepository;
 
 
 
     @Autowired
     public PocketService(PocketRepository walletRepository,
-                         TransactionService transactionService) {
+                         TransactionService transactionService,
+                         TransactionRepository transactionRepository) {
         this.pocketRepository = walletRepository;
         this.transactionService = transactionService;
 
+        this.transactionRepository = transactionRepository;
     }
 
 
@@ -337,6 +341,7 @@ public class PocketService {
    // monthly fee scheduler
     private static final BigDecimal MONTHLY_FEE = BigDecimal.valueOf(2.00);
 
+    @Transactional
     public void applyMonthlyFees() {
 
         List <Pocket> pockets = pocketRepository.findAllActivePockets();
@@ -346,20 +351,24 @@ public class PocketService {
             pocket.setBalance (pocket.getBalance ().subtract (MONTHLY_FEE));
             pocket.setUpdatedOn (LocalDateTime.now ());
 
-            pocketRepository.saveAll (pockets);
+            pocketRepository.saveAndFlush(pocket);
 
-            transactionService.createNewTransaction (
-                    pocket.getCustomer (),
-                    pocket.getId ().toString (),
-                    CLEVER_BANK_LTD,
-                    MONTHLY_FEE,
-                    pocket.getBalance (),
-                    pocket.getCurrency (),
-                    TransactionType.WITHDRAWAL,
-                    TransactionStatus.SUCCEEDED,
-                    "Monthly fee applied",
-                    "Clever Bank withdraw on your pocket with monthly fee"
-            );
+            Transactions transactions = Transactions.builder()
+                    .customer(pocket.getCustomer())
+                    .pocket(pocket)
+                    .amount(MONTHLY_FEE)
+                    .remainingBalance(pocket.getBalance())
+                    .currency(pocket.getCurrency())
+                    .type(TransactionType.WITHDRAWAL)
+                    .status(TransactionStatus.SUCCEEDED)
+                    .description("Monthly fee applied")
+                    .receiver("Clever Bank")
+                    .sender("Clever Bank")
+                    .reasonFailed(null)
+                    .createdOn(LocalDateTime.now())
+                    .build();
+
+            transactionRepository.saveAndFlush(transactions);
         }
 
     }

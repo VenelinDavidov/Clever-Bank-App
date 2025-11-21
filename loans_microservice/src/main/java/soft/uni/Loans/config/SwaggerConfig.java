@@ -1,4 +1,4 @@
-package app.config;
+package soft.uni.Loans.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -11,20 +11,20 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customerOpenAPI() {
+    public OpenAPI openAPI() {
 
         Info applicationInfo = new Info()
-                .title("Notification-ms")
+                .title("Loans REST API")
+                .description("REST API Designed to operate with customer loans.")
                 .version("1.0")
-                .description("REST API Designed to operate with user notifications.")
                 .contact(new Contact()
-                        .name("Venelin_Davidov")
-                        .email("venelin.davidov@gmail.com")
-                        .url("http://localhost:8082"))
-                .license (new License ()
+                        .name("Venelin Davidov")
+                        .email("v.davidov@gmial.com")
+                        .url("http://localhost:8081"))
+                .license(new License()
                         .name("MIT License")
                         .url("https://opensource.org/licenses/MIT"));
 
-                return new OpenAPI().info(applicationInfo);
+        return new OpenAPI().info(applicationInfo);
     }
 }

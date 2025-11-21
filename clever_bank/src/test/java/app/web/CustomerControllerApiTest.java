@@ -16,8 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -43,7 +41,14 @@ public class CustomerControllerApiTest {
     @Test
     void putUnauthorizedRequestToSwitchRole_thenReturn404NotFound() throws Exception {
 
-        AuthenticationMetadataDetails authenticationMetadataDetails = new AuthenticationMetadataDetails (UUID.randomUUID (), "Venko123", "Venelin7", UserRole.USER, true, LocalDateTime.now (), LocalDateTime.now ());
+        AuthenticationMetadataDetails authenticationMetadataDetails = new AuthenticationMetadataDetails (
+                UUID.randomUUID (),
+                "Venko123",
+                "Venelin7",
+                UserRole.USER,
+                true,
+                LocalDateTime.now (),
+                LocalDateTime.now ());
 
         MockHttpServletRequestBuilder request = put ("/customers/{id}/role", UUID.randomUUID ())
                 .with (user (authenticationMetadataDetails))
@@ -53,6 +58,8 @@ public class CustomerControllerApiTest {
                 .andExpect (status ().isNotFound ())
                 .andExpect (view ().name ("not-found"));
     }
+
+
 
     @Test
     void putAuthorizedRequestToSwitchRole_thenRedirectToCustomerDetails() throws Exception {
@@ -121,12 +128,12 @@ public class CustomerControllerApiTest {
         MockHttpServletRequestBuilder request = put ("/customers/{id}/profile", customerId)
                 .with (user (authenticationMetadataDetails))
                 .with (csrf ())
-                        .param ("firstName", editRequest.getFirstName ())
-                                .param ("lastName", editRequest.getLastName ())
-                                        .param ("phoneNumber", editRequest.getPhoneNumber ())
-                                                .param ("email", editRequest.getEmail ())
-                                                        .param ("profilePicture", editRequest.getProfilePicture ())
-                                                                .param ("address", editRequest.getAddress ());
+                .param ("firstName", editRequest.getFirstName ())
+                 .param ("lastName", editRequest.getLastName ())
+                 .param ("phoneNumber", editRequest.getPhoneNumber ())
+                 .param ("email", editRequest.getEmail ())
+                 .param ("profilePicture", editRequest.getProfilePicture ())
+                 .param ("address", editRequest.getAddress ());
 
         mockMvc.perform (request)
                 .andExpect (status ().is3xxRedirection ())

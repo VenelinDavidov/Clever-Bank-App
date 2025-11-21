@@ -41,7 +41,9 @@ public class NotificationController {
         Customer customer = customerService.getById (authenticationMetadataPr.getCustomerId ());
 
         NotificationPreferenceResponse notificationPreference = notificationService.getNotificationPreference (customer.getId ());
+
         List <NotificationResponse> notificationHistory = notificationService.getNotificationHistory (customer.getId ());
+
         long succeededNotificationsNumber = notificationHistory
                                                               .stream ()
                                                               .filter (n -> n.getStatus ().equals ("SUCCEEDED")).count ();
@@ -75,6 +77,7 @@ public class NotificationController {
 
 
 
+
     @DeleteMapping
     public String deleteNotificationHistory(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr){
 
@@ -84,6 +87,8 @@ public class NotificationController {
 
         return "redirect:/notifications";
     }
+
+
 
 
     @PutMapping()
