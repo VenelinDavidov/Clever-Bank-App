@@ -1,104 +1,127 @@
 package app.web;
 
-import app.customer.model.Customer;
-import app.customer.service.CustomerService;
-import app.notification.client.dto.NotificationPreferenceResponse;
-import app.notification.client.dto.NotificationResponse;
-import app.notification.service.NotificationService;
-import app.security.AuthenticationMetadataDetails;
+import app.model.Notification;
+import app.model.NotificationPreference;
+import app.service.NotificationService;
+import app.web.dto.NotificationPreferenceResponse;
+import app.web.dto.NotificationRequest;
+import app.web.dto.NotificationResponse;
+import app.web.dto.UpsertNotificationPreferenceRequest;
+import app.web.mapper.DtoMapperNotification;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-
-@Controller
-@RequestMapping("/notifications")
+@RestController
+@RequestMapping("/api/v2/notifications")
+@Tag(name = "Notification", description = "Operations related to notifications")
 public class NotificationController {
 
-
-    private final CustomerService customerService;
     private final NotificationService notificationService;
 
     @Autowired
-    public NotificationController(CustomerService customerService,
-                                  NotificationService notificationService) {
-        this.customerService = customerService;
+    public NotificationController(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
 
 
+    @Operation(summary = "Create or update notification preference", description = "Create or update notification preference")
+    @PostMapping("/preferences")
+    public ResponseEntity <NotificationPreferenceResponse> upsertNotificationPreference (@RequestBody UpsertNotificationPreferenceRequest upsertNotificationPreference){
 
+        NotificationPreference preference = notificationService.upsertNotificationPreference (upsertNotificationPreference);
+
+        NotificationPreferenceResponse dto = DtoMapperNotification.fromNotificationPreferenceToNotificationPreferenceResponse (preference);
+
+        return ResponseEntity
+                .status (HttpStatus.CREATED)
+                .body (dto);
+    }
+
+
+    @GetMapping("/preferences")
+    public ResponseEntity <NotificationPreferenceResponse> getCustomerNotificationPreference (@RequestParam(name = "customerId") UUID customerId){
+
+        NotificationPreference notificationPreferenceByUserId = notificationService.getNotificationPreferenceByUserId (customerId);
+
+        NotificationPreferenceResponse dto = DtoMapperNotification.fromNotificationPreferenceToNotificationPreferenceResponse (notificationPreferenceByUserId);
+
+        return ResponseEntity
+                .status (HttpStatus.OK)
+                .body (dto);
+    }
+
+
+    @PostMapping
+    public ResponseEntity<NotificationResponse> sendNotification (@RequestBody NotificationRequest notificationRequest){
+
+        Notification notification = notificationService.sendNotification (notificationRequest);
+
+        NotificationResponse dto = DtoMapperNotification.fromNotificationToNotificationResponse (notification);
+
+        return ResponseEntity
+                .status (HttpStatus.CREATED)
+                .body (dto);
+    }
 
 
     @GetMapping
-    public ModelAndView fetchNotificationPage(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr) {
+    public ResponseEntity <List <NotificationResponse>> getNotificationHistory (@RequestParam (name = "customerId") UUID customerId){
 
-        Customer customer = customerService.getById (authenticationMetadataPr.getCustomerId ());
+        List<NotificationResponse> notificationHistory = notificationService.getNotificationHistory(customerId)
+                                                                             .stream()
+                                                                             .map(DtoMapperNotification::fromNotificationToNotificationResponse)
+                                                                             .sorted(Comparator.comparing(NotificationResponse::getCreatedOn).reversed())
+                                                                             .collect(Collectors.toList());
 
-        NotificationPreferenceResponse notificationPreference = notificationService.getNotificationPreference (customer.getId ());
-
-        List <NotificationResponse> notificationHistory = notificationService.getNotificationHistory (customer.getId ());
-
-        long succeededNotificationsNumber = notificationHistory
-                                                              .stream ()
-                                                              .filter (n -> n.getStatus ().equals ("SUCCEEDED")).count ();
-        long failedNotificationsNumber = notificationHistory
-                                                              .stream ()
-                                                              .filter (n -> n.getStatus ().equals ("FAILED")).count ();
-
-        notificationHistory  = notificationHistory.stream ().limit (5).toList ();
-
-
-        ModelAndView modelAndView = new ModelAndView ("notifications");
-        modelAndView.addObject ("customer", customer);
-        modelAndView.addObject ("notificationPreference",notificationPreference);
-        modelAndView.addObject ("succeededNotificationsNumber", succeededNotificationsNumber);
-        modelAndView.addObject ("failedNotificationsNumber", failedNotificationsNumber);
-        modelAndView.addObject ("notificationHistory", notificationHistory);
-        return modelAndView;
+        return ResponseEntity
+                .status (HttpStatus.OK)
+                .body (notificationHistory);
     }
 
 
 
 
 
-    @PutMapping("/customer-preference")
-    public String updateCustomerPreference(@RequestParam(name="enabled") boolean enabled, @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr){
+    @PutMapping("/preferences")
+    public ResponseEntity <NotificationPreferenceResponse> changeNotification( @RequestParam (name = "customerId") UUID customerId,
+                                                                               @RequestParam(name = "enabled") boolean enabled) {
 
-     notificationService.updateNotificationPreference (authenticationMetadataPr.getCustomerId (), enabled);
+        NotificationPreference preference = notificationService.changeNotificationPreference(customerId, enabled);
 
-     return "redirect:/notifications";
+        NotificationPreferenceResponse dto = DtoMapperNotification.fromNotificationPreferenceToNotificationPreferenceResponse(preference);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dto);
     }
 
 
 
 
     @DeleteMapping
-    public String deleteNotificationHistory(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr){
+    public ResponseEntity<Void> clearNotificationHistory(@RequestParam(name="customerId") UUID customerId){
 
-        UUID customerId = authenticationMetadataPr.getCustomerId ();
+        notificationService.clearNotifications(customerId);
 
-        notificationService.clearNotificationHistory (customerId);
-
-        return "redirect:/notifications";
+        return ResponseEntity.ok().body(null);
     }
 
 
 
+    @PutMapping
+    public ResponseEntity <Void> retryNotificationFailed(@RequestParam (name="customerId") UUID customerId){
 
-    @PutMapping()
-    public String retryFailedNotifications(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr){
+        notificationService.retryNotificationsFailed(customerId);
 
-        UUID customerId = authenticationMetadataPr.getCustomerId ();
-
-        notificationService.retryFailedNotifications (customerId);
-
-        return "redirect:/notifications";
+        return ResponseEntity.ok().body(null);
     }
-
 }

@@ -1,29 +1,5 @@
 spring:
-  application:
-    name: Clever Bank
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
   datasource:
-    url: jdbc:mysql://mysql:3306/clever_bank
+    url: jdbc:mysql://mysql:3306/notification_db
     username: root
     password: Root
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-
-
-notification-ms:
-  base-url: http://notification-ms:8082/api/v2/notifications
-
-loans-vs:
-  base-url: http://loans-microservice:8081/api/v1/loans
-
-logging:
-  level:
-    org.hibernate.persister.entity: ERROR
