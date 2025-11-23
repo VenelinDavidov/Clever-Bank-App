@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="15fd0253-7a8d-454b-b7b6-4dd9ba9e88a2" name="Changes" comment="Add new implements for cards">
+      <change afterPath="$PROJECT_DIR$/src/main/java/app/exception/CardLimitExceededException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/cards/service/CardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/cards/service/CardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/web/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/web/CardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/card.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/card.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/common.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/cards.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/cards.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customers.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="master" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;VenelinDavidov&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/VenelinDavidov/Clever-Bank-App.git&quot;,
+    &quot;accountId&quot;: &quot;89562537-695e-44b2-9e30-76a38d82739b&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2ra1Qj0Kxi0B6BeRvNoZYwlSnOR" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Application.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/VITORIYA/IdeaProjects/Microservices Udemy/section_12&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Language Defaults&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="app.exception" />
+      <recent name="app.transaction.model" />
+      <recent name="app.wallet.model" />
+      <recent name="app.subscription.model" />
+      <recent name="app.bill.model" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\VITORIYA\Downloads\bank\src\main\resources\static\images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\VITORIYA\IdeaProjects\Project Final Soft Uni Clever Bank\bank\src\main\resources\templates" />
+      <recent name="C:\Users\VITORIYA\Downloads\bank\src\main\resources\static\images" />
+      <recent name="C:\Users\VITORIYA\Downloads\bank\src\main\resources\templates" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="clever-bank" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="app.Application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.Application" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="15fd0253-7a8d-454b-b7b6-4dd9ba9e88a2" name="Changes" comment="" />
+      <created>1736782357672</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736782357672</updated>
+      <workItem from="1736782358732" duration="332000" />
+      <workItem from="1746911479267" duration="5886000" />
+      <workItem from="1746994226056" duration="1848000" />
+      <workItem from="1747080081759" duration="619000" />
+      <workItem from="1747153205852" duration="450000" />
+      <workItem from="1747252342225" duration="2801000" />
+      <workItem from="1747284329565" duration="2998000" />
+      <workItem from="1747411516220" duration="45184000" />
+      <workItem from="1747770142936" duration="2984000" />
+      <workItem from="1747799715981" duration="28364000" />
+      <workItem from="1748182908818" duration="284000" />
+      <workItem from="1748243899819" duration="709000" />
+      <workItem from="1748257069928" duration="6000" />
+      <workItem from="1748368067913" duration="21395000" />
+      <workItem from="1748637858417" duration="53000" />
+      <workItem from="1748723240387" duration="14000" />
+      <workItem from="1748725836404" duration="269000" />
+      <workItem from="1748794390844" duration="601000" />
+      <workItem from="1749236563858" duration="2792000" />
+      <workItem from="1749239841054" duration="168000" />
+      <workItem from="1749240027198" duration="86000" />
+      <workItem from="1749240116444" duration="21000" />
+      <workItem from="1749240479558" duration="149000" />
+      <workItem from="1749240728824" duration="70000" />
+      <workItem from="1749241046820" duration="1686000" />
+      <workItem from="1749242754108" duration="132000" />
+      <workItem from="1749582696251" duration="3000" />
+      <workItem from="1752240213195" duration="6193000" />
+      <workItem from="1752251665117" duration="4655000" />
+      <workItem from="1752524221339" duration="729000" />
+      <workItem from="1752698488535" duration="2532000" />
+      <workItem from="1752724339325" duration="677000" />
+      <workItem from="1752725410024" duration="326000" />
+      <workItem from="1752725781103" duration="12425000" />
+      <workItem from="1752788644134" duration="628000" />
+      <workItem from="1752789329922" duration="429000" />
+      <workItem from="1752818818577" duration="4442000" />
+      <workItem from="1753038987604" duration="3016000" />
+      <workItem from="1753123458398" duration="1109000" />
+      <workItem from="1753514644961" duration="74000" />
+      <workItem from="1753612876737" duration="3909000" />
+      <workItem from="1753616882728" duration="7583000" />
+      <workItem from="1753640846889" duration="808000" />
+      <workItem from="1753647487418" duration="5637000" />
+      <workItem from="1754239518410" duration="158000" />
+      <workItem from="1754244069147" duration="1113000" />
+      <workItem from="1754674576660" duration="42000" />
+      <workItem from="1754674628903" duration="272000" />
+      <workItem from="1754675666155" duration="675000" />
+      <workItem from="1754679985635" duration="19000" />
+      <workItem from="1754718971006" duration="8881000" />
+      <workItem from="1755029945219" duration="126000" />
+      <workItem from="1755198288545" duration="4459000" />
+      <workItem from="1755203250192" duration="2460000" />
+      <workItem from="1756317885082" duration="143000" />
+      <workItem from="1756656255267" duration="76000" />
+      <workItem from="1756656348292" duration="101000" />
+      <workItem from="1756754228573" duration="2945000" />
+      <workItem from="1756757506596" duration="5698000" />
+      <workItem from="1756829915771" duration="7888000" />
+      <workItem from="1758204002239" duration="69000" />
+      <workItem from="1758451662033" duration="533000" />
+      <workItem from="1758452410989" duration="8000" />
+      <workItem from="1758452902302" duration="3716000" />
+      <workItem from="1758471364027" duration="615000" />
+      <workItem from="1758472356682" duration="56754000" />
+      <workItem from="1758724817110" duration="1866000" />
+      <workItem from="1758914126364" duration="11704000" />
+    </task>
+    <task id="LOCAL-00001" summary="Update clever bank">
+      <option name="closed" value="true" />
+      <created>1753640038483</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1753640038483</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Create Edit profile menu for customer">
+      <option name="closed" value="true" />
+      <created>1754722302379</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1754722302379</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Update Customer and DtoMapper">
+      <option name="closed" value="true" />
+      <created>1755030005783</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1755030005783</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Create new functionality for Customer and add class AuditAware">
+      <option name="closed" value="true" />
+      <created>1755205461196</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1755205461196</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Update my app with functionality switch status and role.">
+      <option name="closed" value="true" />
+      <created>1756842835136</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1756842835136</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Implement Card Service and Controller">
+      <option name="closed" value="true" />
+      <created>1758564936582</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1758564936582</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Add new implements for cards">
+      <option name="closed" value="true" />
+      <created>1758659313857</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1758659313857</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update clever bank" />
+    <MESSAGE value="Create Edit profile menu for customer" />
+    <MESSAGE value="Update Customer and DtoMapper" />
+    <MESSAGE value="Create new functionality for Customer and add class AuditAware" />
+    <MESSAGE value="Update my app with functionality switch status and role." />
+    <MESSAGE value="Implement Card Service and Controller" />
+    <MESSAGE value="Add new implements for cards" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add new implements for cards" />
+  </component>
+</project>
