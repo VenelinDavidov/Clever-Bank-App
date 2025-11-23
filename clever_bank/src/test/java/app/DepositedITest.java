@@ -4,6 +4,7 @@ package app;
 import app.customer.model.Country;
 import app.customer.model.Customer;
 import app.customer.model.Gender;
+import app.customer.repository.CustomerRepository;
 import app.customer.service.CustomerService;
 import app.exception.DomainException;
 import app.pocket.model.Pocket;
@@ -42,6 +43,9 @@ public class DepositedITest {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Autowired
     private PocketRepository pocketRepository;
@@ -173,9 +177,9 @@ public class DepositedITest {
     void givenNotValidDepositRequest_thenInvokeDeposit_thenReturnPocketStatusInactive(){
 
         Customer customer = customerService.register(RegisterRequest.builder()
-                .username("User" + System.currentTimeMillis())
-                .password("Password1")
-                .phoneNumber("0897" + System.nanoTime() % 100000)
+                .username("User123")
+                .password("Password7")
+                .phoneNumber("0897" + System.nanoTime())
                 .country(Country.BULGARIA)
                 .gender(Gender.MALE)
                 .build());

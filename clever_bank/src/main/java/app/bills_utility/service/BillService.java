@@ -36,9 +36,9 @@ public class BillService {
     private static final String UPDATE_BILL_STATUS_MESSAGE = "Successfully updated bill %s status to %s";
     private static final String CLEVER_BANK_LTD = "Clever Bank Service Ltd";
 
-    private final BillRepository billRepository;
-    private final TransactionService transactionService;
-    private final PocketService pocketService;
+        private final BillRepository billRepository;
+        private final TransactionService transactionService;
+        private final PocketService pocketService;
 
 
 

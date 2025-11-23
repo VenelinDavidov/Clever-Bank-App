@@ -21,7 +21,7 @@ import java.util.UUID;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(NotificationController.class)
@@ -96,6 +96,93 @@ public class NotificationControllerApiTest {
         verify (customerService, times (1)).getById (customerId);
         verify (notificationService, times (1)).getNotificationPreference (customerId);
         verify (notificationService, times (1)).getNotificationHistory (customerId);
+
+    }
+
+
+
+    @Test
+    void givenRequestToUpdateCustomerPreference_whenUpdatePreference_thenReturnUpdateNotification () throws Exception {
+
+        UUID customerId = UUID.randomUUID();
+
+        AuthenticationMetadataDetails authDetails = new AuthenticationMetadataDetails (
+                customerId,
+                "Venko123",
+                "Venelin7",
+                UserRole.USER,
+                true,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        MockHttpServletRequestBuilder request = put ("/notifications/customer-preference")
+                .param ("enabled", "true")
+                .with (user (authDetails))
+                .with (csrf ());
+
+        mockMvc.perform (request)
+                .andExpect (status ().is3xxRedirection ())
+                .andExpect (redirectedUrl ("/notifications"));
+
+        verify (notificationService, times (1)).updateNotificationPreference (authDetails.getCustomerId (), true);
+
+    }
+
+
+    @Test
+    void givenRequestToRetryFailedNotification_whenCustomerInvoke_thenReturnRetryNotification () throws Exception {
+
+        UUID customerId = UUID.randomUUID();
+
+        AuthenticationMetadataDetails authDetails = new AuthenticationMetadataDetails (
+                customerId,
+                "Venko123",
+                "Venelin7",
+                UserRole.USER,
+                true,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        MockHttpServletRequestBuilder request = put ("/notifications")
+                .with (user (authDetails))
+                .with (csrf ());
+
+        mockMvc.perform (request)
+                .andExpect (status ().is3xxRedirection ())
+                .andExpect (redirectedUrl ("/notifications"));
+
+
+        verify (notificationService, times (1)).retryFailedNotifications (authDetails.getCustomerId ());
+
+    }
+
+    @Test
+    void givenRequestToDeletedNotification_whenCustomerInvoke_thenReturnDeletedNotification () throws Exception {
+
+        UUID customerId = UUID.randomUUID();
+
+        AuthenticationMetadataDetails authDetails = new AuthenticationMetadataDetails (
+                customerId,
+                "Venko123",
+                "Venelin7",
+                UserRole.USER,
+                true,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        MockHttpServletRequestBuilder request = delete ("/notifications")
+                .with (user (authDetails))
+                .with (csrf ());
+
+        mockMvc.perform (request)
+                .andExpect (status ().is3xxRedirection ())
+                .andExpect (redirectedUrl ("/notifications"));
+
+
+        verify (notificationService, times (1)).clearNotificationHistory (authDetails.getCustomerId ());
 
     }
 }

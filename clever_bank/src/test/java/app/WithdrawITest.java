@@ -141,7 +141,7 @@ public class WithdrawITest {
         Customer customer = Customer.builder()
                 .username("user_" + System.currentTimeMillis())
                 .password("Password1")
-                .phoneNumber("0897" + (System.nanoTime() % 100000))
+                .phoneNumber("08" + (int)(Math.random() * 9000000))
                 .country(Country.BULGARIA)
                 .gender(Gender.MALE)
                 .role(UserRole.USER)
