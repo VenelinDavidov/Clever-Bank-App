@@ -1,0 +1,90 @@
+
+
+.home-section {
+    margin-left: 0px;
+    padding: 100px 60px;
+    /*background-image: url("https://images.unsplash.com/photo-1500316124030-4cffa46f10f0?q=120&w=2200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");*/
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    color: #2c3e50;
+}
+
+.transfer-container {
+    max-width: 480px;
+    background: white;
+    padding: 40px 35px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    margin: auto;
+}
+
+.transfer-section h2 {
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #17a673;
+    text-align: center;
+}
+
+.transfer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.transfer-form label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #34495e;
+}
+
+.transfer-form select,
+.transfer-form input[type="text"],
+.transfer-form input[type="number"] {
+    padding: 12px 15px;
+    border: 1.8px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+.transfer-form select:focus,
+.transfer-form input[type="text"]:focus,
+.transfer-form input[type="number"]:focus {
+    border-color: #17a673;
+    box-shadow: 0 0 6px #17a673aa;
+}
+
+.profile-actions-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 20px;
+    background: #17a673;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.4s ease;
+    box-shadow: 0 4px 15px rgba(23, 166, 115, 0.5);
+}
+
+.profile-actions-button:hover {
+    background: #138a54;
+    box-shadow: 0 6px 18px rgba(19, 138, 84, 0.7);
+}
+
+.profile-actions-button p {
+    margin: 0;
+}
+
+.profile-actions-button svg {
+    stroke: white;
+    width: 22px;
+    height: 22px;
+}
+
