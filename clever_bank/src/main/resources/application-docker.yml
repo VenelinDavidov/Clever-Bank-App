@@ -1,11 +1,18 @@
 spring:
   application:
-    name: Notification Service
+    name: Clever Bank
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,10 +20,15 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
 
-server:
-  servlet:
-    context-path: /api/v2
-
 logging:
   level:
     org.hibernate.persister.entity: ERROR
+    org.thymeleaf: WARN
+
+
+loans-vs:
+  base-url: "http://${LOANS_SERVICE_HOST}:${LOANS_SERVICE_PORT}/api/v1/loans"
+
+
+notification-ms:
+  base-url: "http://${NOTIFICATION_SERVICE_HOST}:${NOTIFICATION_SERVICE_PORT}/api/v2/notifications"
