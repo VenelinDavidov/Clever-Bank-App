@@ -8,9 +8,6 @@ import app.customer.model.Customer;
 import app.pocket.model.Pocket;
 import app.pocket.model.PocketStatus;
 import app.pocket.service.PocketService;
-import app.transaction.model.TransactionStatus;
-import app.transaction.model.TransactionType;
-import app.transaction.model.Transactions;
 import app.transaction.service.TransactionService;
 import app.web.dto.BillsRequest;
 
@@ -80,12 +77,11 @@ public class BillService {
 
 
 
-    // Delete bill by id
+
     public void deleteBill(UUID billId) {
 
         billRepository.deleteById (billId);
         log.info (DELETE_BILL_MESSAGE.formatted (billId));
-
 
     }
 

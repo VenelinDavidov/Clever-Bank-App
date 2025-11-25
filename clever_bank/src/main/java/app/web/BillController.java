@@ -107,7 +107,7 @@ public class BillController {
 
         Bill bill = billService.payBill (billId);
 
-        redirectAttributes.addFlashAttribute ("Success", "Bill paid successfully" + bill.getBillNumber ());
+        redirectAttributes.addFlashAttribute ("success", "Bill paid successfully" + bill.getBillNumber ());
 
         return new ModelAndView ("redirect:/transactions");
     }
@@ -117,19 +117,16 @@ public class BillController {
 
 
 
-    // Delete bill
+
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView deleteBill(@PathVariable("id") UUID billId,
                                    @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
                                    RedirectAttributes redirectAttributes) {
 
-        try {
-            billService.deleteBill (billId);
+        Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
+        billService.deleteBill (billId);
             redirectAttributes.addFlashAttribute("successMessage", "Bill deleted successfully!");
-        }catch (Exception e){
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete bill: " + e.getMessage());
-        }
 
         return new ModelAndView("redirect:/bills");
     }

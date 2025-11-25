@@ -120,6 +120,7 @@ public class BillServiceUnitTest {
         verify (billRepository, times (1)).save (unpaidBill);
     }
 
+
     @Test
     void payBill_shouldThrowException_whenBillAlreadyPaid() {
         when (billRepository.findById (paidBill.getId ())).thenReturn (Optional.of (paidBill));
@@ -134,11 +135,10 @@ public class BillServiceUnitTest {
     }
 
 
-
     @Test
     void payBill_shouldCancelBill_whenBalanceIsInsufficient() {
         activePocket.setBalance (new BigDecimal ("50.00"));
-        when(billRepository.findById (unpaidBill.getId ())).thenReturn (Optional.of (unpaidBill));
+        when (billRepository.findById (unpaidBill.getId ())).thenReturn (Optional.of (unpaidBill));
 
         Bill result = billService.payBill (unpaidBill.getId ());
 
@@ -151,33 +151,38 @@ public class BillServiceUnitTest {
     }
 
 
-   @Test
+
+
+    @Test
     void givenCreateBill_shouldReturnSavedBill() {
 
-       BillsRequest billsRequest = new BillsRequest();
-       billsRequest.setBillNumber("BG1231231233");
-       billsRequest.setAmount(new BigDecimal("100.00"));
-       billsRequest.setDescription("Electricity Bill");
-       billsRequest.setBillCategory(BillCategory.ELECTRICITY);
+        //given
+        BillsRequest billsRequest = new BillsRequest ();
+        billsRequest.setBillNumber ("BG1231231233");
+        billsRequest.setAmount (new BigDecimal ("100.00"));
+        billsRequest.setDescription ("Electricity Bill");
+        billsRequest.setBillCategory (BillCategory.ELECTRICITY);
 
-       Bill saveBill = Bill.builder ()
-               .billNumber (billsRequest.getBillNumber ())
-               .amount (billsRequest.getAmount ())
-               .description (billsRequest.getDescription ())
-               .category (billsRequest.getBillCategory ())
-               .status (BillStatus.PENDING)
-               .customer (customer)
-               .createdOn (LocalDateTime.now ())
-               .build ();
+        Bill saveBill = Bill.builder ()
+                .billNumber (billsRequest.getBillNumber ())
+                .amount (billsRequest.getAmount ())
+                .description (billsRequest.getDescription ())
+                .category (billsRequest.getBillCategory ())
+                .status (BillStatus.PENDING)
+                .customer (customer)
+                .createdOn (LocalDateTime.now ())
+                .build ();
 
-       when(billRepository.save (any (Bill.class))).thenReturn (saveBill);
+        when (billRepository.save (any (Bill.class))).thenReturn (saveBill);
 
-       Bill result = billService.createBill (billsRequest, customer);
+        //when
+        Bill result = billService.createBill (billsRequest, customer);
 
-       assertEquals (saveBill.getId (), result.getId ());
-       assertEquals (saveBill.getBillNumber (), result.getBillNumber ());
-       assertEquals (BillStatus.PENDING, result.getStatus ());
+        //then
+        assertEquals (saveBill.getId (), result.getId ());
+        assertEquals (saveBill.getBillNumber (), result.getBillNumber ());
+        assertEquals (BillStatus.PENDING, result.getStatus ());
 
-       verify (billRepository, times (1)).save (any (Bill.class));
-   }
+        verify (billRepository, times (1)).save (any (Bill.class));
+    }
 }

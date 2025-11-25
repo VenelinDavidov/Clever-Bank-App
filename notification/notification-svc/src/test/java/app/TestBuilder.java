@@ -1,7 +1,9 @@
 package app;
 
 
+import app.model.Notification;
 import app.model.NotificationPreference;
+import app.model.NotificationStatus;
 import app.model.NotificationType;
 
 import lombok.experimental.UtilityClass;
@@ -30,5 +32,18 @@ public class TestBuilder {
     }
 
 
+    public static Notification aRandomNotification() {
+
+        return Notification.builder()
+                .id (UUID.randomUUID ())
+                .customerId (UUID.randomUUID ())
+                .subject ("subject")
+                .body ("body")
+                .status (NotificationStatus.SUCCEEDED)
+                .type (NotificationType.EMAIL)
+                .deleted (false)
+                .createdOn (LocalDateTime.now ())
+                .build ();
+    }
 
 }

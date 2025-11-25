@@ -2,12 +2,15 @@ package app.web;
 
 
 
+import app.TestBuilder;
+import app.model.Notification;
 import app.model.NotificationPreference;
 import app.model.NotificationType;
 import app.repository.NotificationPreferenceRepository;
 import app.repository.NotificationRepository;
 import app.service.NotificationService;
 import app.web.dto.NotificationPreferenceResponse;
+import app.web.dto.NotificationRequest;
 import app.web.dto.NotificationTypeRequest;
 import app.web.dto.UpsertNotificationPreferenceRequest;
 
@@ -22,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static app.TestBuilder.*;
@@ -85,6 +89,56 @@ public class NotificationControllerApiTest {
                 .andExpect (jsonPath ("enabled").isNotEmpty ())
                 .andExpect (jsonPath ("contactInfo").isNotEmpty ())
                 .andExpect (jsonPath ("type").isNotEmpty ());
+    }
+
+
+    @Test
+    void givenRequestToSendNotificationFromCustomer_thenReturn201CreatedAndCorrectDtoStructures() throws Exception {
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .customerId (UUID.randomUUID ())
+                .subject ("subject")
+                .body ("body")
+                .build ();
+
+        when (notificationService.sendNotification (notificationRequest)).thenReturn (aRandomNotification ());
+
+        MockHttpServletRequestBuilder requestBuilder = post ("/api/v2/notifications")
+                .contentType (MediaType.APPLICATION_JSON)
+                .content (new ObjectMapper ().writeValueAsBytes (notificationRequest));
+
+        mockMvc.perform (requestBuilder)
+                .andExpect (status ().isCreated ())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("subject").isNotEmpty())
+                .andExpect(jsonPath("status").isNotEmpty())
+                .andExpect(jsonPath("type").isNotEmpty())
+                .andExpect(jsonPath("createdOn").isNotEmpty());
+
+        verify (notificationService,times (1)).sendNotification (notificationRequest);
+    }
+
+
+
+    @Test
+    void givenRequestToNotificationHistory_whenInvokeGetNotificationHistory_thenReturnHistoryAndCorrectDtoStructures() throws Exception {
+
+        UUID customerId = UUID.randomUUID();
+
+        Notification notification1 = aRandomNotification ();
+        Notification notification2 = aRandomNotification();
+
+        when (notificationService.getNotificationHistory (customerId)).thenReturn (List.of (notification1, notification2));
+
+        MockHttpServletRequestBuilder requestBuilder = get ("/api/v2/notifications")
+                .param ("customerId", customerId.toString())
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform (requestBuilder)
+                .andExpect (status ().isOk ());
+
+        verify (notificationService, times (1)).getNotificationHistory (customerId);
+
     }
 
 }

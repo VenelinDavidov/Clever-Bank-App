@@ -70,13 +70,13 @@ public class CardService {
 
 
 
-    // Check if the customer has reached the maximum card limit
+
     public boolean hasReachedMaxCardLimit(Customer customer) {
         return countCardsByCustomer(customer) >= 2;
     }
 
 
-    // Create secondary card
+
     public void createSecondaryCard(Customer customer) {
 
         if (hasReachedMaxCardLimit(customer)) {
@@ -107,24 +107,24 @@ public class CardService {
 
 
 
-    // Get all cards by customer id
+
     public List <Cards> getAllCardsByCustomerId(UUID customerId) {
         return cardsRepository.findAllByCustomerId (customerId);
     }
 
 
-  // Count cards by customer
+
     public int countCardsByCustomer(Customer customer) {
         return cardsRepository.countByCustomer (customer);
     }
 
-    // Delete card by id
+
     public void deleteCard(UUID cardId) {
         cardsRepository.deleteById (cardId);
     }
 
 
-    // Get card by id
+
     public Cards getCardById(UUID cardId) {
         return cardsRepository.findById (cardId)
                 .orElseThrow (() -> new DomainException ("Card with id %s not found".formatted (cardId), HttpStatus.BAD_REQUEST));
@@ -132,11 +132,10 @@ public class CardService {
 
 
 
-    // Switch status card
+
     public void switchStatusCard(UUID id) {
 
-        Cards cards = cardsRepository
-                .findById (id)
+        Cards cards = cardsRepository.findById (id)
                 .orElseThrow (() -> new DomainException ("Card with id %s not found".formatted (id), HttpStatus.BAD_REQUEST));
 
         if (cards.isActive ()) {
