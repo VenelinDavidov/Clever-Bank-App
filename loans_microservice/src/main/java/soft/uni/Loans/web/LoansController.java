@@ -30,6 +30,7 @@ import java.util.UUID;
 public class LoansController {
 
     private static final Logger logger = LoggerFactory.getLogger (LoansController.class);
+
     private final LoansService loansService;
 
     @Autowired
@@ -40,7 +41,6 @@ public class LoansController {
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List <LoanResponse>> getLoansByCustomer(@PathVariable UUID customerId) {
-
 
         logger.info("Received request to get loans for customer: {}", customerId);
         List<LoanResponse> responses = loansService.getLoansByCustomerId(customerId);

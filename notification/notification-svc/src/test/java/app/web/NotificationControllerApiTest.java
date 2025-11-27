@@ -1,19 +1,11 @@
 package app.web;
 
-
-
-import app.TestBuilder;
 import app.model.Notification;
 import app.model.NotificationPreference;
-import app.model.NotificationType;
-import app.repository.NotificationPreferenceRepository;
-import app.repository.NotificationRepository;
 import app.service.NotificationService;
-import app.web.dto.NotificationPreferenceResponse;
 import app.web.dto.NotificationRequest;
 import app.web.dto.NotificationTypeRequest;
 import app.web.dto.UpsertNotificationPreferenceRequest;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +14,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-
 import static app.TestBuilder.*;
-
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -139,6 +125,64 @@ public class NotificationControllerApiTest {
 
         verify (notificationService, times (1)).getNotificationHistory (customerId);
 
+    }
+
+    @Test
+    void givenRequestToChangeNotificationPreference_thenReturnChangePreference() throws Exception {
+
+        UUID customerId = UUID.randomUUID();
+
+        NotificationPreference mockPreference = new NotificationPreference();
+        mockPreference.setCustomerId (customerId);
+        mockPreference.setEnabled (true);
+
+        when (notificationService.changeNotificationPreference (customerId, true)).thenReturn (mockPreference);
+
+        MockHttpServletRequestBuilder requestBuilder = put ("/api/v2/notifications/preferences")
+                .param ("customerId", customerId.toString())
+                .param ("enabled", "true")
+                .contentType (MediaType.APPLICATION_JSON)
+                .content (new ObjectMapper ().writeValueAsBytes (mockPreference));
+
+        mockMvc.perform (requestBuilder)
+                .andExpect(status().isOk ())
+                .andExpect(jsonPath("customerId").isNotEmpty())
+                .andExpect(jsonPath("enabled").isNotEmpty());
+
+        verify (notificationService,times (1)).changeNotificationPreference (customerId, true);
+    }
+
+
+    @Test
+    void givenRequestToClearHistoryNotification_whenInvokeClearNotificationHistory_thenClearHistory() throws Exception {
+
+        UUID customerId = UUID.randomUUID();
+
+        MockHttpServletRequestBuilder requestBuilder = delete ("/api/v2/notifications")
+                .param ("customerId", customerId.toString())
+                .contentType (MediaType.APPLICATION_JSON);
+
+        mockMvc.perform (requestBuilder)
+                .andExpect (status ().isOk ());
+
+        verify (notificationService, times (1)).clearNotifications (customerId);
+    }
+
+
+
+    @Test
+    void givenRequestToRetryNorificationFailed_whenInvokeRetryNotificationFailed_thenRetryNotificationFailed() throws Exception {
+
+        UUID customerId = UUID.randomUUID();
+
+        MockHttpServletRequestBuilder requestBuilder = put ("/api/v2/notifications")
+                .param ("customerId", customerId.toString())
+                .contentType (MediaType.APPLICATION_JSON);
+
+        mockMvc.perform (requestBuilder)
+                .andExpect (status ().isOk ());
+
+        verify (notificationService, times (1)).retryNotificationsFailed (customerId);
     }
 
 }

@@ -58,6 +58,7 @@ public class LoansService {
 
 
     public List <LoanResponse> getLoansByCustomerId(UUID customerId) {
+
         logger.info("Fetching loans for customer ID: {}", customerId);
         List <Loans> loans = loansRepository.findByCustomerId (customerId);
           return loans
@@ -85,6 +86,7 @@ public class LoansService {
         Loans loans = loansRepository
                                      .findById (loanId)
                                      .orElseThrow (() -> new ResourceNotFoundException ("Loan not found with ID: " + loanId));
+
         loans.setFirstName (loanRequest.getFirstName ());
         loans.setLastName (loanRequest.getLastName ());
         loans.setLoanType (loanRequest.getLoanType ());
@@ -100,10 +102,10 @@ public class LoansService {
 
 
     public void deleteLoan(UUID loanId) {
+
         logger.info ("Deleting loan with ID: {}", loanId);
-        Loans loans = loansRepository
-                                        .findById (loanId)
-                                       .orElseThrow (() -> new ResourceNotFoundException ("Loan nod fount with ID: " + loanId));
+        Loans loans = loansRepository.findById (loanId)
+                                     .orElseThrow (() -> new ResourceNotFoundException ("Loan nod fount with ID: " + loanId));
         loansRepository.delete (loans);
         log.info ("Loan deleted successfully with ID: {}", loanId);
     }
@@ -113,15 +115,17 @@ public class LoansService {
 
 
     public LoanResponse updateLoanStatus(UUID loanId,  LoanStatus status) {
+
         logger.info ("Updating loan status for ID: {} to {}", loanId, status);
 
         Loans loans = loansRepository.findById (loanId)
-                .orElseThrow (() -> new ResourceNotFoundException ("Loan not found with ID: " + loanId));
+                                      .orElseThrow (() -> new ResourceNotFoundException ("Loan not found with ID: " + loanId));
         loans.setLoanStatus (status);
         loans.setUpdatedOn (LocalDateTime.now ());
 
         loansRepository.save (loans);
         logger.info ("Loan status updated successfully with ID: {}", loanId);
+
         return LoansDtoMapper.mapToResponse (loans);
     }
 }
