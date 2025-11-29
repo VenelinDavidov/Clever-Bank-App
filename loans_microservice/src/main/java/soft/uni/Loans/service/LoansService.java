@@ -48,6 +48,8 @@ public class LoansService {
                 .loanType(loanRequest.getLoanType())
                 .amount(loanRequest.getAmount())
                 .loanStatus (LoanStatus.PENDING)
+                .createdOn (LocalDateTime.now ())
+                .updatedOn (LocalDateTime.now ())
                 .build();
 
         Loans savedLoan = loansRepository.save (loan);
