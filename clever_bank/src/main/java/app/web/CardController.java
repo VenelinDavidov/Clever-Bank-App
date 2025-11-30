@@ -35,16 +35,12 @@ public class CardController {
     private final CustomerService customerService;
 
 
-
     @Autowired
     public CardController(CardService cardService,
                           CustomerService customerService) {
         this.cardService = cardService;
         this.customerService = customerService;
     }
-
-
-
 
 
     @GetMapping
@@ -69,10 +65,10 @@ public class CardController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView createCard(@AuthenticationPrincipal AuthenticationMetadataDetails auth) {
 
-        Customer customer = customerService.getById(auth.getCustomerId());
-        cardService.createSecondaryCard(customer);
+        Customer customer = customerService.getById (auth.getCustomerId ());
+        cardService.createSecondaryCard (customer);
 
-        return new ModelAndView("redirect:/cards");
+        return new ModelAndView ("redirect:/cards");
     }
 
 
@@ -82,7 +78,7 @@ public class CardController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public String switchStatusCard(@RequestParam UUID cardId) {
 
-        cardService.switchStatusCard(cardId);
+        cardService.switchStatusCard (cardId);
 
         return "redirect:/cards";
     }
@@ -91,25 +87,20 @@ public class CardController {
 
 
 
-        @PostMapping("/delete")
-        @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-        public ModelAndView deleteCard(@RequestParam UUID cardId,@AuthenticationPrincipal AuthenticationMetadataDetails auth,
-                                       RedirectAttributes redirectAttributes) {
+    @PostMapping("/delete")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ModelAndView deleteCard(@RequestParam UUID cardId, @AuthenticationPrincipal AuthenticationMetadataDetails auth,
+                                   RedirectAttributes redirectAttributes) {
 
-            Customer customer = customerService.getById (auth.getCustomerId ());
+        Customer customer = customerService.getById (auth.getCustomerId ());
 
-            if (customer.getRole () == UserRole.USER){
-                redirectAttributes.addFlashAttribute("errorMessage", "You are not allowed to delete a card");
-                return new ModelAndView("redirect:/messages");
-            }
-        cardService.deleteCard(cardId);
-        return new ModelAndView("redirect:/cards");
+        if (customer.getRole () == UserRole.USER) {
+            redirectAttributes.addFlashAttribute ("errorMessage", "You are not allowed to delete a card");
+            return new ModelAndView ("redirect:/messages");
+        }
+        cardService.deleteCard (cardId);
+        return new ModelAndView ("redirect:/cards");
     }
-
-
-
-
-
 
 
 }
