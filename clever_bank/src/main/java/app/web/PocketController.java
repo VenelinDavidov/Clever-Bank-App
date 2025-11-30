@@ -31,7 +31,6 @@ public class PocketController {
     private final CustomerService customerService;
 
 
-
     @Autowired
     public PocketController(PocketService pocketService,
                             CustomerService customerService) {
@@ -41,15 +40,11 @@ public class PocketController {
     }
 
 
-
-
-
-
     @GetMapping
     public ModelAndView getPocketPage(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails) {
 
         Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
-        Map <UUID, List<Transactions>> lastSevenTransactions = pocketService.getLastSevenTransactions(customer.getWallets ());
+        Map <UUID, List <Transactions>> lastSevenTransactions = pocketService.getLastSevenTransactions (customer.getWallets ());
 
         ModelAndView modelAndView = new ModelAndView ();
         modelAndView.setViewName ("pockets");
@@ -61,7 +56,7 @@ public class PocketController {
 
 
 
-    // Switch pocket status
+
     @PutMapping("/{id}/status")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public String switchPocket(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails) {
@@ -72,12 +67,12 @@ public class PocketController {
 
 
 
-    // Show deposit form
+
     @GetMapping("/{id}/deposit-form")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ModelAndView  showDepositForm(@PathVariable UUID id,
-                                         @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
-                                         DepositRequest depositRequest) {
+    public ModelAndView showDepositForm(@PathVariable UUID id,
+                                        @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
+                                        DepositRequest depositRequest) {
 
         Customer customer = customerService.getById (authenticationMetadataDetails.getCustomerId ());
 
@@ -94,33 +89,29 @@ public class PocketController {
 
 
 
-            // Deposit money implementation this method
-            @PostMapping("/{pocketId}/deposit-form")
-            @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-            public ModelAndView deposit(@PathVariable UUID pocketId,
-                                        @Valid @ModelAttribute DepositRequest depositRequest, BindingResult bindingResult,
-                                        @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails, RedirectAttributes redirectAttributes) {
+    @PostMapping("/{pocketId}/deposit-form")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ModelAndView deposit(@PathVariable UUID pocketId,
+                                @Valid @ModelAttribute DepositRequest depositRequest, BindingResult bindingResult,
+                                @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails, RedirectAttributes redirectAttributes) {
 
-                if (bindingResult.hasErrors ()){
+        if (bindingResult.hasErrors ()) {
 
-                    ModelAndView modelAndView = new ModelAndView ();
-                    modelAndView.addObject ("pocketId", pocketId);
-                    modelAndView.addObject ("depositRequest", depositRequest);
-                    modelAndView.setViewName ("deposit-form");
-                    return modelAndView;
-                }
+            ModelAndView modelAndView = new ModelAndView ();
+            modelAndView.addObject ("pocketId", pocketId);
+            modelAndView.addObject ("depositRequest", depositRequest);
+            modelAndView.setViewName ("deposit-form");
+            return modelAndView;
+        }
 
-                Transactions result = pocketService.deposit (pocketId, depositRequest, authenticationMetadataDetails.getCustomerId ());
+        Transactions result = pocketService.deposit (pocketId, depositRequest, authenticationMetadataDetails.getCustomerId ());
 
-               if (result.getStatus() == TransactionStatus.SUCCEEDED) {
-                   redirectAttributes.addFlashAttribute("success", "Deposit successful");
-                   return new ModelAndView("redirect:/pockets");
-               }
-                redirectAttributes.addFlashAttribute("error", "Deposit failed");
-                return new ModelAndView("redirect:/transactions");
-            }
-
-
-
+        if (result.getStatus () == TransactionStatus.SUCCEEDED) {
+            redirectAttributes.addFlashAttribute ("success", "Deposit successful");
+            return new ModelAndView ("redirect:/pockets");
+        }
+        redirectAttributes.addFlashAttribute ("error", "Deposit failed");
+        return new ModelAndView ("redirect:/transactions");
+    }
 
 }

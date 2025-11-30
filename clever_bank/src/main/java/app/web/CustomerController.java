@@ -35,7 +35,7 @@ public class CustomerController {
 
 
 
-    //Get all customers
+
     @GetMapping()
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView getAllCustomers(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr) {
@@ -52,7 +52,7 @@ public class CustomerController {
 
 
 
-    // Get profile for customer
+
     @GetMapping("/{id}/profile")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView getProfileMenuCustomer(@PathVariable UUID id){
@@ -71,7 +71,7 @@ public class CustomerController {
 
 
 
-    //Update profile for customer
+
     @PutMapping("/{id}/profile")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView updateProfileCustomer(@PathVariable UUID id,

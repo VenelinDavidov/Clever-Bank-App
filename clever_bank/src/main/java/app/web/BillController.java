@@ -46,7 +46,7 @@ public class BillController {
 
 
 
-    // Get bills page
+
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView fetchBillPage(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails) {
@@ -66,7 +66,7 @@ public class BillController {
 
 
 
-    //Create bill
+
     @PostMapping("/add")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ModelAndView createBill(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,
@@ -97,7 +97,7 @@ public class BillController {
 
 
 
-    // Pay bill
+
     @PostMapping("/pay/{id}")
     public ModelAndView payBill(@PathVariable("id") UUID billId,
                                 @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,

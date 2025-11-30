@@ -41,7 +41,7 @@ public class LoansController {
 
 
 
-    // this is the main page for loans
+
     @GetMapping
     public ModelAndView showLoanForm(@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails) {
 
@@ -59,7 +59,7 @@ public class LoansController {
 
 
 
-    // create loan
+
    @PostMapping
    public ModelAndView createLoan (@Valid LoanRequest loanRequest,
                                    @AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataDetails,

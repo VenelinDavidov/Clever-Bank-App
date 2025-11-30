@@ -40,7 +40,7 @@ public class IndexController {
     }
 
 
-    // index page
+
     @GetMapping("/")
     public String getIndexPage() {
 
@@ -76,7 +76,7 @@ public class IndexController {
 
 
 
-    //Register
+
     @GetMapping("/register")
     public ModelAndView getRegisterPage() {
 
@@ -105,7 +105,7 @@ public class IndexController {
 
 
 
-    // Get home page and view all page
+
     @GetMapping("/home")
     public ModelAndView getHomePage (@AuthenticationPrincipal AuthenticationMetadataDetails authenticationMetadataPr) {
 
@@ -123,7 +123,7 @@ public class IndexController {
 
 
 
-  // get About information for Clever Application
+
     @GetMapping("/about")
     public String getAboutUs() {
 
@@ -132,7 +132,7 @@ public class IndexController {
 
 
 
-   // Send Message for service app
+
     @GetMapping("/messages")
     public ModelAndView getMessageForUs() {
 
